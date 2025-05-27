@@ -1,0 +1,349 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles with CSS variables for better maintainability */
+:root {
+  --primary-color: #f55a5a;
+  --gradient-start: #e1e8e7;
+  --gradient-end: #7ff4ff;
+  --text-dark: #424040;
+  --text-light: white;
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --border-radius: 5px;
+  --container-width: 60%;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+body {
+  background: var(--text-light);
+  min-height: 100vh;
+  font-family: "Inter", Arial, sans-serif;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width:hidden;
+}
+
+
+
+.header img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.header h1 {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.header span {
+  font-size: 10px;
+}
+*/
+
+/* Card container - UPDATED for better horizontal alignment */
+.card-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+}
+
+.drawer-toggle-button.dot {
+  transition: transform 0.5s ease-in-out;
+}
+
+
+.card {
+  display: flex;
+  width: var(--container-width);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  background-color: rgba(255, 255, 255, 0.9);
+  margin: 0 auto; /* Center horizontally */
+}
+
+/* Image container */
+.main-image-container {
+  width: 40%;
+  height: 300px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  transition: all 0.4s ease;
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.main-image:hover {
+  transform: scale(1.08);
+  filter: saturate(1.2) contrast(1.1) brightness(1.05);
+}
+
+.main-image-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0) 50%
+  );
+  pointer-events: none;
+}
+
+/* Journal information section */
+.journal-info {
+  width: 60%;
+  padding-left: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.journal-info .location {
+  font-size: 15px;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.journal-info .location span {
+  margin-right: var(--spacing-xs);
+}
+
+.journal-info h2 {
+  font-size: 22px;
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.journal-info .desc {
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.desc > .text {
+  font-size: 5px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+  :root {
+    --container-width: 80%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --container-width: 90%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    padding: var(--spacing-xs);
+  }
+
+  .main-image-container {
+    height: 250px;
+  }
+
+  .journal-info h2 {
+    font-size: 18px;
+  }
+
+  .journal-info .desc {
+    line-height: 1.4;
+    /* font-size: 14px; */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .main-image-container {
+    width: 100%;
+    height: 220px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .main-image-container::after {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 70%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  }
+
+  .journal-info {
+    width: 100%;
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .main-image-container {
+    height: 180px;
+  }
+
+  .journal-info .location {
+    font-size: 13px;
+  }
+
+  .journal-info h2 {
+    font-size: 16px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .journal-info .desc {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+}
+
+/* General Styles */
+
+.container {
+  padding: 20px;
+  margin-top: 80px; /* So content is not hidden by the header */
+}
+
+/* Make sure the drawer toggle button is clearly visible */
+.drawer-toggle-button {
+  position: fixed;
+  top: 0; /* Adjusted from 10px to give some space */
+  left: 20px; /* Adjusted to make it more prominent */
+  z-index: 10; /* Ensures it's always on top */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Header Styles (Your original header is kept as is) */
+.header {
+
+  color: #f9f6f6;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+  color: #f9f6f6;
+}
+
+/* .header svg {
+  fill: #f9f6f6;
+  margin-right: 12px;
+} */
+
+.header .drawer-toggle-button {
+  display: block; /* Ensure it's still visible if used here
+
+
+.header svg:hover {
+  fill: #d9d9d9; /* Make the SVG icon change color on hover */
+}
+
+/* Drawer Styles */
+.custom-drawer {
+  /* display: flex;
+  align-items: end;
+  background-color: #ffffff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  border-right: 2px solid #ccc; */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;  
+  color: #7a95bd;
+  display: flex;
+  align-self: end;
+  /* align-items: flex-end; */
+  justify-content: end;
+}
+
+
+
+
+
+
+
+
+
+
+
+.logout-button:hover {
+  background-color: #6e84a2;
+}
+
+/* Responsive Styles for Smaller Screens */
+@media (max-width: 768px) {
+  .drawer-toggle-button {
+    padding: 8px;
+  }
+
+  .custom-drawer {
+    width: 100%;
+    ;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header svg {
+    width: 24px;
+    height: 24px;
+  }
+}
