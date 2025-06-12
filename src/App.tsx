@@ -1,38 +1,13 @@
-import { Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import ContactUs from "./pages/ContactUs";
-import AboutUs from "./pages/AboutUs";
-import MainLayout from "./layouts/MainLayout";
-import Touristcard from "./components/Touristcard";
-import SignUpPage from "./pages/SignUpPage";
+// import { createContext, useState } from "react";
+// import { RouterProvider } from "react-router-dom";
+// import { router } from "./Router";
 
+// export const AppContexr
 
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-     
-        <Route path="contact-us" element={<ContactUs />} />
-        <Route path="explore-destination" element={<Touristcard entry={{
-          img: {
-            src: "",
-            alt: ""
-          },
-          country: "",
-          googleMapsLink: "",
-          title: "",
-          dates: "",
-          text: ""
-        }} />} />
-        
-      </Route>
-        <Route path="about-us" element={<AboutUs />} />
-        <Route path="sign-up" element={<SignUpPage />} />
-        <Route index element={<Homepage />} />
-       <Route path="*" element={<div className="p-6 text-red-500">404 - Page Not Found</div>} />
+// export default function App() {
+  
 
-    </Routes>
-  );
-}
+//   // Pass username and setUsername to the router context
+//   return <RouterProvider router={router} />;
+// }
 
-export default App;

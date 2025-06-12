@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import CustomDrawer from "../components/CustomDrawer";
-import React, { useState, useEffect } from "react";
-React.Children
+import { useState, useEffect } from "react";
+
+
 
 const MainLayout = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -33,6 +34,7 @@ const MainLayout = () => {
     }
   }, [theme]);
 
+
   return (
     <div className={isDarkMode ? "dark" : ""}>
       <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
@@ -44,12 +46,12 @@ const MainLayout = () => {
           onThemeChange={handleThemeChange}
           currentTheme={theme}
           themeDropdownOpen={themeDropdownOpen}
-          toggleThemeDropdown={toggleThemeDropdown}
+          toggleThemeDropdown={toggleThemeDropdown}// ✅ Pass user here
         />
 
         <main className="p-0">
-          <Header stuff={{toggleDrawer}} />
-         <Outlet />
+          <Header stuff={{ toggleDrawer }} />
+          <Outlet />
         </main>
       </div>
     </div>

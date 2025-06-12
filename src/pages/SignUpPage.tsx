@@ -1,14 +1,16 @@
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 
+
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  const [currentBgIndex, setCurrentBgIndex] = useState(1);
+
   
   // Array of tourist destination background images
   const backgroundImages = [
     'https://images.unsplash.com/photo-1502602898536-47ad22581b52?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Eiffel Tower, Paris
-    'https://images.unsplash.com/photo-1539650116574-75c0c6d73d0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Statue of Liberty, NYC
+    'https://images.unsplash.com/photo-1539650116574-75c0c6d73d0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Grand Canyon
     'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Big Ben, London
     'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Colosseum, Rome
     'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Santorini, Greece
@@ -16,7 +18,7 @@ export default function SignUpPage() {
     'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Machu Picchu, Peru
     'https://images.unsplash.com/photo-1549693578-d683be217e58?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',  // Sydney Opera House, Australia
     "https://images.unsplash.com/photo-1705072933934-84a6c0288659?q=80&w=1606&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",// fugi mountain, Japan
-
+    "https://www.visitgreece.gr/images/1743x752/jpg/files/merakos_05_santorini-oia_1743x752.jpg",
     'https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=1033&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // sydney Opera House, Australia
     
   ];
@@ -32,23 +34,25 @@ export default function SignUpPage() {
 
   
   return (
-    <div className="relative bg-cover bg-center min-h-screen flex items-center justify-center transition-all duration-1000 ease-in-out bg-opacity-10"
+    <div className="relative bg-cover bg-center min-h-screen flex items-center justify-center transition-all duration-1000 ease-in-out bg-opacity-30"
          style={{ backgroundImage: `url('${backgroundImages[currentBgIndex]}')` }}>
+          
       
       {/* Overlay for better contrast */}
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      <div className="absolute inset-0 bg-blue-950 bg-opacity-40"></div>
       
       {/* Centered form container */}
-      <div className="relative z-10 bg-white bg-opacity-0 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white border-opacity-20 w-full max-w-md mx-4">
-        <h1 className="text-white text-3xl font-bold text-center mb-8">Sign Up</h1>
-        
-        <div className="space-y-6">
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
-            <input 
-              className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:border-transparent transition-all duration-200" 
-              type="text" 
-              id="name" 
+      <form action="onSubmit">
+        <div className="relative z-10 bg-gray-900 bg-opacity-5 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white border-opacity-20 w-full max-w-md mx-4">
+          <h1 className="text-white text-3xl font-bold text-center mb-8">Sign Up</h1>
+
+          <div className="space-y-6">
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+              <input
+                className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2  focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                type="text"
+                id="name"
               name="name" 
               placeholder="Full Name"
               required 
@@ -58,7 +62,7 @@ export default function SignUpPage() {
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
             <input 
-              className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:border-transparent transition-all duration-200"
+              className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2  focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
               type="email" 
               id="email" 
               name="email" 
@@ -70,7 +74,7 @@ export default function SignUpPage() {
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
             <input 
-              className="w-full pl-12 pr-12 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:border-transparent transition-all duration-200"
+              className="w-full pl-12 pr-12 py-3 bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 rounded-lg text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
               type={showPassword ? "text" : "password"}
               id="password" 
               name="password" 
@@ -134,6 +138,7 @@ export default function SignUpPage() {
           <a href="#" className="text-white font-semibold hover:underline ml-1">Sign In</a>
         </p>
       </div>
+    </form>
     </div>
   );
 }
