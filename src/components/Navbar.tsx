@@ -5,21 +5,24 @@ type Theme = "system" | "light" | "dark";
 
 interface NavbarProps {
   onClose: () => void;
-  onThemeChange: (theme: Theme) => void;
+  onThemeChange: (them:Theme) => void;
   currentTheme: Theme;
   themeDropdownOpen: boolean;
   toggleThemeDropdown: () => void;
   isDarkMode: boolean;
 }
 
-export default function Navbar({ 
-  onClose, 
-  onThemeChange, 
-  themeDropdownOpen, 
+
+export default function Navbar({
+  onClose,
+  onThemeChange,
+  themeDropdownOpen,
   toggleThemeDropdown,
-}: NavbarProps) {
+}: NavbarProps)
+{
+  
   return (
-    <div className="bg-white text-black dark:bg-gray-900 dark:text-white transition relative rounded h-full">
+    <div className="bg-white text-black dark:bg-gray-900 dark:text-white transition relative h-full">
       {/* Close Button */}
       <button
         onClick={onClose}
@@ -48,35 +51,36 @@ export default function Navbar({
           <li className="relative">
             <button
               onClick={toggleThemeDropdown}
-              className="w-full flex items-center space-x-3 text-black dark:text-white hover:text-blue-700 transition font-sans font-semibold p-4 border-l-4 border-l-transparent hover:border-l-blue-700 hover:bg-blue-400 dark:hover:bg-blue-600"
+              className="w-full flex items-center space-x-3 text-black dark:text-white hover:text-blue-700 transition font-sans font-semibold p-4 border-l-4 border-l-transparent hover:border-l-blue-700 hover:bg-blue-400 dark:hover:bg-blue-600 "
             >
               <span className="font-semibold">
                 <Icon.Palette size={20} />
               </span>
               <span>Theme</span>
             </button>
+          
             {themeDropdownOpen && (
               <ul className="absolute bg-white dark:bg-gray-800 text-black dark:text-white left-full ml-2 mt-1 rounded shadow-md z-10">
                 <li
-                  className="flex items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-                  onClick={() => onThemeChange("light")}
+                  className="flex items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer focus focus:to-blue-500"
+                  onClick={() => onThemeChange('light')}
                 >
                   <Icon.Sun size={20} className="mr-2" weight="fill" />
                   Light
                 </li>
                 <li
                   className="flex items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-                  onClick={() => onThemeChange("dark")}
+                  onClick={() => onThemeChange('dark')}
                 >
                   <Icon.Moon size={20} className="mr-2" weight="fill" />
-                  Dark
+                Dark
                 </li>
                 <li
                   className="flex items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-                  onClick={() => onThemeChange("system")}
+                  onClick={() => onThemeChange('system')}
                 >
                   <Icon.Desktop size={20} className="mr-2" weight="fill" />
-                  System
+                  System``  
                 </li>
               </ul>
             )}
@@ -89,6 +93,7 @@ export default function Navbar({
               onClick={onClose}
               className="flex items-center space-x-3 text-black dark:text-white hover:text-blue-700 transition font-sans font-semibold p-4 border-l-4 border-l-transparent hover:border-l-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/40"
             >
+              
               <span>
                 <Icon.Path size={20} weight="fill" />
               </span>
@@ -129,6 +134,19 @@ export default function Navbar({
                 <Icon.PhoneOutgoing size={20} weight="fill" />
               </span>
               <span>Contact Us</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="Blog"
+              onClick={onClose}
+              className="flex items-center space-x-3 text-black dark:text-white hover:text-blue-700 transition font-sans font-semibold p-4 border-l-4 border-l-transparent hover:border-l-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/40"
+            >
+              <span>
+                <Icon.PhoneOutgoing size={20} weight="fill" />
+              </span>
+              <span>Blog</span>
             </Link>
           </li>
           <li>

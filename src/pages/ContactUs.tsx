@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Header from "../components/Header";
 import CustomDrawer from "../components/CustomDrawer";
-import { ChangeProfile } from "../components/ChangeProfile";
+// import { ChangeProfile } from "../components/ChangeProfile";
 // import useTheme from "../hooks/useTheme";
 
 export default function ContactUs() {
@@ -57,7 +57,7 @@ export default function ContactUs() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-950">
         <div className="flex flex-col items-center space-y-4">
           <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
           <p className="text-xl text-gray-700 dark:text-gray-300 font-semibold animate-pulse">
@@ -69,7 +69,7 @@ export default function ContactUs() {
   }
 
   return (
-    <div className={isDarkMode ? "dark" : ""}>
+    <div className={isDarkMode ? 'dark' : ''}>
       <div className="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-sans">
         {/* Hero */}
 
@@ -95,7 +95,7 @@ export default function ContactUs() {
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
             We'd Love to Hear From You
           </h1>
-          <p className="text-lg max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
+          <p className="text-lg  font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
             Whether you're planning your next journey or need assistance, our
             team is here to help.
           </p>
@@ -196,7 +196,7 @@ export default function ContactUs() {
             </form>
           </div>
         </section>
-{/* 
+        {/* 
          <ChangeProfile setUsername={setUserName} />  */}
 
         {/* Map */}

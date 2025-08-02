@@ -93,3 +93,12 @@
 // const abcd = "peter"
 
 // abcd.toUpperCase()
+
+
+const object = {
+  name: 'john',
+  age: 30,
+  
+}
+const name = object.name;
+console.log(name);

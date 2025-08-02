@@ -1,4 +1,7 @@
-// router.tsx
+// router.tsximport * as Icon from '@phosphor-icons/react';
+import * as Icon from '@phosphor-icons/react';
+
+
 
 import {
   createBrowserRouter,
@@ -12,10 +15,13 @@ import Touristcard from "./pages/Touristcard";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import SignUpPage from "./pages/SignUpPage";
-import Profile from "./pages/Profile";
-import { contactLoader } from "./loaders/Loader";
-
-
+// import Profile from "./pages/Profile";
+// import { contactLoader } from "./loaders/Loader";
+import ExploreDestinations from "./pages/ExploreDestinations";
+import DestinationDetails from "./pages/DestinationDetails";
+import BlogPage from "./pages/BlogPage";
+import BlogPostDetail from "./pages/BlogPostDetails";     
+// import { exploreLoader } from "./loaders/exploreLoader";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -24,29 +30,43 @@ export const router = createBrowserRouter(
 
         <Route path="about-us" element={<AboutUs />} />
         <Route
-          path="explore-destination"
+          path=""
           element={
             <Touristcard
               entry={{
                 img: {
-                  src: "",
-                  alt: "",
+                  src: '',
+                  alt: '',
                 },
-                country: "",
-                googleMapsLink: "",
-                title: "",
-                dates: "",
-                text: "",
+                country: '',
+                googleMapsLink: '',
+                title: '',
+                dates: '',
+                text: '',
               }}
             />
           }
         />
+        <Route path="blog" element={<BlogPage />} />
       </Route>
-
-      <Route path="contact-us" element={<ContactUs />} loader={contactLoader} />
+      <Route path="contact-us" element={<ContactUs />} />
       <Route path="sign-up" element={<SignUpPage />} />
-      {/* <Route path="profile" element={<Profile username={<Username />}/>} /> */}
-      <Route path="profile" element={<Profile />} />
+
+      <Route
+        path="explore-destination"
+        element={<ExploreDestinations />}
+        // loader={exploreLoader}
+        errorElement={
+          <div className="p-6 text-red-600">
+            {' '}
+            <Icon.X />
+            Could not load destinations. Please check your connection.
+          </div>
+        }
+      />
+      <Route path="/blog/:slug" element={<BlogPostDetail />} />
+      {/* Nested Routes for Explore Destinations */}
+      <Route path="/destination/:city" element={<DestinationDetails />} />
 
       <Route
         path="*"
@@ -55,3 +75,4 @@ export const router = createBrowserRouter(
     </>
   )
 );
+

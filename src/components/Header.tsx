@@ -1,4 +1,4 @@
-import * as Icon from "@phosphor-icons/react";
+import * as Icon from "@phosphor-icons/react"; 
 import React, { useEffect, useState } from "react";
 // import useTheme from "../hooks/ThemeContext";
 import { Link } from "react-router-dom";
@@ -117,6 +117,7 @@ interface HeaderProps {
 //     name: "Geirangerfjord, Norway",
 //   },
 // ];
+
 const backgroundImages = [
   // Machu Picchu, Peru
   "https://www.worldtravelguide.net/wp-content/uploads/2019/04/shu-Peru-Machu-Picchu-389136313-1440x823.jpg",
@@ -140,7 +141,8 @@ const backgroundImages = [
   "https://images.unsplash.com/photo-1545330785-15356daae141?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFpbmJvdyUyMG1vdW50YWluJTIwcGVydXxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
 
   // Big Ben and Parliament, London
-  "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  // "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Big Ben, London
 
   // Icelandic Landscape (Reynisfjara Beach)
   "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
@@ -171,13 +173,15 @@ const backgroundImages = [
 
   // Gerangerfjord, Norway
   "https://mybestplace.com/uploads/2023/01/Geirangerfjord-Norvegia-2.jpg",
+
 ];
 
 
 
 export default function Header(props: HeaderProps) {
   // const { theme, changeTheme } = useTheme();
-  const [currentBgIndex, setCurrentBgIndex] = React.useState(1);
+  const [currentBgIndex, setCurrentBgIndex] = React.useState(0);
+  const [currentNameIndex, setCurrentNameIndex] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   useEffect(() => {
@@ -191,7 +195,7 @@ export default function Header(props: HeaderProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
+      if (window.innerWidth < 1200) {
         setIsMenuOpen(true); // Force mobile menu to show
       } else {
         setIsMenuOpen(false); // Hide on larger screens
@@ -215,24 +219,28 @@ export default function Header(props: HeaderProps) {
   //   }
   // }
 
-    return (
+  return (
     <header className="relative min-h-[70vh] overflow-hidden p-0 m-0">
       {/* Background Images with Smooth Transitions */}
       {backgroundImages.map((image, index) => (
-        <div
+        <div 
           key={index}
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out max-h-[100vh] ${
-            index === currentBgIndex ? "opacity-100" : "opacity-0"
+            index === currentBgIndex ? 'opacity-100' : 'opacity-0'
           }`}
           style={{ backgroundImage: `url('${image}')` }}
-        ></div>
+        >
+          <h1 className="text-red-400 flex text-center ">Name</h1>
+        </div>
+        
       ))}
 
       {/* Dark Overlay for Better Text Readability */}
-      {/* <div className="absolute inset-0 bg-black bg-opacity-40" /> */}
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
+      <h1>eeeee</h1>
 
       {/* Header Bar */}
-      <div className="fixed z-20  top-0 left-0 w-full backdrop-blur-md bg-blue-400 bg-opacity-30 shadow-lg transition-all duration-300 py-4">
+      <div className="fixed z-20  top-0 left-0 w-full backdrop-blur-md bg-black bg-opacity-30 shadow-lg transition-all duration-300 py-2 border-b-slate-400 b border-b-2">
         <div className="flex items-center justify-between px-6 py-1 max-w-7xl mx-auto">
           {/* Mobile Menu Button - Just visible, doesn't control menu */}
           <button
@@ -244,24 +252,18 @@ export default function Header(props: HeaderProps) {
           </button>
 
           {/* Logo + Name */}
-          <div className="flex items-center gap-4">
-            <Link to="/">
-              <img
-                src="https://i.pravatar.cc/100"
-                alt="Prince Onuoha"
-                className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-lg hover:scale-105 transition-transform duration-200"
-              />
-            </Link>
-            <h1 className="text-white text-xl font-semibold font-serif drop-shadow-lg">
-              Prince Onuoha
-            </h1>
+          <div className="flex items-center justify-between px-6 py-0 max-w-7xl mx-auto">
+            {/* <Link to="/">
+              <h1 className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 p-1.5 rounded-full text-5xl font-serif text-blue-700">TM</h1>
+            </Link> */}
+
             {/* <div className="flex justify-end p-4">
               <button
                 onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}
                 className="  dark:border-white border-blue-700 border-2 rounded-full p-2"
               >
               {/* <ToggleIcon /> */}
-              {/* </button> */}
+            {/* </button> */}
             {/* </div> */}
           </div>
 
@@ -288,11 +290,25 @@ export default function Header(props: HeaderProps) {
               Contact Us
               <Icon.Phone size={18} />
             </Link>
-            <Link to="/sign-up">
-              <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg ml-4 font-semibold font-sans transition-colors duration-200 shadow-lg hover:shadow-xl">
-                Sign in
-              </button>
+            <Link
+              to="blog"
+              className="text-white hover:text-blue-300 flex items-center gap-2 transition-colors duration-200 font-medium"
+            >
+              Blog
+              <Icon.Article size={18} />
             </Link>
+            <div className="gap-0  border-blue-500 border-opacity-20 rounded-lg py-1 transition-opacity p-1 pl-4">
+              <Link to="/sign-in">
+                <button className="bg text-white px-6 py-3 rounded-l-lg  font-semibold font-sans transition-colors duration-200 shadow-lg hover:shadow-4xl">
+                  Sign in
+                </button>
+              </Link>
+              <Link to="/sign-up">
+                <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-r-lg font-semibold font-sans transition-colors duration-200 shadow-lg hover:shadow-xl">
+                  Sign up
+                </button>
+              </Link>
+            </div>
           </nav>
         </div>
       </div>
@@ -300,7 +316,7 @@ export default function Header(props: HeaderProps) {
       {/* Mobile Fullscreen Menu - Shows automatically on mobile (≤640px) */}
       <div
         className={`sm:hidden fixed inset-0 z-30 bg-black bg-opacity-95 backdrop-blur-sm transition-all duration-300 ${
-          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
         <div className="flex flex-col h-full">
@@ -337,7 +353,7 @@ export default function Header(props: HeaderProps) {
           <div className="flex-1 flex flex-col justify-center items-center space-y-8 px-6">
             <Link
               to="/"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
+              className="text-white hover:text-blue-400 text-lg font-sm transition-all duration-300 hover:scale-110 flex items-center gap-3"
               onClick={closeMobileMenu}
             >
               <Icon.House size={28} />

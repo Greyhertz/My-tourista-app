@@ -29,12 +29,16 @@
 
 body {
   background: var(--text-light);
-  min-height: 100vh;
+  min-height: fit-content;
+  min-width: fit-content;
+  margin: auto;
   font-family: "Inter", Arial, sans-serif;
   color: var(--text-light);
   display: flex;
   flex-direction: column;
-  scrollbar-width:hidden;
+  scrollbar-width:none;
+  overflow: h;
+  color: #e7e1e1;
 }
 
 
