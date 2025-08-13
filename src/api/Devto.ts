@@ -7,3 +7,4 @@ export async function fetchTravelBlogs(limit = 20) {
   }
   return response.json();
 }
+
