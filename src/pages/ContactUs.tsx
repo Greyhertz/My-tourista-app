@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import Header from "../components/Header";
-import CustomDrawer from "../components/CustomDrawer";
+import { useEffect, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import Header from '../components/ui/Header';
+import CustomDrawer from '../components/ui/CustomDrawer';
 // import { ChangeProfile } from "../components/ChangeProfile";
 // import useTheme from "../hooks/useTheme";
 
@@ -24,34 +24,34 @@ export default function ContactUs() {
   //  const { theme, changeTheme } = useTheme();
 
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
+  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
 
-  const toggleDrawer = () => setDrawerOpen((prev) => !prev);
-  const toggleThemeDropdown = () => setThemeDropdownOpen((prev) => !prev);
+  const toggleDrawer = () => setDrawerOpen(prev => !prev);
+  const toggleThemeDropdown = () => setThemeDropdownOpen(prev => !prev);
 
-  const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
+  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
     setTheme(newTheme);
     setThemeDropdownOpen(false);
-    if (newTheme === "system") {
+    if (newTheme === 'system') {
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        '(prefers-color-scheme: dark)'
       ).matches;
       setIsDarkMode(prefersDark);
     } else {
-      setIsDarkMode(newTheme === "dark");
+      setIsDarkMode(newTheme === 'dark');
     }
   };
 
   useEffect(() => {
-    if (theme === "system") {
+    if (theme === 'system') {
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        '(prefers-color-scheme: dark)'
       ).matches;
       setIsDarkMode(prefersDark);
     } else {
-      setIsDarkMode(theme === "dark");
+      setIsDarkMode(theme === 'dark');
     }
   }, [theme]);
 

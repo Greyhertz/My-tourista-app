@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { blogPosts } from "../data/DataBlog";// Adjust the import path as necessary
 import { motion } from "framer-motion";
 // import { Icon } from "lucide-react";
-import * as Icon from '@phosphor-icons/react';
+// import * as Icon from '@phosphor-icons/react';
 
 export default function BlogPostDetail() {
   const { slug } = useParams();
@@ -15,14 +15,14 @@ export default function BlogPostDetail() {
 
   const recentPosts = blogPosts
     .filter((p) => p.slug !== slug)
-    // .slice(0, 3);
+   //  .slice(0, 6);
 
   return (
     <div
-      className="flex flex-col lg:flex-row gap-10 p-10  py-16"
+      className="flex flex-col lg:flex-row gap-10 p-10  py-16 h-full"
       style={{ backgroundColor: '#e7e1e1' }}
     >
-      <div className="flex fixed left-0.5 h-screen bg-white top-0 w-">
+      {/* <div className="flex fixed left-0.5 h-screen bg-white top-0 w-">
         <div>
           <Icon.HouseIcon />
         </div>
@@ -30,7 +30,7 @@ export default function BlogPostDetail() {
         <div>
           <Icon.Sun />
         </div>
-      </div>
+      </div> */}
       {/* MAIN CONTENT */}
 
       <motion.div
@@ -48,7 +48,7 @@ export default function BlogPostDetail() {
           src={post.image}
           alt={post.title}
           className="w-full rounded-lg shadow-md mb-8"
-        />
+        />  
 
         <div className="prose dark:prose-invert prose-lg max-w-none text-black">
           <p className="text-lg text-black font-medium">{post.excerpt}</p>
@@ -92,7 +92,7 @@ export default function BlogPostDetail() {
           </h3>
           <ul className="space-y-4 overflow-y-auto min-h-4 max-h-96 scroollbar-thin w-4/5">
             {recentPosts.map(recent => (
-              <li key={recent.slug}>
+              <li key={ recent.slug }>
                 <Link
                   to={`/blog/${recent.slug}`}
                   className="block bg-gray-100 dark:bg-gray-800 p-4 rounded-lg hover:shadow transition"
@@ -101,7 +101,7 @@ export default function BlogPostDetail() {
                     {recent.title}
                   </h4>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {recent.date}
+                    {recent.publishedAt}
                   </p>
                 </Link>
               </li>

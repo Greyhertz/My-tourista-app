@@ -1,12 +1,7 @@
-// import React from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./Router"; // import your router config
-import "./index.css"; // if needed
-import "./App.css"
+// main.tsx
+import ReactDOM from 'react-dom/client';
+import App from './App'; // Now using the App component with context
+// import './index.css';
+import './App.css';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  
-    <RouterProvider router={router} />
-  
-);
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />);

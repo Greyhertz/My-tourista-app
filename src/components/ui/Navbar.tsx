@@ -5,7 +5,7 @@ type Theme = "system" | "light" | "dark";
 
 interface NavbarProps {
   onClose: () => void;
-  onThemeChange: (them:Theme) => void;
+  onThemeChange: (theme:Theme) => void;
   currentTheme: Theme;
   themeDropdownOpen: boolean;
   toggleThemeDropdown: () => void;

@@ -972,236 +972,239 @@ const TravelBlogPage = () => {
   const [usingMockData, setUsingMockData] = useState(false);
   const [newPostForm, setNewPostForm] = useState(false);
   // Mock data as fallback
-  const mockPosts = [
-    {
-      id: 1,
-      slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
-      title: 'The Ultimate Guide to Backpacking Through Southeast Asia',
-      excerpt:
-        'Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you’re a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia.',
-      image:
-        'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=400&fit=crop',
-      category: 'itineraries',
-      categoryName: 'Itineraries',
-      destination: 'asia',
-      destinationName: 'Southeast Asia',
-      author: 'Sarah Chen',
-      publishedAt: '2024-07-15',
-      readTime: 12,
-      views: 2340,
-      likes: 89,
-      featured: true,
-    },
-    {
-      id: 2,
-      slug: '15-essential-travel-photography-tips-for-beginners',
-      title: '15 Essential Travel Photography Tips for Beginners',
-      excerpt:
-        'Unlock the secrets to capturing stunning travel photos, from mastering composition and natural lighting to telling compelling stories through your lens. Learn how to choose the right gear, approach locals respectfully, and edit your shots for maximum impact, making every journey memorable through photography.',
-      image:
-        'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=400&fit=crop',
-      category: 'tips',
-      categoryName: 'Travel Tips',
-      destination: 'all',
-      destinationName: 'Global',
-      author: 'Mike Rodriguez',
-      publishedAt: '2024-07-12',
-      readTime: 8,
-      views: 1890,
-      likes: 156,
-      featured: false,
-    },
-    {
-      id: 3,
-      slug: 'exploring-morocco-from-marrakech-to-the-sahara-desert',
-      title: 'Exploring Morocco: From Marrakech to the Sahara Desert',
-      excerpt:
-        "Traverse Morocco's enchanting cities, bustling souks, and majestic desert dunes. This guide takes you from the vibrant streets of Marrakech to the tranquil sands of the Sahara, highlighting cultural encounters, must-see landmarks, and tips for safe, immersive travel in North Africa.",
-      image:
-        'https://images.unsplash.com/photo-1539650116575-75c0c6d73a0e?w=800&h=400&fit=crop',
-      category: 'destinations',
-      categoryName: 'Destination Guides',
-      destination: 'africa',
-      destinationName: 'Morocco',
-      author: 'Emma Thompson',
-      publishedAt: '2024-07-10',
-      readTime: 15,
-      views: 3120,
-      likes: 203,
-      featured: true,
-    },
-    {
-      id: 4,
-      slug: 'budget-travel-how-to-see-europe-for-under-50-a-day',
-      title: 'Budget Travel: How to See Europe for Under $50 a Day',
-      excerpt:
-        'Discover how to explore Europe’s iconic cities and hidden villages without overspending. This article shares proven strategies for finding affordable accommodation, using budget-friendly transport, and enjoying free or low-cost attractions, so you can experience the continent’s culture and history on a shoestring.',
-      image:
-        'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop',
-      category: 'budget',
-      categoryName: 'Budget Travel',
-      destination: 'europe',
-      destinationName: 'Europe',
-      author: 'Alex Johnson',
-      publishedAt: '2024-07-08',
-      readTime: 10,
-      views: 4560,
-      likes: 287,
-      featured: false,
-    },
-    {
-      id: 5,
-      slug: 'street-food-adventures-in-bangkok-a-culinary-journey',
-      title: 'Street Food Adventures in Bangkok: A Culinary Journey',
-      excerpt:
-        'Experience the vibrant flavors of Bangkok’s street food scene. From spicy pad thai to sweet mango sticky rice, this guide introduces you to the city’s best food stalls, local favorites, and essential safety tips for enjoying authentic Thai cuisine while navigating bustling night markets.',
-      image:
-        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-      category: 'food',
-      categoryName: 'Food & Culture',
-      destination: 'asia',
-      destinationName: 'Thailand',
-      author: 'Lisa Park',
-      publishedAt: '2024-07-05',
-      readTime: 7,
-      views: 2890,
-      likes: 134,
-      featured: false,
-    },
-    {
-      id: 6,
-      slug: 'solo-female-travel-safety-tips-and-empowering-destinations',
-      title: 'Solo Female Travel: Safety Tips and Empowering Destinations',
-      excerpt:
-        'Empower your solo adventures with practical safety advice and inspiring stories from women who’ve traveled the world alone. Explore recommended destinations known for their welcoming atmosphere, learn how to stay safe on the road, and gain confidence to embrace the freedom of solo travel.',
-      image:
-        'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
-      category: 'tips',
-      categoryName: 'Travel Tips',
-      destination: 'all',
-      destinationName: 'Global',
-      author: 'Rachel Green',
-      publishedAt: '2024-07-03',
-      readTime: 11,
-      views: 1760,
-      likes: 198,
-      featured: false,
-    },
-    {
-      id: 7,
-      slug: 'hiking-the-swiss-alps-a-journey-above-the-clouds',
-      title: 'Hiking the Swiss Alps: A Journey Above the Clouds',
-      excerpt:
-        'Set out on a breathtaking adventure through Switzerland’s alpine trails, crystal-clear lakes, and snow-capped peaks. This guide covers the best hiking routes, essential gear, and tips for enjoying panoramic views and local hospitality in the heart of the Alps.',
-      image:
-        'https://images.unsplash.com/photo-1549989473-4f0b6a877c59?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'destinations',
-      categoryName: 'Destination Guides',
-      destination: 'europe',
-      destinationName: 'Switzerland',
-      author: 'Lukas Meier',
-      publishedAt: '2024-07-01',
-      readTime: 14,
-      views: 3210,
-      likes: 215,
-      featured: false,
-    },
-    {
-      id: 8,
-      slug: 'how-to-travel-japan-on-a-shoestring-budget',
-      title: 'How to Travel Japan on a Shoestring Budget',
-      excerpt:
-        'Unlock the secrets to affordable travel in Japan. Learn how to save on accommodation, food, and transportation while exploring Tokyo’s neon streets, Kyoto’s ancient temples, and rural villages. This guide proves that Japan’s wonders are accessible to every traveler, no matter the budget.',
-      image:
-        'https://images.unsplash.com/photo-1533077167465-9d7b45ab0a55?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'budget',
-      categoryName: 'Budget Travel',
-      destination: 'asia',
-      destinationName: 'Japan',
-      author: 'Aiko Tanaka',
-      publishedAt: '2024-06-25',
-      readTime: 9,
-      views: 2780,
-      likes: 167,
-      featured: true,
-    },
-    {
-      id: 9,
-      slug: 'cape-towns-best-beaches-and-coastal-escapes',
-      title: 'Cape Town’s Best Beaches and Coastal Escapes',
-      excerpt:
-        'Discover Cape Town’s most scenic beaches, from the surfer’s paradise of Muizenberg to the tranquil shores of Clifton and the dramatic cliffs of Chapman’s Peak. This guide highlights the best spots for relaxation, water sports, and sunset views along South Africa’s stunning coastline.',
-      image:
-        'https://images.unsplash.com/photo-1609166215706-677a0fbeb445?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'destinations',
-      categoryName: 'Destination Guides',
-      destination: 'africa',
-      destinationName: 'South Africa',
-      author: 'Nomsa Dlamini',
-      publishedAt: '2024-06-22',
-      readTime: 10,
-      views: 3420,
-      likes: 190,
-      featured: false,
-    },
-    {
-      id: 10,
-      slug: 'the-art-of-packing-light-for-long-term-travel',
-      title: 'The Art of Packing Light for Long-Term Travel',
-      excerpt:
-        'Master minimalist packing for extended adventures. This article shares expert tips on choosing versatile clothing, essential gear, and smart packing techniques, so you can travel for months with just a carry-on and enjoy the freedom of light, stress-free journeys.',
-      image:
-        'https://images.unsplash.com/photo-1530319067432-f2a729c03dbb?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'tips',
-      categoryName: 'Travel Tips',
-      destination: 'all',
-      destinationName: 'Global',
-      author: 'Daniel Reyes',
-      publishedAt: '2024-06-18',
-      readTime: 7,
-      views: 1590,
-      likes: 102,
-      featured: false,
-    },
-    {
-      id: 11,
-      slug: 'foodies-guide-to-rome-eat-like-a-local',
-      title: 'Foodie’s Guide to Rome: Eat Like a Local',
-      excerpt:
-        'Savor Rome’s culinary delights with this insider’s guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city’s food culture beyond the tourist trail.',
-      image:
-        'https://images.unsplash.com/photo-1600275668994-868c1c00d0a4?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'food',
-      categoryName: 'Food & Culture',
-      destination: 'europe',
-      destinationName: 'Italy',
-      author: 'Giulia Romano',
-      publishedAt: '2024-06-14',
-      readTime: 6,
-      views: 2675,
-      likes: 143,
-      featured: false,
-    },
-    {
-      id: 12,
-      slug: 'the-magic-of-new-zealand-nature-culture-and-adventure',
-      title: 'The Magic of New Zealand: Nature, Culture, and Adventure',
-      excerpt:
-        'Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country’s natural beauty, engaging with local culture, and finding adventure at every turn.',
-      image:
-        'https://images.unsplash.com/photo-1578496481383-7b0c36dd254b?auto=format&fit=crop&w=800&h=400&q=80',
-      category: 'destinations',
-      categoryName: 'Destination Guides',
-      destination: 'oceania',
-      destinationName: 'New Zealand',
-      author: 'Thomas Blake',
-      publishedAt: '2024-06-10',
-      readTime: 13,
-      views: 2950,
-      likes: 170,
-      featured: true,
-    },
-  ];
+  const mockPosts = {
+    posts: [
+      {
+        id: 1,
+        slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
+        title: 'The Ultimate Guide to Backpacking Through Southeast Asia',
+        excerpt:
+          'Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you’re a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia.',
+        image:
+          'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=400&fit=crop',
+        category: 'itineraries',
+        categoryName: 'Itineraries',
+        destination: 'asia',
+        destinationName: 'Southeast Asia',
+        author: 'Sarah Chen',
+        publishedAt: '2024-07-15',
+        readTime: 12,
+        views: 2340,
+        likes: 89,
+        featured: true,
+      },
+      {
+        id: 2,
+        slug: '15-essential-travel-photography-tips-for-beginners',
+        title: '15 Essential Travel Photography Tips for Beginners',
+        excerpt:
+          'Unlock the secrets to capturing stunning travel photos, from mastering composition and natural lighting to telling compelling stories through your lens. Learn how to choose the right gear, approach locals respectfully, and edit your shots for maximum impact, making every journey memorable through photography.',
+        image:
+          'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=400&fit=crop',
+        category: 'tips',
+        categoryName: 'Travel Tips',
+        destination: 'all',
+        destinationName: 'Global',
+        author: 'Mike Rodriguez',
+        publishedAt: '2024-07-12',
+        readTime: 8,
+        views: 1890,
+        likes: 156,
+        featured: false,
+      },
+      {
+        id: 3,
+        slug: 'exploring-morocco-from-marrakech-to-the-sahara-desert',
+        title: 'Exploring Morocco: From Marrakech to the Sahara Desert',
+        excerpt:
+          "Traverse Morocco's enchanting cities, bustling souks, and majestic desert dunes. This guide takes you from the vibrant streets of Marrakech to the tranquil sands of the Sahara, highlighting cultural encounters, must-see landmarks, and tips for safe, immersive travel in North Africa.",
+        image:
+          'https://images.unsplash.com/photo-1539650116575-75c0c6d73a0e?w=800&h=400&fit=crop',
+        category: 'destinations',
+        categoryName: 'Destination Guides',
+        destination: 'africa',
+        destinationName: 'Morocco',
+        author: 'Emma Thompson',
+        publishedAt: '2024-07-10',
+        readTime: 15,
+        views: 3120,
+        likes: 203,
+        featured: true,
+      },
+      {
+        id: 4,
+        slug: 'budget-travel-how-to-see-europe-for-under-50-a-day',
+        title: 'Budget Travel: How to See Europe for Under $50 a Day',
+        excerpt:
+          'Discover how to explore Europe’s iconic cities and hidden villages without overspending. This article shares proven strategies for finding affordable accommodation, using budget-friendly transport, and enjoying free or low-cost attractions, so you can experience the continent’s culture and history on a shoestring.',
+        image:
+          'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop',
+        category: 'budget',
+        categoryName: 'Budget Travel',
+        destination: 'europe',
+        destinationName: 'Europe',
+        author: 'Alex Johnson',
+        publishedAt: '2024-07-08',
+        readTime: 10,
+        views: 4560,
+        likes: 287,
+        featured: false,
+      },
+      {
+        id: 5,
+        slug: 'street-food-adventures-in-bangkok-a-culinary-journey',
+        title: 'Street Food Adventures in Bangkok: A Culinary Journey',
+        excerpt:
+          'Experience the vibrant flavors of Bangkok’s street food scene. From spicy pad thai to sweet mango sticky rice, this guide introduces you to the city’s best food stalls, local favorites, and essential safety tips for enjoying authentic Thai cuisine while navigating bustling night markets.',
+        image:
+          'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+        category: 'food',
+        categoryName: 'Food & Culture',
+        destination: 'asia',
+        destinationName: 'Thailand',
+        author: 'Lisa Park',
+        publishedAt: '2024-07-05',
+        readTime: 7,
+        views: 2890,
+        likes: 134,
+        featured: false,
+      },
+      {
+        id: 6,
+        slug: 'solo-female-travel-safety-tips-and-empowering-destinations',
+        title: 'Solo Female Travel: Safety Tips and Empowering Destinations',
+        excerpt:
+          'Empower your solo adventures with practical safety advice and inspiring stories from women who’ve traveled the world alone. Explore recommended destinations known for their welcoming atmosphere, learn how to stay safe on the road, and gain confidence to embrace the freedom of solo travel.',
+        image:
+          'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80',
+        category: 'tips',
+        categoryName: 'Travel Tips',
+        destination: 'all',
+        destinationName: 'Global',
+        author: 'Rachel Green',
+        publishedAt: '2024-07-03',
+        readTime: 11,
+        views: 1760,
+        likes: 198,
+        featured: false,
+      },
+      {
+        id: 7,
+        slug: 'hiking-the-swiss-alps-a-journey-above-the-clouds',
+        title: 'Hiking the Swiss Alps: A Journey Above the Clouds',
+        excerpt:
+          'Set out on a breathtaking adventure through Switzerland’s alpine trails, crystal-clear lakes, and snow-capped peaks. This guide covers the best hiking routes, essential gear, and tips for enjoying panoramic views and local hospitality in the heart of the Alps.',
+        image:
+          'https://images.unsplash.com/photo-1467269204594-4f0b6a877c59?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'destinations',
+        categoryName: 'Destination Guides',
+        destination: 'europe',
+        destinationName: 'Switzerland',
+        author: 'Lukas Meier',
+        publishedAt: '2024-07-01',
+        readTime: 14,
+        src: '',
+        views: 3210,
+        likes: 215,
+        featured: false,
+      },
+      {
+        id: 8,
+        slug: 'how-to-travel-japan-on-a-shoestring-budget',
+        title: 'How to Travel Japan on a Shoestring Budget',
+        excerpt:
+          'Unlock the secrets to affordable travel in Japan. Learn how to save on accommodation, food, and transportation while exploring Tokyo’s neon streets, Kyoto’s ancient temples, and rural villages. This guide proves that Japan’s wonders are accessible to every traveler, no matter the budget.',
+        image:
+          'https://images.unsplash.com/photo-1533077167465-9d7b45ab0a55?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'budget',
+        categoryName: 'Budget Travel',
+        destination: 'asia',
+        destinationName: 'Japan',
+        author: 'Aiko Tanaka',
+        publishedAt: '2024-06-25',
+        readTime: 9,
+        views: 2780,
+        likes: 167,
+        featured: true,
+      },
+      {
+        id: 9,
+        slug: 'cape-towns-best-beaches-and-coastal-escapes',
+        title: 'Cape Town’s Best Beaches and Coastal Escapes',
+        excerpt:
+          'Discover Cape Town’s most scenic beaches, from the surfer’s paradise of Muizenberg to the tranquil shores of Clifton and the dramatic cliffs of Chapman’s Peak. This guide highlights the best spots for relaxation, water sports, and sunset views along South Africa’s stunning coastline.',
+        image:
+          'https://images.unsplash.com/photo-1609166215706-677a0fbeb445?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'destinations',
+        categoryName: 'Destination Guides',
+        destination: 'africa',
+        destinationName: 'South Africa',
+        author: 'Nomsa Dlamini',
+        publishedAt: '2024-06-22',
+        readTime: 10,
+        views: 3420,
+        likes: 190,
+        featured: false,
+      },
+      {
+        id: 10,
+        slug: 'the-art-of-packing-light-for-long-term-travel',
+        title: 'The Art of Packing Light for Long-Term Travel',
+        excerpt:
+          'Master minimalist packing for extended adventures. This article shares expert tips on choosing versatile clothing, essential gear, and smart packing techniques, so you can travel for months with just a carry-on and enjoy the freedom of light, stress-free journeys.',
+        image:
+          'https://images.unsplash.com/photo-1530319067432-f2a729c03dbb?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'tips',
+        categoryName: 'Travel Tips',
+        destination: 'all',
+        destinationName: 'Global',
+        author: 'Daniel Reyes',
+        publishedAt: '2024-06-18',
+        readTime: 7,
+        views: 1590,
+        likes: 102,
+        featured: false,
+      },
+      {
+        id: 11,
+        slug: 'foodies-guide-to-rome-eat-like-a-local',
+        title: 'Foodie’s Guide to Rome: Eat Like a Local',
+        excerpt:
+          'Savor Rome’s culinary delights with this insider’s guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city’s food culture beyond the tourist trail.',
+        image:
+          'https://images.unsplash.com/photo-1600275668994-868c1c00d0a4?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'food',
+        categoryName: 'Food & Culture',
+        destination: 'europe',
+        destinationName: 'Italy',
+        author: 'Giulia Romano',
+        publishedAt: '2024-06-14',
+        readTime: 6,
+        views: 2675,
+        likes: 143,
+        featured: false,
+      },
+      {
+        id: 12,
+        slug: 'the-magic-of-new-zealand-nature-culture-and-adventure',
+        title: 'The Magic of New Zealand: Nature, Culture, and Adventure',
+        excerpt:
+          'Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country’s natural beauty, engaging with local culture, and finding adventure at every turn.',
+        image:
+          'https://images.unsplash.com/photo-1578496481383-7b0c36dd254b?auto=format&fit=crop&w=800&h=400&q=80',
+        category: 'destinations',
+        categoryName: 'Destination Guides',
+        destination: 'oceania',
+        destinationName: 'New Zealand',
+        author: 'Thomas Blake',
+        publishedAt: '2024-06-10',
+        readTime: 13,
+        views: 2950,
+        likes: 170,
+        featured: true,
+      },
+    ],
+  };
 
   // Categories for filtering
   const categories = [
@@ -1273,7 +1276,7 @@ const TravelBlogPage = () => {
         // Try to fetch from API first
         const apiPosts = await fetchTravelBlogs(20);
         const mappedPosts = apiPosts.map(mapApiDataToPost);
-        setBlogPosts([...mockPosts, ...mappedPosts]);
+        setBlogPosts([...mockPosts.posts, ...mappedPosts]);
         setUsingMockData(false);
         console.log(
           'Successfully loaded API data:',
@@ -1283,7 +1286,7 @@ const TravelBlogPage = () => {
       } catch (err) {
         console.error('Failed to lo: numberad API data, using mock data:', err);
         // Fall back to mock data if API fails
-        setBlogPosts(mockPosts);
+        setBlogPosts(mockPosts.posts);
         setUsingMockData(true);
         setError('Unable to load live data. Showing sample posts.');
       } finally {
@@ -1487,7 +1490,7 @@ const TravelBlogPage = () => {
     );
   }
 
-    const addNewPost = post => {
+    const addNewPost = postData => {
       const newPost = {
         id: Date.now(),
         ...postData,
@@ -1496,7 +1499,7 @@ const TravelBlogPage = () => {
         isLive: true,
       };
 
-      setPosts(currentPosts => [newPost, ...currentPosts]);
+      setBlogPosts(currentPosts => [newPost, ...currentPosts]);
       setNewPostForm(false);
     };
 
@@ -1669,7 +1672,7 @@ const TravelBlogPage = () => {
                 <ChevronDown
                   className={`w-4 h-4 transition-transform ${
                     showFilters ? 'rotate-180' : ''
-                  }`}
+                  }`} 
                 />
               </button>
 
@@ -1890,6 +1893,7 @@ function addNewPost(_arg0: { image: string; title: string; excerpt: string; loca
 //   Plus,
 //   Send,
 // } from 'lucide-react';
+// import { motion } from 'framer-motion';
 
 // const RealTimeTravelBlog = () => {
 //   const [posts, setPosts] = useState([]);
@@ -1954,7 +1958,7 @@ function addNewPost(_arg0: { image: string; title: string; excerpt: string; loca
 //     const interval = setInterval(() => {
 //       // Randomly update likes or add new posts
 //       setPosts(currentPosts => {
-//         const updated = currentPosts.map(post => ({
+//         const updated = currentPosts.map((post) => ({
 //           ...post,
 //           likes: post.likes + Math.floor(Math.random() * 3), // Random like increases
 //         }));
@@ -1979,7 +1983,7 @@ function addNewPost(_arg0: { image: string; title: string; excerpt: string; loca
 
 //         return updated;
 //       });
-//     }, 5000); // Update every 5 seconds
+//     }, 50000);// Update every 5 seconds
 
 //     return () => {
 //       clearInterval(interval);
@@ -2036,7 +2040,7 @@ function addNewPost(_arg0: { image: string; title: string; excerpt: string; loca
 //         {post.isLive && (
 //           <div className="absolute top-4 left-4">
 //             <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1 animate-pulse">
-//               <div className="w-2 h-2 bg-white rounded-full"></div>
+//               <div className="w-2 h  -2 bg-white rounded-full"></div>
 //               LIVE
 //             </span>
 //           </div>
@@ -2099,120 +2103,158 @@ function addNewPost(_arg0: { image: string; title: string; excerpt: string; loca
 //     </article>
 //   );
 
-  // const NewPostForm = () => {
-  //   const [formData, setFormData] = useState({
-  //     title: '',
-  //     excerpt: '',
-  //     location: '',
-  //     author: '',
-  //     image: '',
-  //   });
+//   const NewPostForm = () => {
+//     const [formData, setFormData] = useState({
+//       title: '',
+//       excerpt: '',
+//       location: '',
+//       author: '',
+//       image: '',
+//     });
 
-  //   const handleSubmit = () => {
-  //     if (formData.title && formData.excerpt && formData.author) {
-  //       addNewPost({
-  //         ...formData,
-  //         image:
-  //           formData.image ||
-  //           'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
-  //       });
-  //       setFormData({
-  //         title: '',
-  //         excerpt: '',
-  //         location: '',
-  //         author: '',
-  //         image: '',
-  //       });
-  //     }
-  //   };
+//     const handleSubmit = () => {
+//       if (formData.title && formData.excerpt && formData.author) {
+//         addNewPost({
+//           ...formData,
+//           image:
+//             formData.image ||
+//             'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
+//         });
+//         setFormData({
+//           title: '',
+//           excerpt: '',
+//           location: '',
+//           author: '',
+//           image: '',
+//         });
+//       }
+//     };
 
-  //   return (
-  //     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-  //       <div className="bg-white rounded-xl max-w-md w-full p-6">
-  //         <h3 className="text-xl font-bold mb-4">Share Your Travel Moment</h3>
-  //         <div className="space-y-4">
-  //           <input
-  //             type="text"
-  //             placeholder="Post title"
-  //             value={formData.title}
-  //             onChange={e =>
-  //               setFormData({ ...formData, title: e.target.value })
-  //             }
-  //             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-  //             required
-  //           />
-  //           <textarea
-  //             placeholder="What's happening on your journey?"
-  //             value={formData.excerpt}
-  //             onChange={e =>
-  //               setFormData({ ...formData, excerpt: e.target.value })
-  //             }
-  //             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-20"
-  //             required
-  //           />
-  //           <input
-  //             type="text"
-  //             placeholder="Your name"
-  //             value={formData.author}
-  //             onChange={e =>
-  //               setFormData({ ...formData, author: e.target.value })
-  //             }
-  //             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-  //             required
-  //           />
-  //           <input
-  //             type="text"
-  //             placeholder="Location"
-  //             value={formData.location}
-  //             onChange={e =>
-  //               setFormData({ ...formData, location: e.target.value })
-  //             }
-  //             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-  //           />
-  //           <input
-  //             type="url"
-  //             placeholder="Image URL (optional)"
-  //             value={formData.image}
-  //             onChange={e =>
-  //               setFormData({ ...formData, image: e.target.value })
-  //             }
-  //             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-  //           />
-  //           <div className="flex gap-3">
-  //             <button
-  //               onClick={handleSubmit}
-  //               className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-  //             >
-  //               <Send className="w-4 h-4" />
-  //               Share Live
-  //             </button>
-  //             <button
-  //               onClick={() => setNewPostForm(false)}
-  //               className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors"
-  //             >
-  //               Cancel
-  //             </button>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // };
+//     return (
+//       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
 
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-  //         <p className="text-gray-500">Connecting to real-time database...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+//         <div className="bg-white rounded-xl max-w-md w-full p-6">
+//           <h3 className="text-xl font-bold mb-4">Share Your Travel Moment</h3>
+//           <div className="space-y-4">
+//             <input
+//               type="text"
+//               placeholder="Post title"
+//               value={formData.title}
+//               onChange={e =>
+//                 setFormData({ ...formData, title: e.target.value })
+//               }
+//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               required
+//             />
+//             <textarea
+//               placeholder="What's happening on your journey?"
+//               value={formData.excerpt}
+//               onChange={e =>
+//                 setFormData({ ...formData, excerpt: e.target.value })
+//               }
+//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-20"
+//               required
+//             />
+//             <input
+//               type="text"
+//               placeholder="Your name"
+//               value={formData.author}
+//               onChange={e =>
+//                 setFormData({ ...formData, author: e.target.value })
+//               }
+//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               required
+//             />
+//             <input
+//               type="text"
+//               placeholder="Location"
+//               value={formData.location}
+//               onChange={e =>
+//                 setFormData({ ...formData, location: e.target.value })
+//               }
+//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//             <input
+//               type="url"
+//               placeholder="Image URL (optional)"
+//               value={formData.image}
+//               onChange={e =>
+//                 setFormData({ ...formData, image: e.target.value })
+//               }
+//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//             <div className="flex gap-3">
+//               <button
+//                 onClick={handleSubmit}
+//                 className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+//               >
+//                 <Send className="w-4 h-4" />
+//                 Share Live
+//               </button>
+//               <button
+//                 onClick={() => setNewPostForm(false)}
+//                 className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors"
+//               >
+//                 Cancel
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+//         <div className="text-center">
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+//           <p className="text-gray-500">Connecting to real-time database...</p>
+//         </div>
+//       </div>
+//     );
+//   }
 
 //   return (
 //     <div className="min-h-screen bg-gray-50">
 //       {/* Header */}
+
+//       <div className="relative bottom-80">
+//         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-center px-6">
+//           <motion.h1
+//             initial={{ opacity: 0, y: 40 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             transition={{ duration: 1 }}
+//             className="text-5xl md:text-6xl font-extrabold mb-4 top-0 md:top-0"
+//           >
+//             Explore the World with{' '}
+//             <span className="text-blue-500">TravelMate</span>
+//           </motion.h1>
+//           <motion.p
+//             initial={{ opacity: 0, y: 20 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             transition={{ duration: 1.2 }}
+//             className="text-xl md:text-2xl mb-4 max-w-2xl"
+//           >
+//             Find breathtaking destinations and plan your next escape
+//             effortlessly.
+//           </motion.p>
+//           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row gap-4 shadow-lg text-black dark:text-white">
+//             <select className="border p-2 rounded w-full md:w-auto">
+//               <option>Where to</option>
+//             </select>
+//             <select className="border p-2 rounded w-full md:w-auto">
+//               <option>When</option>
+//             </select>
+//             <select className="border p-2 rounded w-full md:w-auto">
+//               <option>Select type</option>
+//             </select>
+//             <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full md:w-auto">
+//               Search
+//             </button>
+//           </div>
+//         </div>
+//       </div>
 //       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
 //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 //           <div className="text-center">

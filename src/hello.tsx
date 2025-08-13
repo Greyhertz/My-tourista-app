@@ -94,11 +94,10 @@
 
 // abcd.toUpperCase()
 
-
 const object = {
   name: 'john',
   age: 30,
-  
-}
+  getAge: () => {},
+};
 const name = object.name;
 console.log(name);

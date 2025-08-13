@@ -196,7 +196,7 @@ export default function Homepage()
       </div>
 
       {/* Why Choose Us */}
-      <div className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 py-20 px-6">
+      <div className="bg-gradient-to-br from-blue-100 to-blue-200 py-20 px-6 dark:from-gray-700">
         <h2 className="text-4xl font-bold text-center mb-12">
           💎 Why Choose TravelMate?
         </h2>
@@ -289,17 +289,7 @@ export default function Homepage()
       </div>
 
       {/* Call to Action */}
-      <div className="bg-blue-600 py-12 text-center text-white">
-        <h2 className="text-3xl font-bold mb-4">
-          Ready to start your journey?
-        </h2>
-        <p className="mb-6">
-          Sign up now and unlock exclusive travel deals and insider tips!
-        </p>
-        <button className="bg-white text-blue-600 px-6 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition">
-          Join TravelMate Today
-        </button>
-      </div>
+     
 
       {/* Footer */}
       <Footer />

@@ -1,7 +1,8 @@
-import * as Icon from "@phosphor-icons/react"; 
-import React, { useEffect, useState } from "react";
+import * as Icon from '@phosphor-icons/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 // import useTheme from "../hooks/ThemeContext";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   stuff: {
@@ -120,78 +121,81 @@ interface HeaderProps {
 
 const backgroundImages = [
   // Machu Picchu, Peru
-  "https://www.worldtravelguide.net/wp-content/uploads/2019/04/shu-Peru-Machu-Picchu-389136313-1440x823.jpg",
+  'https://www.worldtravelguide.net/wp-content/uploads/2019/04/shu-Peru-Machu-Picchu-389136313-1440x823.jpg',
 
   // Mount Fuji, Japan
-  "https://wallpapercat.com/w/full/8/8/6/1518154-2880x1800-desktop-hd-mount-fuji-japan-background-photo.jpg",
+  'https://wallpapercat.com/w/full/8/8/6/1518154-2880x1800-desktop-hd-mount-fuji-japan-background-photo.jpg',
 
   // Statue of Liberty, New York
-  "https://images.unsplash.com/photo-1565475783696-96001eff1b45?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8&ixlib=rb-4.0.3&q=60&w=3000",
+  'https://images.unsplash.com/photo-1565475783696-96001eff1b45?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8&ixlib=rb-4.0.3&q=60&w=3000',
 
   // Eiffel Tower, Paris
-  "https://images.unsplash.com/photo-1502602898536-47ad22581b52?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1502602898536-47ad22581b52?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Rainbow Mountain, Peru
-  "https://images.unsplash.com/photo-1584772121849-56c717d6c542?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDM0fHx8ZW58MHx8fHx8&ixlib=rb-4.0.3&q=60&w=3000",
+  'https://images.unsplash.com/photo-1584772121849-56c717d6c542?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDM0fHx8ZW58MHx8fHx8&ixlib=rb-4.0.3&q=60&w=3000',
 
   // Statue of Liberty, NYC
-  "https://images.unsplash.com/photo-1539650116574-75c0c6d73d0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1539650116574-75c0c6d73d0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Rainbow Mountain, Peru (different angle)
-  "https://images.unsplash.com/photo-1545330785-15356daae141?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFpbmJvdyUyMG1vdW50YWluJTIwcGVydXxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
+  'https://images.unsplash.com/photo-1545330785-15356daae141?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFpbmJvdyUyMG1vdW50YWluJTIwcGVydXxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000',
 
   // Big Ben and Parliament, London
   // "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
   'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', // Big Ben, London
 
   // Icelandic Landscape (Reynisfjara Beach)
-  "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+  'https://images.unsplash.com/photo-1501785888041-af3ef285b470',
 
   // Colosseum, Rome, Italy
-  "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Santorini, Greece
-  "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Taj Mahal, Agra, India
-  "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Machu Picchu, Peru (second image)
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Sydney Opera House, Australia
-  "https://images.unsplash.com/photo-1549693578-d683be217e58?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+  'https://images.unsplash.com/photo-1549693578-d683be217e58?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
 
   // Mount Fuji, Japan (second image, winter season)
-  "https://images.unsplash.com/photo-1610375229632-c7158c35a537?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnQlMjBmdWppfGVufDB8fDB8fHww&ixlib=rb-4.1.0&q=60&w=3000",
+  'https://images.unsplash.com/photo-1610375229632-c7158c35a537?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnQlMjBmdWppfGVufDB8fDB8fHww&ixlib=rb-4.1.0&q=60&w=3000',
 
   // Santorini, Greece (premium photo)
-  "https://www.visitgreece.gr/images/1743x752/jpg/files/merakos_05_santorini-oia_1743x752.jpg",
+  'https://www.visitgreece.gr/images/1743x752/jpg/files/merakos_05_santorini-oia_1743x752.jpg',
 
   // Sydney Opera House, Australia (night shot)
-  "https://images.unsplash.com/photo-1523059623039-a9ed027e7fad?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3lkbmV5JTIwb3BlcmElMjBob3VzZXxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
+  'https://images.unsplash.com/photo-1523059623039-a9ed027e7fad?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3lkbmV5JTIwb3BlcmElMjBob3VzZXxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000',
 
   // Gerangerfjord, Norway
-  "https://mybestplace.com/uploads/2023/01/Geirangerfjord-Norvegia-2.jpg",
-
+  'https://mybestplace.com/uploads/2023/01/Geirangerfjord-Norvegia-2.jpg',
 ];
-
-
 
 export default function Header(props: HeaderProps) {
   // const { theme, changeTheme } = useTheme();
   const [currentBgIndex, setCurrentBgIndex] = React.useState(0);
-  const [currentNameIndex, setCurrentNameIndex] = useState(0)
+  const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBgIndex(
-        (prevIndex) => (prevIndex + 1) % backgroundImages.length
-      );
+      setCurrentBgIndex(prevIndex => (prevIndex + 1) % backgroundImages.length);
     }, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCurrentCitySet(prev => (prev + 1) % citySets.length);
+  //   }, 8000);
+  //   return () => clearInterval(timer);
+  // }, []);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -203,8 +207,8 @@ export default function Header(props: HeaderProps) {
     };
 
     handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const closeMobileMenu = () => {
@@ -223,7 +227,7 @@ export default function Header(props: HeaderProps) {
     <header className="relative min-h-[70vh] overflow-hidden p-0 m-0">
       {/* Background Images with Smooth Transitions */}
       {backgroundImages.map((image, index) => (
-        <div 
+        <div
           key={index}
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out max-h-[100vh] ${
             index === currentBgIndex ? 'opacity-100' : 'opacity-0'
@@ -231,13 +235,33 @@ export default function Header(props: HeaderProps) {
           style={{ backgroundImage: `url('${image}')` }}
         >
           <h1 className="text-red-400 flex text-center ">Name</h1>
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-row items-center  text-white text-center px-6 justify-between z-20">
+            {' '}
+            <button
+              onClick={() =>
+                setCurrentBgIndex(
+                  prev => (prev - 1 + backgroundImages.length) % backgroundImages.length
+                )
+              }
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            >
+              <ChevronLeft />
+            </button>
+            <button
+              onClick={() =>
+                setCurrentBgIndex(prev => (prev + 1) % backgroundImages.length)
+              }
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            >
+             <ChevronRight />
+            </button>
+          </div>
         </div>
-        
       ))}
 
       {/* Dark Overlay for Better Text Readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-40" />
-      <h1>eeeee</h1>
+      <div className="absolute inset-0 bg-black bg-opacity-10" />
+      <h1></h1>
 
       {/* Header Bar */}
       <div className="fixed z-20  top-0 left-0 w-full backdrop-blur-md bg-black bg-opacity-30 shadow-lg transition-all duration-300 py-2 border-b-slate-400 b border-b-2">
@@ -253,9 +277,7 @@ export default function Header(props: HeaderProps) {
 
           {/* Logo + Name */}
           <div className="flex items-center justify-between px-6 py-0 max-w-7xl mx-auto">
-            {/* <Link to="/">
-              <h1 className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 p-1.5 rounded-full text-5xl font-serif text-blue-700">TM</h1>
-            </Link> */}
+            
 
             {/* <div className="flex justify-end p-4">
               <button
@@ -268,7 +290,7 @@ export default function Header(props: HeaderProps) {
           </div>
 
           {/* Desktop Nav - Hidden on screens < 640px */}
-          <nav className="hidden sm:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6">
             <Link
               to="/"
               className="text-white hover:text-blue-300 flex items-center gap-2 transition-colors duration-200 font-medium"
@@ -314,100 +336,106 @@ export default function Header(props: HeaderProps) {
       </div>
 
       {/* Mobile Fullscreen Menu - Shows automatically on mobile (≤640px) */}
+      {/* Professional Mobile Navigation Drawer */}
       <div
-        className={`sm:hidden fixed inset-0 z-30 bg-black bg-opacity-95 backdrop-blur-sm transition-all duration-300 ${
-          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        className={`sm:hidden fixed inset-0 z-40 transition-all duration-300 ${
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
+        aria-modal="true"
+        role="dialog"
       >
-        <div className="flex flex-col h-full">
-          {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
-            <button
-              onClick={props.stuff?.toggleDrawer}
-              className=" p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors duration-200"
-              aria-label="Toggle drawer"
-            >
-              <Icon.List size={24} weight="regular" className="text-white" />
-            </button>
-
-            <div className="flex items-center gap-3">
-              <img
-                src="https://i.pravatar.cc/100"
-                alt="Prince Onuoha"
-                className="w-10 h-10 rounded-full object-cover border-2 border-white"
-              />
-              <h2 className="text-white text-lg font-semibold">
-                Prince Onuoha
-              </h2>
-            </div>
-            <button
-              onClick={closeMobileMenu}
-              className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors duration-200"
-              aria-label="Close mobile menu"
-            >
-              <Icon.X size={24} weight="regular" className="text-white" />
-            </button>
-          </div>
-
-          {/* Mobile Menu Links */}
-          <div className="flex-1 flex flex-col justify-center items-center space-y-8 px-6">
-            <Link
-              to="/"
-              className="text-white hover:text-blue-400 text-lg font-sm transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.House size={28} />
-              Home
-            </Link>
-            <Link
-              to="/about-us"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.User size={28} />
-              About Us
-            </Link>
-            <Link
-              to="/contact-us"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.Phone size={28} />
-              Contact Us
-            </Link>
-            <Link
-              to="/services"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.Briefcase size={28} />
-              Services
-            </Link>
-            <Link
-              to="/blog"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.Article size={28} />
-              Blog
-            </Link>
-            <Link
-              to="/careers"
-              className="text-white hover:text-blue-400 text-2xl font-medium transition-all duration-300 hover:scale-110 flex items-center gap-3"
-              onClick={closeMobileMenu}
-            >
-              <Icon.Suitcase size={28} />
-              Careers
-            </Link>
-
-            {/* Mobile Sign In Button */}
-            <Link to="/sign-up" className="mt-8" onClick={closeMobileMenu}>
-              <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 shadow-lg">
-                Sign in
-              </button>
-            </Link>
-          </div>
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-black/90 via-blue-950/80 to-black/80 backdrop-blur-md"
+          onClick={closeMobileMenu}
+        />
+        {/* Drawer Panel */}
+        <aside className="relative w-[90vw] max-w-xs h-full bg-white dark:bg-gray-900 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out transform-gpu translate-x-0">
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3">
+          <img
+            src="https://i.pravatar.cc/100"
+            alt="Prince Onuoha"
+            className="w-10 h-10 rounded-full object-cover border-2 border-blue-500 shadow"
+          />
+          <span className="text-gray-900 dark:text-white text-lg font-semibold tracking-tight">
+            Prince Onuoha
+          </span>
         </div>
+        <button
+          onClick={closeMobileMenu}
+          className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+          aria-label="Close menu"
+        >
+          <Icon.X size={26} weight="bold" className="text-blue-600 dark:text-blue-300" />
+        </button>
+          </div>
+          {/* Nav Links */}
+          <nav className="flex-1 flex flex-col gap-2 py-8 px-6">
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.House size={22} weight="duotone" />
+          Home
+        </Link>
+        <Link
+          to="/about-us"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.User size={22} weight="duotone" />
+          About Us
+        </Link>
+        <Link
+          to="/contact-us"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.Phone size={22} weight="duotone" />
+          Contact Us
+        </Link>
+        <Link
+          to="/services"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.Briefcase size={22} weight="duotone" />
+          Services
+        </Link>
+        <Link
+          to="/blog"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.Article size={22} weight="duotone" />
+          Blog
+        </Link>
+        <Link
+          to="/careers"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-950 hover:text-blue-700 dark:hover:text-blue-300 transition"
+          onClick={closeMobileMenu}
+        >
+          <Icon.Suitcase size={22} weight="duotone" />
+          Careers
+        </Link>
+          </nav>
+          {/* CTA Button */}
+        <div className="px-6 pb-8">
+          <Link to="/sign-in" onClick={closeMobileMenu}>
+            <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg shadow-lg transition-all text-base">
+              Sign in
+            </button>
+          </Link>
+          <Link to="/sign-up" onClick={closeMobileMenu}>
+            <button className="w-full mt-3 border border-blue-600 text-blue-700 dark:text-blue-300 dark:border-blue-400 font-semibold py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950 transition-all text-base">
+              Create Account
+            </button>
+          </Link>
+        </div>
+        </aside>
       </div>
 
       {/* Hero Content (Optional - you can add content here) */}
