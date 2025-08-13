@@ -1,26 +1,25 @@
 // router.tsximport * as Icon from '@phosphor-icons/react';
 import * as Icon from '@phosphor-icons/react';
 
-
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import MainLayout from "./layouts/MainLayout";
-import Homepage from "./pages/Homepage";
-import Touristcard from "./pages/Touristcard";
-import AboutUs from "./pages/AboutUs";
-import ContactUs from "./pages/ContactUs";
-import SignUpPage from "./pages/SignUpPage";
+import MainLayout from './layouts/MainLayout';
+import Homepage from './pages/Homepage';
+import Touristcard from './pages/Touristcard';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import SignUpPage from './pages/SignUpPage';
 // import Profile from "./pages/Profile";
 // import { contactLoader } from "./loaders/Loader";
-import ExploreDestinations from "./pages/ExploreDestinations";
-import DestinationDetails from "./pages/DestinationDetails";
-import BlogPage from "./pages/BlogPage";
-import BlogPostDetail from "./pages/BlogPostDetails";     
+import ExploreDestinations from './pages/ExploreDestinations';
+import DestinationDetails from './pages/DestinationDetails';
+import BlogPage from './pages/BlogPage';
+import BlogPostDetail from './pages/BlogPostDetails';
+import Test from './pages/Test';
 // import { exploreLoader } from "./loaders/exploreLoader";
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,6 +50,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="contact-us" element={<ContactUs />} />
       <Route path="sign-up" element={<SignUpPage />} />
+      <Route path="test" element={<Test />} />
 
       <Route
         path="explore-destination"
@@ -75,4 +75,3 @@ export const router = createBrowserRouter(
     </>
   )
 );
-
