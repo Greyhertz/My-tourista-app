@@ -1,10 +1,6 @@
-
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
-
-
-
+@tailwind utilities;
 
 /* Base styles with CSS variables for better maintainability */
 :root {
@@ -76,7 +72,6 @@ body {
   transition: transform 0.5s ease-in-out;
 }
 
-
 .card {
   display: flex;
   width: var(--container-width);
@@ -112,7 +107,7 @@ body {
 }
 
 .main-image-container::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -125,8 +120,8 @@ body {
   );
   pointer-events: none;
 }
-.hm-img:hover{
-   transform: scale(1.08);
+.hm-img:hover {
+  transform: scale(1.08);
   filter: saturate(1.2) contrast(1.1) brightness(1.05);
 }
 
@@ -268,7 +263,6 @@ body {
 
 /* Header Styles (Your original header is kept as is) */
 .header {
-
   color: #f9f6f6;
   padding: 10px 20px;
   display: flex;
@@ -317,7 +311,7 @@ body {
   background: none;
   border: none;
   font-size: 24px;
-  cursor: pointer;  
+  cursor: pointer;
   color: #7a95bd;
   display: flex;
   align-self: end;
@@ -337,7 +331,6 @@ body {
 
   .custom-drawer {
     width: 100%;
-    ;
   }
 
   .header h1 {
@@ -350,11 +343,8 @@ body {
   }
 }
 
-
-
 @layer base {
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 224 71.4% 4.1%;
@@ -403,8 +393,7 @@ body {
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
-  ;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -420,9 +409,9 @@ body {
 
     --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
   .dark {
-
     --background: 224 71.4% 4.1%;
 
     --foreground: 210 20% 98%;
@@ -469,8 +458,7 @@ body {
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
-  ;
+    --chart-5: 340 75% 55%;
 
     --sidebar-background: 240 5.9% 10%;
 
@@ -486,16 +474,6 @@ body {
 
     --sidebar-border: 240 3.7% 15.9%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%}
-}
-
-
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
