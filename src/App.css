@@ -2,63 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles with CSS variables for better maintainability */
-:root {
-  --primary-color: #f55a5a;
-  --gradient-start: #e1e8e7;
-  --gradient-end: #7ff4ff;
-  --text-dark: #424040;
-  --text-light: white;
-  --spacing-xs: 5px;
-  --spacing-sm: 10px;
-  --spacing-md: 20px;
-  --spacing-lg: 40px;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
-  --border-radius: 5px;
-  --container-width: 60%;
-}
-
-/* Reset and base styles */
-/* {
-
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-
-body {
-  background: var(--text-light);
-  min-height: fit-content;
-  width: auto;
-  min-width: fit-content;
-  font-family: "Inter", Arial, sans-serif;
-  color: var(--text-light);
-  display: flex;
-  flex-direction: column;
-  scrollbar-width:none;
-  overflow:auto;
-  color: #e7e1e1;
-}
-
-
-
-.header img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-.header h1 {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.header span {
-  font-size: 10px;
-}
-*/
-
 /* Card container - UPDATED for better horizontal alignment */
 .card-container {
   width: 100%;
