@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../components/ui/Header';
-import CustomDrawer from '../components/ui/CustomDrawer';
+import Header from '../components/core/Header';
+import CustomDrawer from '../components/core/CustomDrawer';
 import { useState, useEffect } from 'react';
 
 const MainLayout = () => {
