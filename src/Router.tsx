@@ -24,9 +24,8 @@ import Test from './pages/Test';
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Homepage />} />
-
+      <Route index element={<Homepage />} />
+      <Route path="/" element={<MainLayout children={undefined} />}>
         <Route path="about-us" element={<AboutUs />} />
         <Route
           path=""

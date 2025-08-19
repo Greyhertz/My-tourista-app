@@ -87,7 +87,7 @@ export default function BlogPostDetail() {
       {/* SIDEBAR */}
       <div className="lg:w-1/3">
         <div className="sticky top-20">
-          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+          <h3 className="text-2xl font-semibold text-gray-900 dark:text-black mb-6">
             Recent Posts
           </h3>
           <ul className="space-y-4 overflow-y-auto min-h-4 max-h-96 scroollbar-thin w-4/5">

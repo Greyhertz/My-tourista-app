@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import Header from '../components/core/Header';
-import CustomDrawer from '../components/core/CustomDrawer';
+// import CustomDrawer from '../components/core/CustomDrawer';
 // import { ChangeProfile } from "../components/ChangeProfile";
 // import useTheme from "../hooks/useTheme";
 
@@ -81,7 +81,7 @@ export default function ContactUs() {
   </button> */}
 
         <Header stuff={{ toggleDrawer }} />
-        <CustomDrawer
+        {/* <CustomDrawer
           isOpen={isDrawerOpen}
           isDarkMode={isDarkMode}
           onClose={() => setDrawerOpen(false)}
@@ -89,7 +89,7 @@ export default function ContactUs() {
           currentTheme={theme}
           themeDropdownOpen={themeDropdownOpen}
           toggleThemeDropdown={toggleThemeDropdown}
-        />
+        /> */}
 
         <section className="px-6 py-20 text-center border-b border-gray-300 bg-gray-300 dark:bg-gray-900 dark:border-gray-800 ">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
