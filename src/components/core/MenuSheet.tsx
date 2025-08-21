@@ -1,105 +1,95 @@
+// components/MenuSheet.tsx
 import { motion } from 'framer-motion';
-import {
-  Compass,
-  Camera,
-  Calendar,
-  Info,
-  BookOpen,
-  Menu,
-  UserPlus,
-  Mail,
-} from 'lucide-react';
-import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetTrigger,
   SheetTitle,
-} from '../ui/sheet';
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Home, Info, BookOpen, Mail, User, MapPin, Menu, Settings } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
-// MenuSheet Component
 const MenuSheet = () => {
-  const NAV_LINKS = [
-    {
-      id: 'explore-destination',
-      label: 'Destinations',
-      icon: <Compass className="w-5 h-5" />,
-    },
-    {
-      id: 'experiences',
-      label: 'Experiences',
-      icon: <Camera className="w-5 h-5" />,
-    },
-    { id: 'deals', label: 'Deals', icon: <Calendar className="w-5 h-5" /> },
-    { id: 'about-us', label: 'About', icon: <Info className="w-5 h-5" /> },
-    { id: 'blog', label: 'Blog', icon: <BookOpen className="w-5 h-5" /> },
-    { id: 'contact-us', label: 'Contact', icon: <Mail className="w-5 h-5" /> },
-  ];
+  const location = useLocation();
 
-  const MotionLink = motion(Link);
+  const navItems = [
+    { name: 'Home', path: '/', icon: Home },
+    { name: 'About Us', path: '/about-us', icon: Info },
+    { name: 'Blog', path: '/blog', icon: BookOpen },
+    { name: 'Explore Destintion', path: '/explore-destination', icon: MapPin },
+    { name: 'Contact', path: '/contact-us', icon: Mail },
+    {name: 'Settings', path: '/settings', icon: Settings}
+  ];
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden text-gray-700 hover:text-orange-500"
-        >
-          <Menu className="w-6 h-6" />
+        <Button variant="ghost" size="icon">
+          <Menu className="h-6 w-6" />
           <span className="sr-only">Open menu</span>
         </Button>
       </SheetTrigger>
 
       <SheetContent
         side="right"
-        className="w-[320px] bg-white/95 backdrop-blur-xl border-l border-orange-200/50 shadow-2xl flex flex-col"
+        className="w-[300px] bg-background/95 backdrop-blur-md border-l border-border/50 shadow-xl flex flex-col"
       >
         {/* Header */}
-        <SheetHeader className="mb-8">
-          <SheetTitle className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-xl font-bold">T</span>
+        <SheetHeader className="px-4 py-4 border-b border-border/50">
+          <SheetTitle className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-lg">
+              <MapPin className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              TravelMate
-            </span>
+            <span className="text-xl font-bold text-foreground">TravelApp</span>
           </SheetTitle>
         </SheetHeader>
 
-        {/* Navigation Links */}
-        <nav className="flex flex-col space-y-2 flex-1">
-          {NAV_LINKS.map((item, index) => (
-            <MotionLink
-              key={item.id}
-              to={item.id}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center space-x-4 p-4 rounded-xl hover:bg-purple-50 hover:text-blue-600 transition-all duration-300 group"
-            >
-              <div className="p-2 rounded-lg bg-gray-100 group-hover:bg-purple-100 transition-colors">
-                {item.icon}
-              </div>
-              <span className="font-medium">{item.label}</span>
-            </MotionLink>
-          ))}
+        {/* Links */}
+        <nav className="flex flex-col space-y-1 mt-4 px-2 flex-1">
+          {navItems.map((item, index) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            return (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Link
+                  to={item.path}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                    isActive
+                      ? 'text-primary bg-primary/10 scale-105 shadow-md'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50 hover:translate-x-2'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.name}</span>
+                  {isActive && (
+                    <div className="ml-auto w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  )}
+                </Link>
+              </motion.div>
+            );
+          })}
         </nav>
 
-        {/* Sign Up Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-6"
-        >
-          <Button className="w-full h-12 rounded-xl font-semibold shadow-lg">
-            <UserPlus className="mr-2 h-5 w-5" />
-            <Link to="sign-up">Sign Up</Link>
+        <div className="px-4 py-4 border-t border-border/50">
+          <ThemeToggle />
+        </div>
+        {/* Sign Up button */}
+        <div className="px-4 py-4 border-t border-border/50">
+          <Button asChild className="w-full h-12 rounded-xl font-semibold">
+            <Link to="/sign-up">
+              <User className="mr-2 h-5 w-5" /> Sign Up
+            </Link>
           </Button>
-        </motion.div>
+          
+        </div>
       </SheetContent>
     </Sheet>
   );

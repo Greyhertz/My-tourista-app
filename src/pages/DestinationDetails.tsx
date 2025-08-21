@@ -8,7 +8,7 @@ export default function DestinationDetails() {
   if (!state) {
     return (
       <div className="max-w-5xl mx-auto p-6 text-center">
-        <h1 className="text-2xl font-bold text-red-600 mb-4">
+        <h1 className="text-2xl font-bold text-destructive mb-4">
           No Data Available
         </h1>
         <p className="text-gray-600">
@@ -17,7 +17,7 @@ export default function DestinationDetails() {
         </p>
         <button
           onClick={() => window.history.back()}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="mt-4 px-4 py-2 bg-background-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
           Go Back
         </button>

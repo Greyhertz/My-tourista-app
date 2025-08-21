@@ -1,7 +1,9 @@
 // App.tsx
 import { createContext, useState, type ReactNode, useContext } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { router } from './Router'; // Make sure this matches your file name
+import { ThemeProvider } from 'next-themes';
+import { router } from './Router';
+import './App.css'; // Make sure to import your CSS
 
 // Define the context type
 interface AppContextType {
@@ -36,8 +38,16 @@ export const useAppContext = () => {
 
 export default function App() {
   return (
-    <AppProvider>
-      <RouterProvider router={router} />
-    </AppProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      themes={['light', 'dark', 'ocean', 'sunset']}
+      disableTransitionOnChange
+    >
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
+    </ThemeProvider>
   );
 }

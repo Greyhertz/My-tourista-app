@@ -1,909 +1,3 @@
-// import { blogPosts } from '../data/DataBlog';
-// import { Link } from 'react-router-dom';
-// const posts = [
-//   {
-//     title: '10 Hidden Gems You Must Visit',
-//     date: 'April 18, 2024',
-//     description:
-//       'Discover lesser-known breathtaking spots around the globe that every traveler must explore.',
-//     image:
-//       'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1600&q=80',
-//   },
-//   {
-//     title: 'A Journey Through Tokyo',
-//     date: 'April 16, 2024',
-//     description:
-//       'Experience the bustling streets, tranquil temples, and modern marvels of Tokyo.',
-//     image:
-//       'https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=800&q=80',
-//   },
-//   {
-//     title: 'Solo Female Travel: Tips & Experiences',
-//     date: 'April 18, 2024',
-//     description:
-//       'Empowering travel tips, safety advice, and inspiring solo adventures for women.',
-//     image:
-//       'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80',
-//   },
-//   {
-//     title: 'How to Travel on a Budget: My Top Tips',
-//     date: 'April 10, 2024',
-//     description: 'Smart hacks to explore the world without breaking the bank.',
-//     image:
-//       'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80',
-//   },
-// ];
-
-// export default function BlogPage() {
-//   return (
-//     <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
-//       {/* Hero */}
-//       <section className="relative h-[500px] bg-cover bg-center bg-no-repeat bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80')]">
-//         <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center px-6">
-//           <h1 className="text-4xl md:text-5xl font-bold text-white max-w-3xl">
-//             Inspiring Travel Stories and Tips from Around the World
-//           </h1>
-//           <button className="mt-6 px-6 py-3 bg-blue-900 text-white font-semibold rounded hover:bg-blue-700 transition">
-//             Read More
-//           </button>
-//         </div>
-//       </section>
-
-//       {/* Latest Posts */}
-//       <section className="max-w-7xl mx-auto px-4 py-16">
-//         <h2 className="text-2xl font-bold mb-6">Latest Posts</h2>
-//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-//           {posts.map((post, id) => (
-//             <div
-//               key={id}
-//               className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
-//             >
-//               <img
-//                 src={post.image}
-//                 alt={post.title}
-//                 className="w-full h-48 object-cover rounded-lg shadow"
-//               />
-//               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-//                 {post.date}
-//               </p>
-//               <h3 className="font-bold mt-1 text-lg">{post.title}</h3>
-//               <p className="text-sm text-gray-600 dark:text-gray-300">
-//                 {post.description}
-//               </p>
-//             </div>
-//           ))}
-//         </div>
-//       </section>
-
-//       {/* About / Tips / Subscribe */}
-//       <section className="max-w-7xl mx-auto px-4 pb-20 grid grid-cols-1 md:grid-cols-3 gap-12">
-//         {/* About Me */}
-//         <div>
-//           <h2 className="text-xl font-semibold mb-4">About Me</h2>
-//           <img
-//             src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80"
-//             alt="Jane"
-//             className="w-28 h-28 rounded-full object-cover mb-4"
-//           />
-//           <p>
-//             I'm Jane, a passionate traveler and storyteller. I started the blog
-//             to share my adventures and help others explore the world. Join me as
-//             we uncover new destinations, cultures, and tips to make your travels
-//             unforgettable.
-//           </p>
-//         </div>
-
-//         {/* Search + Travel Tips */}
-//         <div>
-//           <div className="mb-6">
-//             <label className="sr-only">Search</label>
-//             <input
-//               type="text"
-//               placeholder="Search..."
-//               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-//             />
-//           </div>
-//           <h2 className="text-xl font-semibold mb-4">Travel Tips</h2>
-//           <div className="space-y-4">
-//             <div>
-//               <img
-//                 src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=800&q=80"
-//                 alt="Packing"
-//                 className="w-full h-50 object-cover rounded-lg"
-//               />
-//               <p className="font-medium mt-2">
-//                 Packing Essentials for Every Traveler
-//               </p>
-//             </div>
-//             <div>
-//               <img
-//                 src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-//                 alt="Navigation"
-//                 className="w-full h-32 object-cover rounded-lg"
-//               />
-//               <p className="font-medium mt-2">Smart Travel Tools and Apps</p>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Newsletter */}
-//         <div>
-//           <h2 className="text-xl font-semibold mb-4">
-//             Subscribe to Newsletter
-//           </h2>
-//           <p className="mb-4">
-//             Get the latest updates and travel tips directly to your inbox.
-//           </p>
-//           <input
-//             type="email"
-//             placeholder="Enter your email"
-//             className="w-full mb-3 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-//           />
-//           <button className="w-full px-4 py-2 bg-blue-900 text-white font-semibold rounded hover:bg-blue-700 transition">
-//             Subscribe
-//           </button>
-//         </div>
-//       </section>
-//       <section className="max-w-6xl mx-auto px-6 py-16">
-//         <h2 className="text-3xl font-bold text-center mb-12">
-//           Smart Travel Tips
-//         </h2>
-//         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-//           {blogPosts.map(post => (
-//             <div
-//               key={post.slug}
-//               className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-md"
-//             >
-//               <img
-//                 src={post.image}
-//                 alt={post.title}
-//                 className="w-full h-48 object-cover"
-//               />
-//               <div className="p-4">
-//                 <h3 className="font-bold text-lg mb-2">{post.title}</h3>
-//                 <p className="text-sm text-gray-600 dark:text-gray-400">
-//                   {post.excerpt}
-//                 </p>
-//                 <Link
-//                   to={`/blog/${post.slug}`}
-//                   className="inline-block mt-3 text-blue-500 hover:underline text-sm"
-//                 >
-//                   Read more →
-//                 </Link>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </section>
-//     </div>
-//   );
-// }
-
-// import { useState, useMemo, useEffect } from 'react';
-// import {
-//   Search,
-//   MapPin,
-//   Calendar,
-//   Clock,
-//   User,
-//   ArrowRight,
-//   Filter,
-//   Grid,
-//   List,
-//   Share2,
-//   Eye,
-//   ChevronDown,
-// } from 'lucide-react';
-// import { fetchTravelBlogs } from '../api/Devto';
-// import * as Icon from '@phosphor-icons/react';
-// import { Link, useNavigate } from 'react-router-dom';
-
-// const TravelBlogPage = () => {
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [selectedCategory, setSelectedCategory] = useState('all');
-//   const [selectedDestination, setSelectedDestination] = useState('all');
-//   const [viewMode, setViewMode] = useState('grid');
-//   const [showFilters, setShowFilters] = useState(false);
-//   const [likedPosts, setLikedPosts] = useState<{ [key: number]: boolean }>({});
-//   const [visibleCount, setVisibleCount] = useState(6);
-//   const [blogPosts, setBlogPosts] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>('');
-//   const navigate = useNavigate();
-
-//   // Mock data - in real implementation, this would come from your API/database
-//   const categories = [
-//     { id: 'all', name: 'All Posts', count: 45 },
-//     { id: 'destinations', name: 'Destination Guides', count: 12 },
-//     { id: 'itineraries', name: 'Itineraries', count: 8 },
-//     { id: 'tips', name: 'Travel Tips', count: 15 },
-//     { id: 'food', name: 'Food & Culture', count: 7 },
-//     { id: 'budget', name: 'Budget Travel', count: 10 },
-//   ];
-
-//   const destinations = [
-//     { id: 'all', name: 'All Destinations' },
-//     { id: 'europe', name: 'Europe' },
-//     { id: 'asia', name: 'Asia' },
-//     { id: 'africa', name: 'Africa' },
-//     { id: 'americas', name: 'Americas' },
-//     { id: 'oceania', name: 'Oceania' },
-//   ];
-
-//   const mockPosts = [
-//     {
-//       id: 1,
-//       slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
-//       title: 'The Ultimate Guide to Backpacking Through Southeast Asia',
-//       excerpt:
-//         'Discover hidden gems, local cuisines, and budget-friendly accommodations across Thailand, Vietnam, Cambodia, and Laos in this comprehensive 3-week itinerary.',
-//       image:
-//         'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=400&fit=crop',
-//       category: 'itineraries',
-//       categoryName: 'Itineraries',
-//       destination: 'asia',
-//       destinationName: 'Southeast Asia',
-//       author: 'Sarah Chen',
-//       publishedAt: '2024-07-15',
-//       readTime: 12,
-//       views: 2340,
-//       likes: 89,
-//       featured: true,
-//     },
-//     {
-//       id: 2,
-//       slug: '15-essential-travel-photography-tips-for-beginners',
-//       title: '15 Essential Travel Photography Tips for Beginners',
-//       excerpt:
-//         'Master the art of travel photography with these practical tips covering composition, lighting, and storytelling techniques.',
-//       image:
-//         'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=400&fit=crop',
-//       category: 'tips',
-//       categoryName: 'Travel Tips',
-//       destination: 'all',
-//       destinationName: 'Global',
-//       author: 'Mike Rodriguez',
-//       publishedAt: '2024-07-12',
-//       readTime: 8,
-//       views: 1890,
-//       likes: 156,
-//       featured: false,
-//     },
-//     {
-//       id: 3,
-//       slug: 'exploring-morocco-from-marrakech-to-the-sahara-desert',
-//       title: 'Exploring Morocco: From Marrakech to the Sahara Desert',
-//       excerpt:
-//         "Journey through Morocco's imperial cities, bustling souks, and stunning desert landscapes in this detailed destination guide.",
-//       image:
-//         'https://images.unsplash.com/photo-1539650116575-75c0c6d73a0e?w=800&h=400&fit=crop',
-//       category: 'destinations',
-//       categoryName: 'Destination Guides',
-//       destination: 'africa',
-//       destinationName: 'Morocco',
-//       author: 'Emma Thompson',
-//       publishedAt: '2024-07-10',
-//       readTime: 15,
-//       views: 3120,
-//       likes: 203,
-//       featured: true,
-//     },
-//     {
-//       id: 4,
-//       slug: 'budget-travel-how-to-see-europe-for-under-50-a-day',
-//       title: 'Budget Travel: How to See Europe for Under $50 a Day',
-//       excerpt:
-//         'Practical strategies for exploring Europe without breaking the bank, including accommodation hacks, transportation tips, and free activities.',
-//       image:
-//         'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop',
-//       category: 'budget',
-//       categoryName: 'Budget Travel',
-//       destination: 'europe',
-//       destinationName: 'Europe',
-//       author: 'Alex Johnson',
-//       publishedAt: '2024-07-08',
-//       readTime: 10,
-//       views: 4560,
-//       likes: 287,
-//       featured: false,
-//     },
-//     {
-//       id: 5,
-//       slug: 'street-food-adventures-in-bangkok-a-culinary-journey',
-//       title: 'Street Food Adventures in Bangkok: A Culinary Journey',
-//       excerpt:
-//         "Dive into Bangkok's incredible street food scene with this guide to must-try dishes, best locations, and food safety tips.",
-//       image:
-//         'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-//       category: 'food',
-//       categoryName: 'Food & Culture',
-//       destination: 'asia',
-//       destinationName: 'Thailand',
-//       author: 'Lisa Park',
-//       publishedAt: '2024-07-05',
-//       readTime: 7,
-//       views: 2890,
-//       likes: 134,
-//       featured: false,
-//     },
-//     {
-//       id: 6,
-//       slug: 'solo-female-travel-safety-tips-and-empowering-destinations',
-//       title: 'Solo Female Travel: Safety Tips and Empowering Destinations',
-//       excerpt:
-//         'Comprehensive guide for women traveling alone, featuring safe destinations, practical safety tips, and inspiring solo travel stories.',
-//       image:
-//         'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
-//       category: 'tips',
-//       categoryName: 'Travel Tips',
-//       destination: 'all',
-//       destinationName: 'Global',
-//       author: 'Rachel Green',
-//       publishedAt: '2024-07-03',
-//       readTime: 11,
-//       views: 1760,
-//       likes: 198,
-//       featured: false,
-//     },
-//     {
-//       id: 7,
-//       slug: 'hiking-the-swiss-alps-a-journey-above-the-clouds',
-//       title: 'Hiking the Swiss Alps: A Journey Above the Clouds',
-//       excerpt:
-//         'Lace up your boots and explore breathtaking trails, alpine lakes, and snow-capped peaks in this detailed Swiss hiking adventure.',
-//       image:
-//         'https://images.unsplash.com/photo-1549989473-4f0b6a877c59?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'destinations',
-//       categoryName: 'Destination Guides',
-//       destination: 'europe',
-//       destinationName: 'Switzerland',
-//       author: 'Lukas Meier',
-//       publishedAt: '2024-07-01',
-//       readTime: 14,
-//       views: 3210,
-//       likes: 215,
-//       featured: false,
-//     },
-//     {
-//       id: 8,
-//       slug: 'how-to-travel-japan-on-a-shoestring-budget',
-//       title: 'How to Travel Japan on a Shoestring Budget',
-//       excerpt:
-//         'Yes, Japan can be affordable! Learn the insider tricks to saving on food, transport, and accommodation while exploring Tokyo, Kyoto, and beyond.',
-//       image:
-//         'https://images.unsplash.com/photo-1533077167465-9d7b45ab0a55?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'budget',
-//       categoryName: 'Budget Travel',
-//       destination: 'asia',
-//       destinationName: 'Japan',
-//       author: 'Aiko Tanaka',
-//       publishedAt: '2024-06-25',
-//       readTime: 9,
-//       views: 2780,
-//       likes: 167,
-//       featured: true,
-//     },
-//     {
-//       id: 9,
-//       slug: 'cape-towns-best-beaches-and-coastal-escapes',
-//       title: 'Cape Town’s Best Beaches and Coastal Escapes',
-//       excerpt:
-//         'From surfing at Muizenberg to sunsets at Camps Bay, explore the most scenic and relaxing coastal spots around Cape Town.',
-//       image:
-//         'https://images.unsplash.com/photo-1609166215706-677a0fbeb445?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'destinations',
-//       categoryName: 'Destination Guides',
-//       destination: 'africa',
-//       destinationName: 'South Africa',
-//       author: 'Nomsa Dlamini',
-//       publishedAt: '2024-06-22',
-//       readTime: 10,
-//       views: 3420,
-//       likes: 190,
-//       featured: false,
-//     },
-//     {
-//       id: 10,
-//       slug: 'the-art-of-packing-light-for-long-term-travel',
-//       title: 'The Art of Packing Light for Long-Term Travel',
-//       excerpt:
-//         'Traveling for months with just a carry-on? This guide covers minimalist packing strategies, essentials, and smart gear picks.',
-//       image:
-//         'https://images.unsplash.com/photo-1530319067432-f2a729c03dbb?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'tips',
-//       categoryName: 'Travel Tips',
-//       destination: 'all',
-//       destinationName: 'Global',
-//       author: 'Daniel Reyes',
-//       publishedAt: '2024-06-18',
-//       readTime: 7,
-//       views: 1590,
-//       likes: 102,
-//       featured: false,
-//     },
-//     {
-//       id: 11,
-//       slug: 'foodies-guide-to-rome-eat-like-a-local',
-//       title: 'Foodie’s Guide to Rome: Eat Like a Local',
-//       excerpt:
-//         'Indulge in Rome’s tastiest dishes — from carbonara to suppli — and discover local trattorias, markets, and gelaterias off the beaten path.',
-//       image:
-//         'https://images.unsplash.com/photo-1600275668994-868c1c00d0a4?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'food',
-//       categoryName: 'Food & Culture',
-//       destination: 'europe',
-//       destinationName: 'Italy',
-//       author: 'Giulia Romano',
-//       publishedAt: '2024-06-14',
-//       readTime: 6,
-//       views: 2675,
-//       likes: 143,
-//       featured: false,
-//     },
-//     {
-//       id: 12,
-//       slug: 'the-magic-of-new-zealand-nature-culture-and-adventure',
-//       title: 'The Magic of New Zealand: Nature, Culture, and Adventure',
-//       excerpt:
-//         'Explore the diverse beauty of Aotearoa, from Maori heritage and geothermal wonders to epic hikes and Lord of the Rings landscapes.',
-//       image:
-//         'https://images.unsplash.com/photo-1578496481383-7b0c36dd254b?auto=format&fit=crop&w=800&h=400&q=80',
-//       category: 'destinations',
-//       categoryName: 'Destination Guides',
-//       destination: 'oceania',
-//       destinationName: 'New Zealand',
-//       author: 'Thomas Blake',
-//       publishedAt: '2024-06-10',
-//       readTime: 13,
-//       views: 2950,
-//       likes: 170,
-//       featured: true,
-//     },
-//   ];
-
-//   useEffect(() => {
-//     async function loadBlogs() {
-//       try {
-//         setLoading(true);
-//         const posts = await fetchTravelBlogs(20);
-//         const mapped = posts.map(post => ({
-//           id: post.id,
-//           title: post.title,
-//           excerpt: post.description,
-//           image:
-//             post.cover_image ||
-//             'https://via.placeholder.com/800x400?text=No+Image',
-//           category: 'travel',
-//           categoryName: 'Travel',
-//           destination: 'global',
-//           destinationName: 'Various',
-//           author: post.user.name,
-//           publishedAt: post.readable_publish_date,
-//           readTime: post.reading_time_minutes,
-//           views: post.public_reactions_count * 100, // Fake
-//           likes: post.public_reactions_count,
-//           featured: post.public_reactions_count > 10,
-//         }));
-//         setBlogPosts(mapped);
-//       } catch (err) {
-//         console.error(err);
-//         setError('Could not load blog posts.');
-//       }
-//       setBlogPosts(mockPosts);
-//       setLoading(false);
-//     }
-
-//     // ✅ You must call the function
-//     loadBlogs();
-//   }, []);
-
-//   const filteredPosts = useMemo(() => {
-//     return blogPosts.filter(post => {
-//       const matchesSearch =
-//         post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-//       const matchesCategory =
-//         selectedCategory === 'all' || post.category === selectedCategory;
-//       const matchesDestination =
-//         selectedDestination === 'all' ||
-//         post.destination === selectedDestination;
-
-//       return matchesSearch && matchesCategory && matchesDestination;
-//     });
-//   }, [searchTerm, selectedCategory, selectedDestination]);
-
-//   const featuredPosts = blogPosts.filter(post => post.featured);
-
-//   const formatDate = (dateString: String | number | Date) => {
-//     const date = new Date(dateString);
-//     return date.toLocaleDateString('en-US', {
-//       month: 'long',
-//       day: 'numeric',
-//       year: 'numeric',
-//     });
-//   };
-
-//   // const loadButton = () => {
-//   //   filteredPosts.length > visibleCount
-//   //     ? setVisibleCount(prev => prev + 6)
-//   //     : setVisibleCount(visibleCount);
-//   // };
-
-//   const handleLike = (postId: number) => {
-//     setLikedPosts(prev => ({
-//       ...prev,
-//       [postId]: !prev[postId],
-//     }));
-//   };
-
-//   type BlogPost = {
-//     id: number;
-//     slug: string;
-//     title: string;
-//     excerpt: string;
-//     image: string;
-//     category: string;
-//     categoryName: string;
-//     destination: string;
-//     destinationName: string;
-//     author: string;
-//     publishedAt: string;
-//     readTime: number;
-//     views: number;
-//     likes: number;
-//     featured: boolean;
-//   };
-
-//   interface PostCardProps {
-//     post: BlogPost;
-//     featured?: boolean;
-//   }
-
-//   const PostCard = ({ post, featured = false }: PostCardProps) => (
-//     <article
-//       className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
-//         featured ? 'md:col-span-2' : ''
-//       }`}
-//     >
-//       <div className="relative">
-//         <img
-//           src={post.image}
-//           alt={post.title}
-//           className={`w-full object-cover ${featured ? 'h-64' : 'h-48'}`}
-//         />
-//         <div className="absolute top-4 left-4">
-//           <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-//             {post.categoryName}
-//           </span>
-//         </div>
-//         <button
-//           onClick={() => handleLike(post.id)}
-//           className="absolute top-4 right-4 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
-//         >
-//           {likedPosts[post.id] ? (
-//             <Icon.HeartIcon weight="fill" fill="purple" className="w-4 h-4" />
-//           ) : (
-//             <Icon.HeartIcon
-//               weight="fill"
-//               fill="lightgray"
-//               className="w-4 h-4"
-//             />
-//           )}
-//         </button>
-//         {/* Show likes count, increased if liked, decreased if unliked */}
-
-//         {/* <button
-//                 type="button"
-//                 onClick={() => setShowPassword(!showPassword)}
-//                 className="absolute right-3 top-1/2 transform-translate-y-1/2 text-gray-700 hover:text-gray-400 transition-colors duration-200"
-//               >
-//                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-//               </button> */}
-//       </div>
-//       <div className="p-6">
-//         <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-//           <div className="flex items-center gap-1">
-//             <MapPin className="w-4 h-4" />
-//             <span>{post.destinationName}</span>
-//           </div>
-//           <div className="flex items-center gap-1">
-//             <Calendar className="w-4 h-4" />
-//             <span>{formatDate(post.publishedAt)}</span>
-//           </div>
-//           <div className="flex items-center gap-1">
-//             <Clock className="w-4 h-4" />
-//             <span>{post.readTime} min read</span>
-//           </div>
-//         </div>
-
-//         <h2
-//           className={`font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors ${
-//             featured ? 'text-xl' : 'text-lg'
-//           }`}
-//         >
-//           <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-//         </h2>
-
-//         <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-
-//         <div className="flex items-center justify-between">
-//           <div className="flex items-center gap-2">
-//             <User className="w-4 h-4 text-gray-400" />
-//             <span className="text-sm text-gray-600">{post.author}</span>
-//           </div>
-
-//           <div className="flex items-center gap-4 text-sm text-gray-500">
-//             <div className="flex items-center gap-1">
-//               <Eye className="w-4 h-4" />
-//               <span>{post.views.toLocaleString()}</span>
-//             </div>
-//             <div className="flex items-center gap-1">
-//               <Icon.Heart className="w-4 h-4" />
-//               {likedPosts[post.id] ? post.likes + 1 : post.likes}
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className="mt-4 pt-4 border-t border-gray-100">
-//           <Link
-//             to={`/blog/${post.slug}`}
-//             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
-//           >
-//             Read More <ArrowRight className="w-4 h-4" />
-//           </Link>
-//         </div>
-//       </div>
-//     </article>
-//   );
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       {/* Header Section */}
-//       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <div className="text-center">
-//             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-//               Travel Stories & Guides
-//             </h1>
-//             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-//               Discover amazing destinations, practical travel tips, and
-//               inspiring stories from fellow adventurers
-//             </p>
-
-//             {/* Search Bar */}
-//             <div className="max-w-2xl mx-auto relative">
-//               <div className="relative">
-//                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-//                 <input
-//                   type="text"
-//                   placeholder="Search destinations, tips, guides..."
-//                   className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-//                   value={searchTerm}
-//                   onChange={e => setSearchTerm(e.target.value)}
-//                 />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-//         {/* Filters Section */}
-//         <div className="mb-8">
-//           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-//             <div className="flex flex-wrap gap-2">
-//               {categories.map(category => (
-//                 <button
-//                   key={category.id}
-//                   onClick={() => setSelectedCategory(category.id)}
-//                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-//                     selectedCategory === category.id
-//                       ? 'bg-blue-600 text-white'
-//                       : 'bg-white text-gray-600 hover:bg-gray-100'
-//                   }`}
-//                 >
-//                   {category.name} ({category.count})
-//                 </button>
-//               ))}
-//             </div>
-
-//             <div className="flex items-center gap-4">
-//               <button
-//                 onClick={() => setShowFilters(!showFilters)}
-//                 className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white rounded-lg border hover:bg-gray-50 transition-colors text-black"
-//               >
-//                 <Filter className="w-4 h-4" />
-//                 Filters
-//                 <ChevronDown
-//                   className={`w-4 h-4 transition-transform ${
-//                     showFilters ? 'rotate-180' : ''
-//                   }`}
-//                 />
-//               </button>
-
-//               <div className="flex items-center gap-2 bg-white rounded-lg border p-1">
-//                 <button
-//                   onClick={() => setViewMode('grid')}
-//                   className={`p-2 rounded transition-colors ${
-//                     viewMode === 'grid'
-//                       ? 'bg-blue-600 text-white'
-//                       : 'text-gray-600 hover:bg-gray-100'
-//                   }`}
-//                 >
-//                   <Grid className="w-4 h-4" />
-//                 </button>
-//                 <button
-//                   onClick={() => setViewMode('list')}
-//                   className={`p-2 rounded transition-colors ${
-//                     viewMode === 'list'
-//                       ? 'bg-blue-600 text-white'
-//                       : 'text-gray-600 hover:bg-gray-100'
-//                   }`}
-//                 >
-//                   <List className="w-4 h-4" />
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Mobile Filters */}
-//           <div className={`lg:hidden mt-4 ${showFilters ? 'block' : 'hidden'}`}>
-//             <div className="bg-white rounded-lg border p-4 space-y-4">
-//               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-2">
-//                   Destination
-//                 </label>
-//                 <select
-//                   value={selectedDestination}
-//                   onChange={e => setSelectedDestination(e.target.value)}
-//                   className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-//                 >
-//                   {destinations.map(dest => (
-//                     <option key={dest.id} value={dest.id}>
-//                       {dest.name}
-//                     </option>
-//                   ))}
-//                 </select>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Desktop Destination Filter */}
-//           <div className="hidden lg:block mt-4">
-//             <label className="block text-sm font-medium text-gray-700 mb-2">
-//               Destination
-//             </label>
-//             <select
-//               value={selectedDestination}
-//               onChange={e => setSelectedDestination(e.target.value)}
-//               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
-//             >
-//               {destinations.map(dest => (
-//                 <option key={dest.id} value={dest.id}>
-//                   {dest.name}
-//                 </option>
-//               ))}
-//             </select>
-//           </div>
-//         </div>
-//         {loading && (
-//           <div className="text-center py-12 text-gray-500">
-//             Loading travel blogs...
-//           </div>
-//         )}
-
-//         {error && <div className="text-center py-12 text-red-500">{error}</div>}
-
-//         {/* Featured Posts Section */}
-//         {featuredPosts.length > 0 &&
-//           selectedCategory === 'all' &&
-//           !searchTerm && (
-//             <div className="mb-12">
-//               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-//                 Featured Stories
-//               </h2>
-//               <div className="grid md:grid-cols-2 gap-8">
-//                 {featuredPosts.slice(0, 3).map(post => (
-//                   <PostCard key={post.id} post={post} featured={true} />
-//                 ))}
-//               </div>
-//             </div>
-//           )}
-//         {/* Results Count */}
-//         <div className="mb-6">
-//           <p className="text-gray-600">
-//             Showing {filteredPosts.length}{' '}
-//             {filteredPosts.length === 1 ? 'post' : 'posts'}
-//             {searchTerm && ` for "${searchTerm}"`}
-//           </p>
-//         </div>
-//         {/* Blog Posts Grid */}
-//         <div
-//           className={`grid gap-8 ${
-//             viewMode === 'grid'
-//               ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-//               : 'grid-cols-1'
-//           }`}
-//         >
-//           {filteredPosts.slice(0, visibleCount).map(post => (
-//             <PostCard key={post.id} post={post} />
-//           ))}
-//         </div>
-//         {/* No Results */}
-//         {filteredPosts.length === 0 && (
-//           <div className="text-center py-12">
-//             <div className="max-w-md mx-auto">
-//               <div className="text-gray-400 mb-4">
-//                 <Search className="w-16 h-16 mx-auto" />
-//               </div>
-//               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-//                 No posts found
-//               </h3>
-//               <p className="text-gray-600 mb-4">
-//                 Try adjusting your search or filter criteria
-//               </p>
-//               <button
-//                 onClick={() => {
-//                   setSearchTerm('');
-//                   setSelectedCategory('all');
-//                   setSelectedDestination('all');
-//                 }}
-//                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-//               >
-//                 Clear All Filters
-//               </button>
-//             </div>
-//           </div>
-//         )}
-//         {/* Load More Button */}
-
-//         {filteredPosts.length > visibleCount ? (
-//           <div className="mt-12 text-center">
-//             <button
-//               className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-//               onClick={() => setVisibleCount(prev => prev + 1)}
-//             >
-//               Load More Posts
-//             </button>
-//           </div>
-//         ) : (
-//           <div className="mt-12 text-center">
-//             <button
-//               disabled
-//               className="px-8 py-3 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed"
-//             >
-//               No More Posts
-//             </button>
-//           </div>
-//         )}
-//       </div>
-
-//       {/* Newsletter Subscription */}
-//       <div className="bg-gray-900 text-white py-16 mt-16">
-//         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-//           <h2 className="text-3xl font-bold mb-4">Never Miss a Travel Story</h2>
-//           <p className="text-gray-300 mb-8 text-lg">
-//             Get our latest travel guides, tips, and destination inspiration
-//             delivered to your inbox
-//           </p>
-//           <div className="max-w-md mx-auto flex gap-4">
-//             <input
-//               type="email"
-//               placeholder="Enter your email"
-//               className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             />
-//             <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-//               Subscribe
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default TravelBlogPage;
-
 import { useState, useMemo, useEffect } from 'react';
 import {
   Search,
@@ -921,8 +15,32 @@ import {
   Plus,
   Send,
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-// import { number } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 // API function to fetch travel blogs from dev.to
 const fetchTravelBlogs = async (limit = 20) => {
@@ -942,7 +60,6 @@ const TravelBlogPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedDestination, setSelectedDestination] = useState('all');
-  const [post, setPosts] = useState([]);
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({});
@@ -971,6 +88,7 @@ const TravelBlogPage = () => {
   const [error, setError] = useState('');
   const [usingMockData, setUsingMockData] = useState(false);
   const [newPostForm, setNewPostForm] = useState(false);
+
   // Mock data as fallback
   const mockPosts = {
     posts: [
@@ -979,7 +97,7 @@ const TravelBlogPage = () => {
         slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
         title: 'The Ultimate Guide to Backpacking Through Southeast Asia',
         excerpt:
-          'Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you’re a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia.',
+          "Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you're a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia.",
         image:
           'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=400&fit=crop',
         category: 'itineraries',
@@ -1013,164 +131,11 @@ const TravelBlogPage = () => {
         featured: false,
       },
       {
-        id: 3,
-        slug: 'exploring-morocco-from-marrakech-to-the-sahara-desert',
-        title: 'Exploring Morocco: From Marrakech to the Sahara Desert',
-        excerpt:
-          "Traverse Morocco's enchanting cities, bustling souks, and majestic desert dunes. This guide takes you from the vibrant streets of Marrakech to the tranquil sands of the Sahara, highlighting cultural encounters, must-see landmarks, and tips for safe, immersive travel in North Africa.",
-        image:
-          'https://images.unsplash.com/photo-1539650116575-75c0c6d73a0e?w=800&h=400&fit=crop',
-        category: 'destinations',
-        categoryName: 'Destination Guides',
-        destination: 'africa',
-        destinationName: 'Morocco',
-        author: 'Emma Thompson',
-        publishedAt: '2024-07-10',
-        readTime: 15,
-        views: 3120,
-        likes: 203,
-        featured: true,
-      },
-      {
-        id: 4,
-        slug: 'budget-travel-how-to-see-europe-for-under-50-a-day',
-        title: 'Budget Travel: How to See Europe for Under $50 a Day',
-        excerpt:
-          'Discover how to explore Europe’s iconic cities and hidden villages without overspending. This article shares proven strategies for finding affordable accommodation, using budget-friendly transport, and enjoying free or low-cost attractions, so you can experience the continent’s culture and history on a shoestring.',
-        image:
-          'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop',
-        category: 'budget',
-        categoryName: 'Budget Travel',
-        destination: 'europe',
-        destinationName: 'Europe',
-        author: 'Alex Johnson',
-        publishedAt: '2024-07-08',
-        readTime: 10,
-        views: 4560,
-        likes: 287,
-        featured: false,
-      },
-      {
-        id: 5,
-        slug: 'street-food-adventures-in-bangkok-a-culinary-journey',
-        title: 'Street Food Adventures in Bangkok: A Culinary Journey',
-        excerpt:
-          'Experience the vibrant flavors of Bangkok’s street food scene. From spicy pad thai to sweet mango sticky rice, this guide introduces you to the city’s best food stalls, local favorites, and essential safety tips for enjoying authentic Thai cuisine while navigating bustling night markets.',
-        image:
-          'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-        category: 'food',
-        categoryName: 'Food & Culture',
-        destination: 'asia',
-        destinationName: 'Thailand',
-        author: 'Lisa Park',
-        publishedAt: '2024-07-05',
-        readTime: 7,
-        views: 2890,
-        likes: 134,
-        featured: false,
-      },
-      {
-        id: 6,
-        slug: 'solo-female-travel-safety-tips-and-empowering-destinations',
-        title: 'Solo Female Travel: Safety Tips and Empowering Destinations',
-        excerpt:
-          'Empower your solo adventures with practical safety advice and inspiring stories from women who’ve traveled the world alone. Explore recommended destinations known for their welcoming atmosphere, learn how to stay safe on the road, and gain confidence to embrace the freedom of solo travel.',
-        image:
-          'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80',
-        category: 'tips',
-        categoryName: 'Travel Tips',
-        destination: 'all',
-        destinationName: 'Global',
-        author: 'Rachel Green',
-        publishedAt: '2024-07-03',
-        readTime: 11,
-        views: 1760,
-        likes: 198,
-        featured: false,
-      },
-      {
-        id: 7,
-        slug: 'hiking-the-swiss-alps-a-journey-above-the-clouds',
-        title: 'Hiking the Swiss Alps: A Journey Above the Clouds',
-        excerpt:
-          'Set out on a breathtaking adventure through Switzerland’s alpine trails, crystal-clear lakes, and snow-capped peaks. This guide covers the best hiking routes, essential gear, and tips for enjoying panoramic views and local hospitality in the heart of the Alps.',
-        image:
-          'https://images.unsplash.com/photo-1467269204594-4f0b6a877c59?auto=format&fit=crop&w=800&h=400&q=80',
-        category: 'destinations',
-        categoryName: 'Destination Guides',
-        destination: 'europe',
-        destinationName: 'Switzerland',
-        author: 'Lukas Meier',
-        publishedAt: '2024-07-01',
-        readTime: 14,
-        src: '',
-        views: 3210,
-        likes: 215,
-        featured: false,
-      },
-      {
-        id: 8,
-        slug: 'how-to-travel-japan-on-a-shoestring-budget',
-        title: 'How to Travel Japan on a Shoestring Budget',
-        excerpt:
-          'Unlock the secrets to affordable travel in Japan. Learn how to save on accommodation, food, and transportation while exploring Tokyo’s neon streets, Kyoto’s ancient temples, and rural villages. This guide proves that Japan’s wonders are accessible to every traveler, no matter the budget.',
-        image:
-          'https://images.unsplash.com/photo-1533077167465-9d7b45ab0a55?auto=format&fit=crop&w=800&h=400&q=80',
-        category: 'budget',
-        categoryName: 'Budget Travel',
-        destination: 'asia',
-        destinationName: 'Japan',
-        author: 'Aiko Tanaka',
-        publishedAt: '2024-06-25',
-        readTime: 9,
-        views: 2780,
-        likes: 167,
-        featured: true,
-      },
-      {
-        id: 9,
-        slug: 'cape-towns-best-beaches-and-coastal-escapes',
-        title: 'Cape Town’s Best Beaches and Coastal Escapes',
-        excerpt:
-          'Discover Cape Town’s most scenic beaches, from the surfer’s paradise of Muizenberg to the tranquil shores of Clifton and the dramatic cliffs of Chapman’s Peak. This guide highlights the best spots for relaxation, water sports, and sunset views along South Africa’s stunning coastline.',
-        image:
-          'https://images.unsplash.com/photo-1609166215706-677a0fbeb445?auto=format&fit=crop&w=800&h=400&q=80',
-        category: 'destinations',
-        categoryName: 'Destination Guides',
-        destination: 'africa',
-        destinationName: 'South Africa',
-        author: 'Nomsa Dlamini',
-        publishedAt: '2024-06-22',
-        readTime: 10,
-        views: 3420,
-        likes: 190,
-        featured: false,
-      },
-      {
-        id: 10,
-        slug: 'the-art-of-packing-light-for-long-term-travel',
-        title: 'The Art of Packing Light for Long-Term Travel',
-        excerpt:
-          'Master minimalist packing for extended adventures. This article shares expert tips on choosing versatile clothing, essential gear, and smart packing techniques, so you can travel for months with just a carry-on and enjoy the freedom of light, stress-free journeys.',
-        image:
-          'https://images.unsplash.com/photo-1530319067432-f2a729c03dbb?auto=format&fit=crop&w=800&h=400&q=80',
-        category: 'tips',
-        categoryName: 'Travel Tips',
-        destination: 'all',
-        destinationName: 'Global',
-        author: 'Daniel Reyes',
-        publishedAt: '2024-06-18',
-        readTime: 7,
-        views: 1590,
-        likes: 102,
-        featured: false,
-      },
-      {
         id: 11,
         slug: 'foodies-guide-to-rome-eat-like-a-local',
-        title: 'Foodie’s Guide to Rome: Eat Like a Local',
+        title: "Foodie's Guide to Rome: Eat Like a Local",
         excerpt:
-          'Savor Rome’s culinary delights with this insider’s guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city’s food culture beyond the tourist trail.',
+          "Savor Rome's culinary delights with this insider's guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city's food culture beyond the tourist trail.",
         image:
           'https://images.unsplash.com/photo-1600275668994-868c1c00d0a4?auto=format&fit=crop&w=800&h=400&q=80',
         category: 'food',
@@ -1189,7 +154,7 @@ const TravelBlogPage = () => {
         slug: 'the-magic-of-new-zealand-nature-culture-and-adventure',
         title: 'The Magic of New Zealand: Nature, Culture, and Adventure',
         excerpt:
-          'Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country’s natural beauty, engaging with local culture, and finding adventure at every turn.',
+          "Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country's natural beauty, engaging with local culture, and finding adventure at every turn.",
         image:
           'https://images.unsplash.com/photo-1578496481383-7b0c36dd254b?auto=format&fit=crop&w=800&h=400&q=80',
         category: 'destinations',
@@ -1225,8 +190,6 @@ const TravelBlogPage = () => {
     { id: 'oceania', name: 'Oceania' },
   ];
 
-  // type MockData = {};
-
   type ApiData = {
     id: number;
     slug: any;
@@ -1260,10 +223,10 @@ const TravelBlogPage = () => {
       author: post.user?.name || 'Anonymous',
       publishedAt: post.published_at || post.created_at,
       readTime: post.reading_time_minutes || 5,
-      views: (post.public_reactions_count || 0) * 50, // Estimate views
+      views: (post.public_reactions_count || 0) * 50,
       likes: post.public_reactions_count || 0,
       featured: (post.public_reactions_count || 0) > 10,
-      url: post.url, // Keep the original URL for reading
+      url: post.url,
     };
   };
 
@@ -1273,7 +236,6 @@ const TravelBlogPage = () => {
       setError('');
 
       try {
-        // Try to fetch from API first
         const apiPosts = await fetchTravelBlogs(20);
         const mappedPosts = apiPosts.map(mapApiDataToPost);
         setBlogPosts([...mockPosts.posts, ...mappedPosts]);
@@ -1284,12 +246,11 @@ const TravelBlogPage = () => {
           'posts'
         );
       } catch (err) {
-        console.error('Failed to lo: numberad API data, using mock data:', err);
-        // Fall back to mock data if API fails
+        console.error('Failed to load API data, using mock data:', err);
         setBlogPosts(mockPosts.posts);
         setUsingMockData(true);
         setError('Unable to load live data. Showing sample posts.');
-      } finally {
+      } finally {``
         setLoading(false);
       }
     };
@@ -1344,21 +305,36 @@ const TravelBlogPage = () => {
     }));
   };
 
-  const navigate = useNavigate();
   const handleReadMore = (post: {
     url: string | URL | undefined;
     slug: any;
   }) => {
     if (post.url) {
-      // If it's from API, open the original dev.to article
       window.open(post.url, '_blank');
     } else {
-      // For mock data, you could navigate to a local route
-      // console.log('Navigate to:', `/blog/${ post.slug }`);
-      navigate(`/blog/${post.slug}`);
+      console.log('Navigate to:', `/blog/${post.slug}`);
     }
   };
-  // function to map mockData to Post
+
+  const addNewPost = (postData: any) => {
+    const newPost = {
+      id: Date.now(),
+      slug: postData.title.toLowerCase().replace(/\s+/g, '-'),
+      category: 'travel',
+      categoryName: 'Travel',
+      destination: 'all',
+      destinationName: postData.location || 'Various',
+      publishedAt: new Date().toISOString(),
+      readTime: 5,
+      views: 0,
+      featured: false,
+      ...postData,
+    };
+
+    setBlogPosts(currentPosts => [newPost, ...currentPosts]);
+    setNewPostForm(false);
+  };
+
   type BlogPosts = {
     id: number;
     slug: string;
@@ -1379,12 +355,12 @@ const TravelBlogPage = () => {
 
   interface PostCardProps {
     post: BlogPosts;
-    featured?: Boolean;
+    featured?: boolean;
   }
 
   const PostCard = ({ post, featured = false }: PostCardProps) => (
-    <article
-      className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
+    <Card
+      className={`group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-background to-muted/50 ${
         featured ? 'md:col-span-2' : ''
       }`}
     >
@@ -1392,7 +368,9 @@ const TravelBlogPage = () => {
         <img
           src={post.image}
           alt={post.title}
-          className={`w-full object-cover ${featured ? 'h-64' : 'h-48'}`}
+          className={`w-full object-cover transition-transform group-hover:scale-105 ${
+            featured ? 'h-64' : 'h-48'
+          }`}
           onError={e => {
             const target = e.target as HTMLImageElement;
             target.src =
@@ -1400,25 +378,28 @@ const TravelBlogPage = () => {
           }}
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
             {post.categoryName}
-          </span>
+          </Badge>
         </div>
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={() => handleLike(post.id)}
-          className="absolute top-4 right-4 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
+          className="absolute top-4 right-4 bg-background/90 hover:bg-background backdrop-blur-sm"
         >
           <Heart
-            className={`w-4 h-4 ${
+            className={`w-4 h-4 transition-colors ${
               likedPosts[post.id]
                 ? 'fill-red-500 text-red-500'
-                : 'text-gray-400'
+                : 'text-muted-foreground'
             }`}
           />
-        </button>
+        </Button>
       </div>
-      <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+
+      <CardHeader>
+        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4" />
             <span>{post.destinationName}</span>
@@ -1434,23 +415,26 @@ const TravelBlogPage = () => {
         </div>
 
         <h2
-          className={`font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer ${
+          className={`font-bold text-foreground mb-3 line-clamp-2 hover:text-primary transition-colors cursor-pointer ${
             featured ? 'text-xl' : 'text-lg'
           }`}
         >
-          {/* <Link to={`/blog/${post.slug}`}>{post.title}</Link>  */}
-          <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+          {post.title}
         </h2>
 
-        <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+        <p className="text-muted-foreground mb-4 line-clamp-2">
+          {post.excerpt}
+        </p>
+      </CardHeader>
 
+      <CardContent>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-gray-600">{post.author}</span>
+            <User className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">{post.author}</span>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
               <span>{post.views.toLocaleString()}</span>
@@ -1461,47 +445,20 @@ const TravelBlogPage = () => {
             </div>
           </div>
         </div>
+      </CardContent>
 
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <button
-            onClick={() => handleReadMore(post)}
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
-          >
-            <Link
-              to={`/blog/${post.slug}`}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
-            >
-              <p> Read More</p> <ArrowRight className="w-4 h-4" />
-            </Link>
-          </button>
-        </div>
-      </div>
-    </article>
+      <CardFooter className="pt-0">
+        <Separator className="mb-4" />
+        <Button
+          variant="ghost"
+          onClick={() => handleReadMore(post)}
+          className="w-full justify-start p-0 h-auto text-primary hover:text-primary/80"
+        >
+          Read More <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
+      </CardFooter>
+    </Card>
   );
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading travel blogs...</p>
-        </div>
-      </div>
-    );
-  }
-
-    const addNewPost = postData => {
-      const newPost = {
-        id: Date.now(),
-        ...postData,
-        createdAt: new Date().toISOString(),
-        likes: 0,
-        isLive: true,
-      };
-
-      setBlogPosts(currentPosts => [newPost, ...currentPosts]);
-      setNewPostForm(false);
-    };
 
   const NewPostForm = () => {
     const [formData, setFormData] = useState({
@@ -1531,90 +488,113 @@ const TravelBlogPage = () => {
     };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-xl max-w-md w-full p-6">
-          <h3 className="text-xl font-bold mb-4 text-black">
-            Share Your Travel Moment
-          </h3>
+      <Dialog open={newPostForm} onOpenChange={setNewPostForm}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Share Your Travel Moment
+            </DialogTitle>
+          </DialogHeader>
           <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Post title"
-              value={formData.title}
-              onChange={e =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-              required
-            />
-            <textarea
-              placeholder="What's happening on your journey?"
-              value={formData.excerpt}
-              onChange={e =>
-                setFormData({ ...formData, excerpt: e.target.value })
-              }
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 text-black"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Your name"
-              value={formData.author}
-              onChange={e =>
-                setFormData({ ...formData, author: e.target.value })
-              }
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Location"
-              value={formData.location}
-              onChange={e =>
-                setFormData({ ...formData, location: e.target.value })
-              }
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="url"
-              placeholder="Image URL (optional)"
-              value={formData.image}
-              onChange={e =>
-                setFormData({ ...formData, image: e.target.value })
-              }
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <div className="flex gap-3">
-              <button
+            <div>
+              <Label htmlFor="title">Post Title</Label>
+              <Input
+                id="title"
+                placeholder="Post title"
+                value={formData.title}
+                onChange={e =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="excerpt">Description</Label>
+              <Textarea
+                id="excerpt"
+                placeholder="What's happening on your journey?"
+                value={formData.excerpt}
+                onChange={e =>
+                  setFormData({ ...formData, excerpt: e.target.value })
+                }
+                className="h-20"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="author">Your Name</Label>
+              <Input
+                id="author"
+                placeholder="Your name"
+                value={formData.author}
+                onChange={e =>
+                  setFormData({ ...formData, author: e.target.value })
+                }
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                placeholder="Location"
+                value={formData.location}
+                onChange={e =>
+                  setFormData({ ...formData, location: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="image">Image URL (optional)</Label>
+              <Input
+                id="image"
+                type="url"
+                placeholder="Image URL"
+                value={formData.image}
+                onChange={e =>
+                  setFormData({ ...formData, image: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex gap-3 pt-4">
+              <Button
                 onClick={handleSubmit}
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 bg-gradient-to-r from-primary to-primary/80"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 mr-2" />
                 Share Live
-              </button>
-              <button
-                onClick={() => setNewPostForm(false)}
-                className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors"
-              >
+              </Button>
+              <Button variant="outline" onClick={() => setNewPostForm(false)}>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
-        </div>
-      </div>
+        </DialogContent>
+      </Dialog>
     );
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/50 to-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading travel blogs...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
+      <div className="bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-background to-background/80 bg-clip-text text-transparent">
               Travel Stories & Guides
             </h1>
-            <p className="text-xl text-blue-100 mb-2 max-w-2xl mx-auto">
+            <p className="text-xl text-primary-foreground/80 mb-2 max-w-2xl mx-auto">
               Discover amazing destinations, practical travel tips, and
               inspiring stories from fellow adventurers
             </p>
@@ -1629,11 +609,10 @@ const TravelBlogPage = () => {
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto relative">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
                   placeholder="Search destinations, tips, guides..."
-                  className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
+                  className="pl-12 py-4 text-lg bg-background/90 backdrop-blur-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -1642,113 +621,134 @@ const TravelBlogPage = () => {
           </div>
         </div>
       </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Filters Section */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {categoriesWithCounts.map(category => (
-                <button
+                <Button
                   key={category.id}
+                  variant={
+                    selectedCategory === category.id ? 'default' : 'outline'
+                  }
+                  size="sm"
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={
                     selectedCategory === category.id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-600 hover:bg-gray-100'
-                  }`}
+                      ? 'bg-gradient-to-r from-primary to-primary/80'
+                      : ''
+                  }
                 >
                   {category.name} ({category.count})
-                </button>
+                </Button>
               ))}
             </div>
 
             <div className="flex items-center gap-4">
-              <button
+              <Button
+                variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white rounded-lg border hover:bg-gray-50 transition-colors text-black"
+                className="lg:hidden"
               >
-                <Filter className="w-4 h-4" />
+                <Filter className="w-4 h-4 mr-2" />
                 Filters
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`w-4 h-4 ml-2 transition-transform ${
                     showFilters ? 'rotate-180' : ''
-                  }`} 
-                />
-              </button>
-
-              <div>
-                <button
-                  onClick={() => setNewPostForm(true)}
-                  className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                  Share Live
-                </button>
-              </div>
-
-              <div className="flex items-center gap-2 bg-white rounded-lg border p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'grid'
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
                   }`}
+                />
+              </Button>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-primary to-primary/80">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Share Live
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                      Share Your Travel Moment
+                    </DialogTitle>
+                  </DialogHeader>
+                  <NewPostForm />
+                </DialogContent>
+              </Dialog>
+
+              <div className="flex items-center border rounded-lg p-1 bg-background">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  className="p-2"
                 >
                   <Grid className="w-4 h-4" />
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="sm"
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'list'
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  className="p-2"
                 >
                   <List className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
           {/* Mobile Filters */}
-          <div className={`lg:hidden mt-4 ${showFilters ? 'block' : 'hidden'}`}>
-            <div className="bg-white rounded-lg border p-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Destination
-                </label>
-                <select
-                  value={selectedDestination}
-                  onChange={e => setSelectedDestination(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-                >
-                  {destinations.map(dest => (
-                    <option key={dest.id} value={dest.id}>
-                      {dest.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
+          {showFilters && (
+            <Card className="lg:hidden mt-6 bg-white/80 backdrop-blur-sm border-slate-200 shadow-lg">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block text-slate-700">
+                      Destination
+                    </Label>
+                    <Select
+                      value={selectedDestination}
+                      onValueChange={setSelectedDestination}
+                    >
+                      <SelectTrigger className="bg-white/50 border-slate-200">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {destinations.map(dest => (
+                          <SelectItem key={dest.id} value={dest.id}>
+                            {dest.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Desktop Destination Filter */}
-          <div className="hidden lg:block mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Destination
-            </label>
-            <select
+          <div className="hidden lg:block mt-6">
+            <Label className="text-sm font-medium mb-3 block text-slate-700">
+              Filter by Destination
+            </Label>
+            <Select
               value={selectedDestination}
-              onChange={e => setSelectedDestination(e.target.value)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
+              onValueChange={setSelectedDestination}
             >
-              {destinations.map(dest => (
-                <option key={dest.id} value={dest.id}>
-                  {dest.name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-64 bg-white/50 backdrop-blur-sm border-slate-200">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {destinations.map(dest => (
+                  <SelectItem key={dest.id} value={dest.id}>
+                    {dest.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -1756,10 +756,16 @@ const TravelBlogPage = () => {
         {featuredPosts.length > 0 &&
           selectedCategory === 'all' &&
           !searchTerm && (
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Featured Stories
-              </h2>
+            <div className="mb-16">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-1 h-8 bg-gradient-to-b from-yellow-400 to-orange-500 rounded-full" />
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                  Featured Stories
+                </h2>
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
+                  ⭐ Trending
+                </Badge>
+              </div>
               <div className="grid md:grid-cols-2 gap-8">
                 {featuredPosts.slice(0, 2).map(post => (
                   <PostCard key={post.id} post={post} featured={true} />
@@ -1770,7 +776,7 @@ const TravelBlogPage = () => {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Showing {filteredPosts.slice(0, visibleCount).length} of{' '}
             {filteredPosts.length}{' '}
             {filteredPosts.length === 1 ? 'post' : 'posts'}
@@ -1796,74 +802,80 @@ const TravelBlogPage = () => {
 
         {/* No Results */}
         {filteredPosts.length === 0 && (
-          <div className="text-center py-12">
-            <div className="max-w-md mx-auto">
-              <div className="text-gray-400 mb-4">
-                <Search className="w-16 h-16 mx-auto" />
+          <Card className="text-center py-12 bg-gradient-to-br from-background to-muted/50">
+            <CardContent>
+              <div className="max-w-md mx-auto">
+                <div className="text-muted-foreground mb-4">
+                  <Search className="w-16 h-16 mx-auto" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">No posts found</h3>
+                <p className="text-muted-foreground mb-4">
+                  Try adjusting your search or filter criteria
+                </p>
+                <Button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedCategory('all');
+                    setSelectedDestination('all');
+                  }}
+                  className="bg-gradient-to-r from-primary to-primary/80"
+                >
+                  Clear All Filters
+                </Button>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No posts found
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Try adjusting your search or filter criteria
-              </p>
-              <button
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('all');
-                  setSelectedDestination('all');
-                }}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Clear All Filters
-              </button>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Load More Button */}
         {filteredPosts.length > visibleCount && (
           <div className="mt-12 text-center">
-            <button
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            <Button
               onClick={() => setVisibleCount(prev => prev + 6)}
+              size="lg"
+              className="bg-gradient-to-r from-primary to-primary/80"
             >
               Load More Posts ({filteredPosts.length - visibleCount} remaining)
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Retry API Button */}
         {usingMockData && (
           <div className="mt-8 text-center">
-            <button
+            <Button
               onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              variant="outline"
+              className="border-green-600 text-green-600 hover:bg-green-50"
             >
               Try Loading Live Data Again
-            </button>
+            </Button>
           </div>
         )}
       </div>
+
       {/* New Post Form Modal */}
-      {newPostForm && <NewPostForm />}
+      <NewPostForm />
+
       {/* Newsletter Subscription */}
-      <div className="bg-gray-900 text-white py-16 mt-16">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-16 mt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Never Miss a Travel Story</h2>
-          <p className="text-gray-300 mb-8 text-lg">
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            Never Miss a Travel Story
+          </h2>
+          <p className="text-slate-300 mb-8 text-lg">
             Get our latest travel guides, tips, and destination inspiration
             delivered to your inbox
           </p>
           <div className="max-w-md mx-auto flex gap-4">
-            <input
+            <Input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-slate-400 backdrop-blur-sm"
             />
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
               Subscribe
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -1872,500 +884,3 @@ const TravelBlogPage = () => {
 };
 
 export default TravelBlogPage;
-
-
-function addNewPost(_arg0: { image: string; title: string; excerpt: string; location: string; author: string; })
-{
-  throw new Error('Function not implemented.');
-}
-// import { useState, useEffect, useCallback } from 'react';
-// import {
-//   Search,
-//   MapPin,
-//   Calendar,
-//   Clock,
-//   User,
-//   ArrowRight,
-//   Eye,
-//   Heart,
-//   Wifi,
-//   WifiOff,
-//   Plus,
-//   Send,
-// } from 'lucide-react';
-// import { motion } from 'framer-motion';
-
-// const RealTimeTravelBlog = () => {
-//   const [posts, setPosts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [connected, setConnected] = useState(false);
-//   const [newPostForm, setNewPostForm] = useState(false);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [likedPosts, setLikedPosts] = useState({});
-
-//   // Simulate real-time database with mock data that updates
-//   const mockDatabase = {
-//     posts: [
-//       {
-//         id: 1,
-//         title: "Live: Exploring Tokyo's Hidden Temples",
-//         excerpt:
-//           'Currently wandering through Senso-ji Temple area. The morning light is incredible!',
-//         author: 'Sarah Chen',
-//         location: 'Tokyo, Japan',
-//         image:
-//           'https://images.unsplash.com/photo-1533077167465-9d7b45ab0a55?w=800&h=400&fit=crop',
-//         createdAt: new Date().toISOString(),
-//         likes: 23,
-//         isLive: true,
-//       },
-//       {
-//         id: 2,
-//         title: 'Just landed in Bali - First impressions',
-//         excerpt:
-//           'The humidity hits you like a wall, but the smiles are infectious. Heading to Ubud next!',
-//         author: 'Mike Rodriguez',
-//         location: 'Bali, Indonesia',
-//         image:
-//           'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=400&fit=crop',
-//         createdAt: new Date(Date.now() - 300000).toISOString(), // 5 minutes ago
-//         likes: 18,
-//         isLive: false,
-//       },
-//       {
-//         id: 3,
-//         title: 'Alpine sunrise from Mont Blanc',
-//         excerpt:
-//           '4:30 AM start was worth it. The golden hour up here is unmatched. My legs are jelly though!',
-//         author: 'Emma Thompson',
-//         location: 'Chamonix, France',
-//         image:
-//           'https://images.unsplash.com/photo-1549989473-4f0b6a877c59?w=800&h=400&fit=crop',
-//         createdAt: new Date(Date.now() - 1800000).toISOString(), // 30 minutes ago
-//         likes: 45,
-//         isLive: false,
-//       },
-//     ],
-//   };
-
-//   // Simulate real-time connection
-//  const connectToRealTime = useCallback(() => {
-//     setConnected(true);
-//     setLoading(false);
-//     setPosts(mockDatabase.posts);
-
-//     // Simulate real-time updates
-//     const interval = setInterval(() => {
-//       // Randomly update likes or add new posts
-//       setPosts(currentPosts => {
-//         const updated = currentPosts.map((post) => ({
-//           ...post,
-//           likes: post.likes + Math.floor(Math.random() * 3), // Random like increases
-//         }));
-
-//         // Occasionally add a new post
-//         if (Math.random() > 0.7) {
-//           const newPost = {
-//             id: Date.now(),
-//             title: `Real-time update: ${new Date().toLocaleTimeString()}`,
-//             excerpt:
-//               'This is a live update from our real-time database simulation!',
-//             author: 'Live Blogger',
-//             location: 'Somewhere Amazing',
-//             image:
-//               'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
-//             createdAt: new Date().toISOString(),
-//             likes: Math.floor(Math.random() * 10),
-//             isLive: true,
-//           };
-//           return [newPost, ...updated];
-//         }
-
-//         return updated;
-//       });
-//     }, 50000);// Update every 5 seconds
-
-//     return () => {
-//       clearInterval(interval);
-//       setConnected(false);
-//     };
-//   }, []);
-
-//   // Simulate adding a new post
-//   const addNewPost = postData => {
-//     const newPost = {
-//       id: Date.now(),
-//       ...postData,
-//       createdAt: new Date().toISOString(),
-//       likes: 0,
-//       isLive: true,
-//     };
-
-//     setPosts(currentPosts => [newPost, ...currentPosts]);
-//     setNewPostForm(false);
-//   };
-
-//   useEffect(() => {
-//     const cleanup = connectToRealTime();
-//     return cleanup;
-//   }, [connectToRealTime]);
-
-//   const filteredPosts = posts.filter(
-//     post =>
-//       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       post.location.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   const formatTimeAgo = timestamp => {
-//     const now = new Date();
-//     const time = new Date(timestamp);
-//     const diffInSeconds = Math.floor((now - time) / 1000);
-
-//     if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
-//     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-//     if (diffInSeconds < 86400)
-//       return `${Math.floor(diffInSeconds / 3600)}h ago`;
-//     return `${Math.floor(diffInSeconds / 86400)}d ago`;
-//   };
-
-//   const PostCard = ({ post }) => (
-//     <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-//       <div className="relative">
-//         <img
-//           src={post.image}
-//           alt={post.title}
-//           className="w-full h-48 object-cover"
-//         />
-//         {post.isLive && (
-//           <div className="absolute top-4 left-4">
-//             <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1 animate-pulse">
-//               <div className="w-2 h  -2 bg-white rounded-full"></div>
-//               LIVE
-//             </span>
-//           </div>
-//         )}
-//         <button
-//           onClick={() =>
-//             setLikedPosts(prev => ({
-//               ...prev,
-//               [post.id]: !prev[post.id],
-//             }))
-//           }
-//           className="absolute top-4 right-4 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
-//         >
-//           <Heart
-//             className={`w-4 h-4 ${
-//               likedPosts[post.id]
-//                 ? 'fill-red-500 text-red-500'
-//                 : 'text-gray-400'
-//             }`}
-//           />
-//         </button>
-//       </div>
-
-//       <div className="p-6">
-//         <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-//           <div className="flex items-center gap-1">
-//             <MapPin className="w-4 h-4" />
-//             <span>{post.location}</span>
-//           </div>
-//           <div className="flex items-center gap-1">
-//             <Clock className="w-4 h-4" />
-//             <span>{formatTimeAgo(post.createdAt)}</span>
-//           </div>
-//         </div>
-
-//         <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer">
-//           {post.title}
-//         </h2>
-
-//         <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-
-//         <div className="flex items-center justify-between">
-//           <div className="flex items-center gap-2">
-//             <User className="w-4 h-4 text-gray-400" />
-//             <span className="text-sm text-gray-600">{post.author}</span>
-//           </div>
-
-//           <div className="flex items-center gap-1 text-sm text-gray-500">
-//             <Heart className="w-4 h-4" />
-//             <span>{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
-//           </div>
-//         </div>
-
-//         <div className="mt-4 pt-4 border-t border-gray-100">
-//           <button className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
-//             Read More <ArrowRight className="w-4 h-4" />
-//           </button>
-//         </div>
-//       </div>
-//     </article>
-//   );
-
-//   const NewPostForm = () => {
-//     const [formData, setFormData] = useState({
-//       title: '',
-//       excerpt: '',
-//       location: '',
-//       author: '',
-//       image: '',
-//     });
-
-//     const handleSubmit = () => {
-//       if (formData.title && formData.excerpt && formData.author) {
-//         addNewPost({
-//           ...formData,
-//           image:
-//             formData.image ||
-//             'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop',
-//         });
-//         setFormData({
-//           title: '',
-//           excerpt: '',
-//           location: '',
-//           author: '',
-//           image: '',
-//         });
-//       }
-//     };
-
-//     return (
-//       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-
-//         <div className="bg-white rounded-xl max-w-md w-full p-6">
-//           <h3 className="text-xl font-bold mb-4">Share Your Travel Moment</h3>
-//           <div className="space-y-4">
-//             <input
-//               type="text"
-//               placeholder="Post title"
-//               value={formData.title}
-//               onChange={e =>
-//                 setFormData({ ...formData, title: e.target.value })
-//               }
-//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-//               required
-//             />
-//             <textarea
-//               placeholder="What's happening on your journey?"
-//               value={formData.excerpt}
-//               onChange={e =>
-//                 setFormData({ ...formData, excerpt: e.target.value })
-//               }
-//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-20"
-//               required
-//             />
-//             <input
-//               type="text"
-//               placeholder="Your name"
-//               value={formData.author}
-//               onChange={e =>
-//                 setFormData({ ...formData, author: e.target.value })
-//               }
-//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-//               required
-//             />
-//             <input
-//               type="text"
-//               placeholder="Location"
-//               value={formData.location}
-//               onChange={e =>
-//                 setFormData({ ...formData, location: e.target.value })
-//               }
-//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             />
-//             <input
-//               type="url"
-//               placeholder="Image URL (optional)"
-//               value={formData.image}
-//               onChange={e =>
-//                 setFormData({ ...formData, image: e.target.value })
-//               }
-//               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             />
-//             <div className="flex gap-3">
-//               <button
-//                 onClick={handleSubmit}
-//                 className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-//               >
-//                 <Send className="w-4 h-4" />
-//                 Share Live
-//               </button>
-//               <button
-//                 onClick={() => setNewPostForm(false)}
-//                 className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors"
-//               >
-//                 Cancel
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   };
-
-//   if (loading) {
-//     return (
-//       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-//         <div className="text-center">
-//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-//           <p className="text-gray-500">Connecting to real-time database...</p>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       {/* Header */}
-
-//       <div className="relative bottom-80">
-//         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-center px-6">
-//           <motion.h1
-//             initial={{ opacity: 0, y: 40 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 1 }}
-//             className="text-5xl md:text-6xl font-extrabold mb-4 top-0 md:top-0"
-//           >
-//             Explore the World with{' '}
-//             <span className="text-blue-500">TravelMate</span>
-//           </motion.h1>
-//           <motion.p
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 1.2 }}
-//             className="text-xl md:text-2xl mb-4 max-w-2xl"
-//           >
-//             Find breathtaking destinations and plan your next escape
-//             effortlessly.
-//           </motion.p>
-//           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row gap-4 shadow-lg text-black dark:text-white">
-//             <select className="border p-2 rounded w-full md:w-auto">
-//               <option>Where to</option>
-//             </select>
-//             <select className="border p-2 rounded w-full md:w-auto">
-//               <option>When</option>
-//             </select>
-//             <select className="border p-2 rounded w-full md:w-auto">
-//               <option>Select type</option>
-//             </select>
-//             <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full md:w-auto">
-//               Search
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <div className="text-center">
-//             <div className="flex items-center justify-center gap-2 mb-4">
-//               <h1 className="text-4xl md:text-5xl font-bold">
-//                 Live Travel Stories
-//               </h1>
-//               {connected ? (
-//                 <Wifi className="w-8 h-8 text-green-300" />
-//               ) : (
-//                 <WifiOff className="w-8 h-8 text-red-300" />
-//               )}
-//             </div>
-//             <p className="text-xl text-blue-100 mb-2 max-w-2xl mx-auto">
-//               Real-time travel experiences from around the world
-//             </p>
-//             <div className="flex items-center justify-center gap-2 text-sm">
-//               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-//               <span className="text-green-200">
-//                 {connected
-//                   ? `${posts.length} live stories • Updates every 5s`
-//                   : 'Disconnected'}
-//               </span>
-//             </div>
-
-//             {/* Search Bar */}
-//             <div className="max-w-2xl mx-auto relative mt-8">
-//               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-//               <input
-//                 type="text"
-//                 placeholder="Search live stories, locations..."
-//                 className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-//                 value={searchTerm}
-//                 onChange={e => setSearchTerm(e.target.value)}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Main Content */}
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-//         {/* Stats Bar */}
-//         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-//           <div className="flex items-center justify-between">
-//             <div className="flex items-center gap-6">
-//               <div className="text-center">
-//                 <div className="text-2xl font-bold text-blue-600">
-//                   {filteredPosts.length}
-//                 </div>
-//                 <div className="text-sm text-gray-500">Stories</div>
-//               </div>
-//               <div className="text-center">
-//                 <div className="text-2xl font-bold text-green-600">
-//                   {filteredPosts.filter(p => p.isLive).length}
-//                 </div>
-//                 <div className="text-sm text-gray-500">Live Now</div>
-//               </div>
-//               <div className="text-center">
-//                 <div className="text-2xl font-bold text-purple-600">
-//                   {filteredPosts.reduce((sum, post) => sum + post.likes, 0)}
-//                 </div>
-//                 <div className="text-sm text-gray-500">Total Likes</div>
-//               </div>
-//             </div>
-
-//             <button
-//               onClick={() => setNewPostForm(true)}
-//               className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-//             >
-//               <Plus className="w-4 h-4" />
-//               Share Live
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Posts Grid */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//           {filteredPosts.map(post => (
-//             <PostCard key={post.id} post={post} />
-//           ))}
-//         </div>
-
-//         {filteredPosts.length === 0 && (
-//           <div className="text-center py-12">
-//             <Search className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-//             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-//               No stories found
-//             </h3>
-//             <p className="text-gray-600">Try adjusting your search terms</p>
-//           </div>
-//         )}
-//       </div>
-
-//       {/* New Post Form Modal */}
-//       {newPostForm && <NewPostForm />}
-
-//       {/* Footer */}
-//       <div className="bg-gray-900 text-white py-8 mt-16">
-//         <div className="max-w-4xl mx-auto px-4 text-center">
-//           <h2 className="text-2xl font-bold mb-2">
-//             Real-time Travel Community
-//           </h2>
-//           <p className="text-gray-300">
-//             Connected travelers sharing live moments • Powered by real-time
-//             database
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default RealTimeTravelBlog;

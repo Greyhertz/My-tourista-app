@@ -1,95 +1,53 @@
-// import { Outlet } from 'react-router-dom';
-// import Header from '../components/core/Header';
-// import CustomDrawer from '../components/core/CustomDrawer';
-// import { useState, useEffect } from 'react';
+// layouts/MainLayout.tsx
+import type { ReactNode } from 'react';
+import { Outlet, Link } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
+import Navbar from '../components/core/Navbar';
+import ScrollButton from '@/components/core/Scroll';
 
-// const MainLayout = () => {
-//   const [isDrawerOpen, setDrawerOpen] = useState(false);
-//   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
-//   const [isDarkMode, setIsDarkMode] = useState(false);
-//   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+interface MainLayoutProps {
+  children?: ReactNode;
+}
 
-//   const toggleDrawer = () => setDrawerOpen(prev => !prev);
-//   const toggleThemeDropdown = () => setThemeDropdownOpen(prev => !prev);
-
-//   const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
-//     setTheme(newTheme);
-//     setThemeDropdownOpen(false);
-//     if (newTheme === 'system') {
-//       const prefersDark = window.matchMedia(
-//         '(prefers-color-scheme: dark)'
-//       ).matches;
-//       setIsDarkMode(prefersDark);
-//     } else {
-//       setIsDarkMode(newTheme === 'dark');
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (theme === 'system') {
-//       const prefersDark = window.matchMedia(
-//         '(prefers-color-scheme: dark)'
-//       ).matches;
-//       setIsDarkMode(prefersDark);
-//     } else {
-//       setIsDarkMode(theme === 'dark');
-//     }
-//   }, [theme]);
-
-//   return (
-//     <div className={isDarkMode ? 'dark' : ''}>
-//       <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
-//         <CustomDrawer
-//           isOpen={isDrawerOpen}
-//           isDarkMode={isDarkMode}
-//           onClose={() => setDrawerOpen(false)}
-//           onThemeChange={handleThemeChange}
-//           currentTheme={theme}
-//           themeDropdownOpen={themeDropdownOpen}
-//           toggleThemeDropdown={toggleThemeDropdown} // ✅ Pass user here
-//         />
-
-//         <main className="p-0">
-//           <Header stuff={{ toggleDrawer }} />
-//           <Outlet />
-//         </main>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MainLayout;
-// MainLayout.tsx
-import { Outlet } from "react-router-dom"
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
-import { AppSidebar } from "@/components/core/AppSidebar"
-
-export default function MainLayout() {
+export default function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* HEADER */}
-      <header className="flex items-center justify-between px-4 py-2 shadow-md bg-background">
-        <div className="text-xl font-bold">My Tourist App</div>
+    <>
+      {/* Global Animation Styles */}
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-        {/* Sheet Trigger lives in header */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <button className="p-2 rounded-lg hover:bg-accent">
-              <Menu className="h-6 w-6" />
-            </button>
-          </SheetTrigger>
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out;
+        }
 
-          <SheetContent side="left" className="p-0 w-64">
-            <AppSidebar />
-          </SheetContent>
-        </Sheet>
-      </header>
+        .animate-delay-100 { animation-delay: 0.1s; animation-fill-mode: both; }
+        .animate-delay-200 { animation-delay: 0.2s; animation-fill-mode: both; }
+        .animate-delay-300 { animation-delay: 0.3s; animation-fill-mode: both; }
+        .animate-delay-400 { animation-delay: 0.4s; animation-fill-mode: both; }
+      `}</style>
 
-      {/* MAIN BODY */}
-      <main className="flex-1 p-4">
-        <Outlet />
-      </main>
-    </div>
-  )
+      <div className="min-h-screen bg-background text-foreground">
+        {/* Separate Navbar Component */}
+        <Navbar />
+
+        {/* Main Content with proper spacing for fixed navbar */}
+        <main className="pt-16 lg:pt-20 min-h-screen">
+          {/* Content Container with Animation */}
+          <div className="animate-fade-in-up">{children || <Outlet />}</div>
+        </main>
+
+        {/* Animated Footer */}
+       <ScrollButton />
+      </div>
+    </>
+  );
 }
