@@ -20,6 +20,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import type { JSX } from 'react/jsx-runtime';
 
 /**
  * TravelSettingsPage
@@ -172,7 +173,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
   // --- UI: large settings hub ---
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 p-8">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black py-20 px-6 mt-20">
       <motion.header
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -221,9 +222,9 @@ export default function TravelSettingsPage(): JSX.Element {
         </div>
       </motion.header>
 
-      <main className="max-w-6xl mx-auto space-y-6">
+      <main className="max-w-6xl mx-auto space-y-6 space-x-6">
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid grid-cols-6 gap-2 max-w-md">
+          <TabsList className="grid grid-cols-6 gap-6 max-w-">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="preferences">Preferences</TabsTrigger>
             <TabsTrigger value="integrations">Integrations</TabsTrigger>

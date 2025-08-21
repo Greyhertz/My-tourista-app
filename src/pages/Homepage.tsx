@@ -25,18 +25,12 @@ import {
   Map,
   TreePine,
   Compass,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
   Mail,
-  Phone,
   Clock,
   Shield,
   Award,
   TrendingUp,
   CheckCircle2,
-  ArrowUp,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -52,7 +46,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-dropdown-menu';
 
 const Homepage = () => {
-  const [ setActiveDestination] = useState(0);
+  const [setActiveDestination] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [emailSubscription, setEmailSubscription] = useState('');
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -332,11 +326,11 @@ const Homepage = () => {
       </div>
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden bg-gradient-to-br from-background via-background to-muted"
+        className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden bg-secondary"
       >
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-10"
+          className="absolute inset-0 bg-cover bg-center "
           style={{ backgroundImage: `url(${heroImages[0]})` }}
         />
 
@@ -352,13 +346,15 @@ const Homepage = () => {
             transition={{ duration: 1, delay: 0.2 }}
           >
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-teal-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
                 Discover
               </span>
               <br />
-              <span className="text-foreground">Your Next</span>
+              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
+                Your Next
+              </span>
               <br />
-              <span className="bg-gradient-to-r from-teal-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
                 Adventure
               </span>
             </h1>
@@ -863,8 +859,8 @@ const Homepage = () => {
       {/* Newsletter */}
       <section className="py-24 px-6 bg-background">
         <div className="container mx-auto">
-          <ScrollReveal>
-            <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm shadow-pink-400 shadow-xl ring-2 ring-pink-400 ">
+        
+            <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm border-purple-600 shadow-purple-400 dark:shadow-purple-800 ">
               <CardContent className="p-10 text-center">
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                   <Mail className="h-8 w-8 text-muted" />
@@ -906,7 +902,6 @@ const Homepage = () => {
                 </form>
               </CardContent>
             </Card>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -1011,132 +1006,6 @@ const Homepage = () => {
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="py-20 px-6 border-border bg-card/50 text-card-foreground backdrop-blur-sm">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-5 gap-8 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <Compass className="h-6 w-6 text-secondary" />
-                </div>
-                <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-                  TravelMate
-                </span>
-              </div>
-              <p className="text-foreground font-semibold text-sm font- mb-6 leading-relaxed">
-                Creating unforgettable travel experiences since 2010. Your
-                adventure starts here with AI-powered planning and world-class
-                service.
-              </p>
-
-              <div className="flex space-x-4">
-                {[
-                  { icon: Facebook, label: 'Facebook' },
-                  { icon: Twitter, label: 'Twitter' },
-                  { icon: Instagram, label: 'Instagram' },
-                  { icon: Youtube, label: 'YouTube' },
-                ].map(({ icon: Icon, label }) => (
-                  <motion.a
-                    key={label}
-                    href="#"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className=""
-                    aria-label={label}
-                  >
-                    <Icon className="h-4 w-4 bg-secondary" />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            {[
-              {
-                title: 'Destinations',
-                items: [
-                  'Europe',
-                  'Asia',
-                  'Americas',
-                  'Africa',
-                  'Oceania',
-                  'Popular Cities',
-                ],
-              },
-              {
-                title: 'Services',
-                items: [
-                  'Flight Booking',
-                  'Hotels',
-                  'Car Rental',
-                  'Tours',
-                  'Travel Insurance',
-                  'Visa Assistance',
-                ],
-              },
-              {
-                title: 'Support',
-                items: [
-                  'Help Center',
-                  'Contact Us',
-                  'Travel Guide',
-                  'Blog',
-                  'Reviews',
-                  'Mobile App',
-                ],
-              },
-            ].map((column, index) => (
-              <div key={index}>
-                <h3 className="font-bold mb-6 text-primary text-lg flex items-center">
-                  {index === 0 && <Globe className="w-4 h-4 mr-2" />}
-                  {index === 1 && <Plane className="w-4 h-4 mr-2" />}
-                  {index === 2 && <Headphones className="w-4 h-4 mr-2" />}
-                  {column.title}
-                </h3>
-                <ul className="space-y-3">
-                  {column.items.map(item => (
-                    <li key={item}>
-                      <motion.a
-                        href="#"
-                        whileHover={{ y: 5 }}
-                        className="text-muted-foreground text-sm hover:text-foreground transition-all duration-300 flex items-font-semibold"
-                      >
-                        <ArrowRight className="w-3 h-3 mr-2 opacity-0 hover:opacity-100 transition-opacity" />
-                        {item}
-                      </motion.a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-t border-muted pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-foreground text-sm hover:text-foreground mb-4 md:mb-0 flex items-center">
-                <Heart className="w-4 h-4 mr-2 text-destructive" fill="red" />
-                &copy; {new Date().getFullYear()} TravelMate. All rights
-                reserved. Made with love for travelers worldwide.
-              </p>
-
-              <div className="flex space-x-6 text-sm">
-                {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(
-                  link => (
-                    <motion.a
-                      key={link}
-                      href="#"
-                      whileHover={{}}
-                      className="text-muted-foreground text-sm hover:text-foregroundtransition-colors duration-300 flex items-center"
-                    >
-                      <Shield className="w-3 h-3 mr-1" />
-                      {link}
-                    </motion.a>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-
     </div>
   );
 };

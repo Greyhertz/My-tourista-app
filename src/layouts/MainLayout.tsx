@@ -4,6 +4,7 @@ import { Outlet, Link } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import Navbar from '../components/core/Navbar';
 import ScrollButton from '@/components/core/Scroll';
+import Footer from '@/components/core/Footer';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -48,6 +49,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
         {/* Animated Footer */}
        <ScrollButton />
       </div>
+
+      <Footer />
     </>
   );
 }
