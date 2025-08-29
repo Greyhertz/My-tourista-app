@@ -1,7 +1,3 @@
-
-
-// export default TravelBlogPage;
-
 import { useState, useMemo, useEffect } from 'react';
 import {
   Search,
@@ -18,13 +14,12 @@ import {
   Heart,
   Plus,
   Send,
+  AlertCircle,
+  RefreshCw,
+  X,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { DialogFooter, DialogHeader } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
-// import { number } from 'framer-motion';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 // API function to fetch travel blogs from dev.to
 const fetchTravelBlogs = async (limit = 20) => {
@@ -49,6 +44,10 @@ const TravelBlogPage = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({});
   const [visibleCount, setVisibleCount] = useState(6);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [usingMockData, setUsingMockData] = useState(false);
+  const [newPostForm, setNewPostForm] = useState(false);
   const [blogPosts, setBlogPosts] = useState<
     Array<{
       id: number;
@@ -67,12 +66,7 @@ const TravelBlogPage = () => {
       likes: number;
       featured: boolean;
       url?: string;
-    }>
-  >([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [usingMockData, setUsingMockData] = useState(false);
-  const [newPostForm, setNewPostForm] = useState(false);
+    }>>([]);
   // Mock data as fallback
   const mockPosts = {
     posts: [
@@ -81,7 +75,7 @@ const TravelBlogPage = () => {
         slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
         title: 'The Ultimate Guide to Backpacking Through Southeast Asia',
         excerpt:
-          'Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you’re a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia.',
+          "Embark on a transformative journey across Thailand, Vietnam, Cambodia, and Laos. This guide reveals hidden temples, vibrant street markets, and lush landscapes, while offering practical advice on budget stays, local transportation, and authentic food experiences. Whether you're a first-time backpacker or a seasoned traveler, discover how to make the most of three weeks in Southeast Asia",
         image:
           'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=400&fit=crop',
         category: 'itineraries',
@@ -117,9 +111,9 @@ const TravelBlogPage = () => {
       {
         id: 11,
         slug: 'foodies-guide-to-rome-eat-like-a-local',
-        title: 'Foodie’s Guide to Rome: Eat Like a Local',
+        title: "Foodie's Guide to Rome: Eat Like a Local",
         excerpt:
-          'Savor Rome’s culinary delights with this insider’s guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city’s food culture beyond the tourist trail.',
+          "Savor Rome's culinary delights with this insider's guide to authentic dishes, bustling markets, and cozy trattorias. From creamy carbonara to crispy suppli, discover where locals eat and how to experience the city's food culture beyond the tourist trail.",
         image:
           'https://images.unsplash.com/photo-1600275668994-868c1c00d0a4?auto=format&fit=crop&w=800&h=400&q=80',
         category: 'food',
@@ -138,7 +132,7 @@ const TravelBlogPage = () => {
         slug: 'the-magic-of-new-zealand-nature-culture-and-adventure',
         title: 'The Magic of New Zealand: Nature, Culture, and Adventure',
         excerpt:
-          'Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country’s natural beauty, engaging with local culture, and finding adventure at every turn.',
+          "Experience the wonders of New Zealand, from Maori traditions and geothermal marvels to epic hiking trails and cinematic landscapes. This guide offers tips for exploring the country's natural beauty, engaging with local culture, and finding adventure at every turn.",
         image:
           'https://images.unsplash.com/photo-1578496481383-7b0c36dd254b?auto=format&fit=crop&w=800&h=400&q=80',
         category: 'destinations',
@@ -173,8 +167,6 @@ const TravelBlogPage = () => {
     { id: 'americas', name: 'Americas' },
     { id: 'oceania', name: 'Oceania' },
   ];
-
-  // type MockData = {};
 
   type ApiData = {
     id: number;
@@ -220,12 +212,11 @@ const TravelBlogPage = () => {
     const loadBlogs = async () => {
       setLoading(true);
       setError('');
-
       try {
         // Try to fetch from API first
         const apiPosts = await fetchTravelBlogs(20);
         const mappedPosts = apiPosts.map(mapApiDataToPost);
-        setBlogPosts([...mockPosts.posts, ...mappedPosts]);
+        setBlogPosts({...mockPosts.posts, ...mappedPosts});
         setUsingMockData(false);
         console.log(
           'Successfully loaded API data:',
@@ -242,7 +233,6 @@ const TravelBlogPage = () => {
         setLoading(false);
       }
     };
-
     loadBlogs();
   }, []);
 
@@ -294,20 +284,21 @@ const TravelBlogPage = () => {
   };
 
   const navigate = useNavigate();
-  const handleReadMore = (post: {
-    url: string | URL | undefined;
-    slug: any;
-  }) => {
-    if (post.url) {
-      // If it's from API, open the original dev.to article
+  const handleReadMore =
+    (post: { url: string | URL | undefined; slug: any; }) =>
+  {
+    if (post.url)
+    {
+  // If it's from API, open the original dev.to article
       window.open(post.url, '_blank');
-    } else {
-      // For mock data, you could navigate to a local route
-      // console.log('Navigate to:', `/blog/${ post.slug }`);
-      navigate(`/blog/${post.slug}`);
+    }
+    else
+    { // For mock data, you could navigate to a local route
+     // console.log('Navigate to:', /blog/${ post.slug });
+    //  navigate(/blog/${post.slug});
     }
   };
-  // function to map mockData to Post
+
   type BlogPosts = {
     id: number;
     slug: string;
@@ -326,14 +317,17 @@ const TravelBlogPage = () => {
     featured: boolean;
   };
 
-  interface PostCardProps {
+  interface PostCardProps
+  {
     post: BlogPosts;
     featured?: Boolean;
   }
 
-  const PostCard = ({ post, featured = false }: PostCardProps) => (
+  
+
+  const PostCard = ({ post, featured = false }:PostCardProps) => (
     <article
-      className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
+      className={`group bg-card rounded-xl border shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${
         featured ? 'md:col-span-2' : ''
       }`}
     >
@@ -341,7 +335,9 @@ const TravelBlogPage = () => {
         <img
           src={post.image}
           alt={post.title}
-          className={`w-full object-cover ${featured ? 'h-64' : 'h-48'}`}
+          className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+            featured ? 'h-64' : 'h-48'
+          }`}
           onError={e => {
             const target = e.target as HTMLImageElement;
             target.src =
@@ -349,78 +345,79 @@ const TravelBlogPage = () => {
           }}
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <span className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
             {post.categoryName}
           </span>
         </div>
         <button
           onClick={() => handleLike(post.id)}
-          className="absolute top-4 right-4 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
+          className="absolute top-4 right-4 inline-flex items-center justify-center rounded-full bg-background/90 p-2 text-muted-foreground backdrop-blur-sm transition-colors hover:bg-background"
         >
           <Heart
-            className={`w-4 h-4 ${
+            className={`h-4 w-4 ${
               likedPosts[post.id]
                 ? 'fill-red-500 text-red-500'
-                : 'text-gray-400'
+                : 'text-muted-foreground'
             }`}
           />
         </button>
       </div>
       <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
           <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4" />
+            <MapPin className="h-4 w-4" />
             <span>{post.destinationName}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="h-4 w-4" />
             <span>{formatDate(post.publishedAt)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
+            <Clock className="h-4 w-4" />
             <span>{post.readTime} min read</span>
           </div>
         </div>
 
         <h2
-          className={`font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer ${
+          className={`font-bold text-foreground mb-3 line-clamp-2 hover:text-primary transition-colors cursor-pointer ${
             featured ? 'text-xl' : 'text-lg'
           }`}
         >
-          {/* <Link to={`/blog/${post.slug}`}>{post.title}</Link>  */}
           <Link to={`/blog/${post.slug}`}>{post.title}</Link>
         </h2>
 
-        <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+        <p className="text-muted-foreground mb-4 line-clamp-2">
+          {post.excerpt}
+        </p>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-gray-600">{post.author}</span>
+            <User className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">{post.author}</span>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
-              <Eye className="w-4 h-4" />
+              <Eye className="h-4 w-4" />
               <span>{post.views.toLocaleString()}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Heart className="w-4 h-4" />
+              <Heart className="h-4 w-4" />
               <span>{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t">
           <button
-            onClick={() => handleReadMore(post)}
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            onClick={() => handleReadMore(post as any)}
+            className="inline-flex items-center gap-2 font-medium text-primary transition-colors hover:text-primary/80"
           >
             <Link
               to={`/blog/${post.slug}`}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              className="inline-flex items-center gap-2 font-medium text-primary transition-colors hover:text-primary/80"
             >
-              <p> Read More</p> <ArrowRight className="w-4 h-4" />
+              Read More <ArrowRight className="h-4 w-4" />
             </Link>
           </button>
         </div>
@@ -428,44 +425,50 @@ const TravelBlogPage = () => {
     </article>
   );
 
+
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading travel blogs...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading travel blogs...</p>
         </div>
       </div>
     );
   }
 
-    const addNewPost = postData => {
-      const newPost = {
-        id: Date.now(),
-        ...postData,
-        createdAt: new Date().toISOString(),
-        likes: 0,
-        isLive: true,
-      };
-
-      setBlogPosts(currentPosts => [newPost, ...currentPosts]);
-      setNewPostForm(false);
+  const addNewPost = (postData: { image?: string; title?: string; catergory: any; excerpt?: string; location: any; author?: string; })  => {
+    const newPost = {
+      id: Date.now(),
+      ...postData,
+      category: postData.catergory,
+      categoryName: 'Travel',
+      destination: 'all',
+      destinationName: postData.location || 'Various',
+      publishedAt: new Date().toISOString(),
+      readTime: 5,
+      views: 0,
+      likes: 0,
+      featured: false,
     };
 
-  const NewPostForm = () =>
-  {
+    setBlogPost: [(currentPosts : {})  => [newPost, {...currentPosts}]]
+    setNewPostForm(false);
+  };
+
+  const NewPostForm = () => {
     const [formData, setFormData] = useState({
       title: '',
+      catergory: '',
       excerpt: '',
       location: '',
       author: '',
       image: '',
     });
 
-    const handleSubmit = () =>
-    {
-      if (formData.title && formData.excerpt && formData.author)
-      {
+    const handleSubmit = () => {
+      if (formData.title && formData.excerpt && formData.author) {
         addNewPost({
           ...formData,
           image:
@@ -474,6 +477,7 @@ const TravelBlogPage = () => {
         });
         setFormData({
           title: '',
+          catergory: '',
           excerpt: '',
           location: '',
           author: '',
@@ -483,63 +487,90 @@ const TravelBlogPage = () => {
     };
 
     return (
-      <header className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-          Travel Blog
-        </h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2">
-              <Plus className="h-4 w-4" /> New Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-gray-900/80 backdrop-blur-xl border border-gray-700 text-white">
-            <DialogHeader>
-              <DialogTitle>Add New Post</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Input placeholder="Post title"
-                value={ formData.title }
-                onChange={ e =>
-                  setFormData({ ...formData, title: e.target.value })
-                } placeholder="Title" className="bg-gray-800 border-gray-700" />
-              <Input placeholder="Category" className="bg-gray-800 border-gray-700" />
-              <Input placeholder="Location" className="bg-gray-800 border-gray-700" />
-              <Input value={ formData.excerpt }
-                onChange={ e =>
-                  setFormData({ ...formData, excerpt: e.target.value })
-                } placeholder="Excerpt" className="bg-gray-800 border-gray-700" />
-            </div>
-            <DialogFooter>
-              <Button onClick={ () => setNewPostForm(false) }
-                className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors"
+      <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="bg-card rounded-xl max-w-md w-full p-6 shadow-lg border">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold text-foreground">
+              Share Your Travel Moment
+            </h3>
+            <button
+              onClick={() => setNewPostForm(false)}
+              className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="space-y-4">
+            <input
+              type="text"
+              placeholder="Post title"
+              value={formData.title}
+              onChange={e =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              required
+            />
+            <textarea
+              placeholder="What's happening on your journey?"
+              value={formData.excerpt}
+              onChange={e =>
+                setFormData({ ...formData, excerpt: e.target.value })
+              }
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Your name"
+              value={formData.author}
+              onChange={e =>
+                setFormData({ ...formData, author: e.target.value })
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              value={formData.location}
+              onChange={e =>
+                setFormData({ ...formData, location: e.target.value })
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            />
+            <input
+              type="url"
+              placeholder="Image URL (optional)"
+              value={formData.image}
+              onChange={e =>
+                setFormData({ ...formData, image: e.target.value })
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            />
+            <div className="flex gap-3">
+              <button
+                onClick={handleSubmit}
+                className="flex-1 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
+              >
+                <Send className="h-4 w-4" />
+                Share Live
+              </button>
+              <button
+                onClick={() => setNewPostForm(false)}
+                className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Cancel
-              </Button>
-              <Button
-              className="bg-purple-600 hover:bg-purple-700"
-              onClick={() => {
-                addNewPost({
-                  title: "New Adventure",
-                  category: "Destinations",
-                  location: "Unknown",
-                  date: new Date().toISOString().split("T")[0],
-                  excerpt: "A newly added post!",
-                });
-                setNewPostForm(false)}
-              }
-            >
-              Add Post
-            </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </header>
-
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
-  }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -552,17 +583,27 @@ const TravelBlogPage = () => {
               inspiring stories from fellow adventurers
             </p>
             {usingMockData && (
-              <p className="text-yellow-200 text-sm mb-6">
-                ⚠️ Currently showing sample data. Live feed temporarily
-                unavailable.
-              </p>
+              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-yellow-800">
+                  ⚠️ Currently showing sample data. Live feed temporarily
+                  unavailable.
+                </AlertDescription>
+              </Alert>
             )}
-            {error && <p className="text-yellow-200 text-sm mb-6">{error}</p>}
+            {error && (
+              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-yellow-800">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
 
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto relative">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search destinations, tips, guides..."
@@ -584,10 +625,10 @@ const TravelBlogPage = () => {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     selectedCategory === category.id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-600 hover:bg-gray-100'
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                   }`}
                 >
                   {category.name} ({category.count})
@@ -598,47 +639,47 @@ const TravelBlogPage = () => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white rounded-lg border hover:bg-gray-50 transition-colors text-black"
+                className="lg:hidden inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
               >
-                <Filter className="w-4 h-4" />
+                <Filter className="h-4 w-4" />
                 Filters
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     showFilters ? 'rotate-180' : ''
-                  }`} 
+                  }`}
                 />
               </button>
 
               <div>
                 <button
                   onClick={() => setNewPostForm(true)}
-                  className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="h-4 w-4" />
                   Share Live
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 bg-white rounded-lg border p-1">
+              <div className="inline-flex items-center rounded-md border border-input bg-background p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded transition-colors ${
+                  className={`inline-flex items-center justify-center rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     viewMode === 'grid'
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <Grid className="w-4 h-4" />
+                  <Grid className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded transition-colors ${
+                  className={`inline-flex items-center justify-center rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     viewMode === 'list'
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <List className="w-4 h-4" />
+                  <List className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -646,15 +687,15 @@ const TravelBlogPage = () => {
 
           {/* Mobile Filters */}
           <div className={`lg:hidden mt-4 ${showFilters ? 'block' : 'hidden'}`}>
-            <div className="bg-white rounded-lg border p-4 space-y-4">
+            <div className="bg-card rounded-lg border p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Destination
                 </label>
                 <select
                   value={selectedDestination}
                   onChange={e => setSelectedDestination(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   {destinations.map(dest => (
                     <option key={dest.id} value={dest.id}>
@@ -668,13 +709,13 @@ const TravelBlogPage = () => {
 
           {/* Desktop Destination Filter */}
           <div className="hidden lg:block mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Destination
             </label>
             <select
               value={selectedDestination}
               onChange={e => setSelectedDestination(e.target.value)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
+              className="flex h-10 w-full max-w-xs rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               {destinations.map(dest => (
                 <option key={dest.id} value={dest.id}>
@@ -690,7 +731,7 @@ const TravelBlogPage = () => {
           selectedCategory === 'all' &&
           !searchTerm && (
             <div className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-6">
                 Featured Stories
               </h2>
               <div className="grid md:grid-cols-2 gap-8">
@@ -703,7 +744,7 @@ const TravelBlogPage = () => {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Showing {filteredPosts.slice(0, visibleCount).length} of{' '}
             {filteredPosts.length}{' '}
             {filteredPosts.length === 1 ? 'post' : 'posts'}
@@ -731,13 +772,13 @@ const TravelBlogPage = () => {
         {filteredPosts.length === 0 && (
           <div className="text-center py-12">
             <div className="max-w-md mx-auto">
-              <div className="text-gray-400 mb-4">
-                <Search className="w-16 h-16 mx-auto" />
+              <div className="text-muted-foreground mb-4">
+                <Search className="h-16 w-16 mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 No posts found
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-muted-foreground mb-4">
                 Try adjusting your search or filter criteria
               </p>
               <button
@@ -746,7 +787,7 @@ const TravelBlogPage = () => {
                   setSelectedCategory('all');
                   setSelectedDestination('all');
                 }}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Clear All Filters
               </button>
@@ -758,7 +799,7 @@ const TravelBlogPage = () => {
         {filteredPosts.length > visibleCount && (
           <div className="mt-12 text-center">
             <button
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               onClick={() => setVisibleCount(prev => prev + 6)}
             >
               Load More Posts ({filteredPosts.length - visibleCount} remaining)
@@ -771,8 +812,9 @@ const TravelBlogPage = () => {
           <div className="mt-8 text-center">
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              className="inline-flex items-center justify-center rounded-md bg-green-600 px-6 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
             >
+              <RefreshCw className="h-4 w-4" />
               Try Loading Live Data Again
             </button>
           </div>
@@ -781,10 +823,12 @@ const TravelBlogPage = () => {
       {/* New Post Form Modal */}
       {newPostForm && <NewPostForm />}
       {/* Newsletter Subscription */}
-      <div className="bg-gray-900 text-white py-16 mt-16">
+      <div className="border-t bg-muted/30 py-16 mt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Never Miss a Travel Story</h2>
-          <p className="text-gray-300 mb-8 text-lg">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
+            Never Miss a Travel Story
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
             Get our latest travel guides, tips, and destination inspiration
             delivered to your inbox
           </p>
@@ -792,9 +836,9 @@ const TravelBlogPage = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex h-10 flex-1 rounded-md border border-input bg-background px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            <button className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
               Subscribe
             </button>
           </div>
@@ -805,6 +849,3 @@ const TravelBlogPage = () => {
 };
 
 export default TravelBlogPage;
-
-
-

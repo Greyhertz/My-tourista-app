@@ -43,10 +43,10 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-dropdown-menu';
+import { Label } from '@/components/ui/label';
 
 const Homepage = () => {
-  const [setActiveDestination] = useState(0);
+  // const [setActiveDestination] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [emailSubscription, setEmailSubscription] = useState('');
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -317,7 +317,7 @@ const Homepage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-violet-50/40 dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">
+    <div className="min-h-screen bg-gradient-to-br from-pink-300 to-background  dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">
       {/* Floating Background Elements - Theme Responsive */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-primary/10 to-violet-500/10 blur-3xl animate-pulse" />
@@ -346,15 +346,15 @@ const Homepage = () => {
             transition={{ duration: 1, delay: 0.2 }}
           >
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-700 via-blue-400 to-pink-500 bg-clip-text text-transparent">
                 Discover
               </span>
               <br />
-              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-700 to-pink-700 bg-clip-text text-transparent">
                 Your Next
               </span>
               <br />
-              <span className="bg-gradient-to-r from-purple-700 to-black bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-700 to-pink-500 bg-clip-text text-transparent">
                 Adventure
               </span>
             </h1>
@@ -557,7 +557,10 @@ const Homepage = () => {
         <div className="container mx-auto">
           <ScrollReveal>
             <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <h2
+                className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-700 via-purple-600 to-red-300
+               dark:from-blue-700 dark:via-purple-500 dark:to-pink-600 bg-clip-text text-transparent"
+              >
                 Travel Your Way
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -600,7 +603,10 @@ const Homepage = () => {
         <div className="container mx-auto">
           <ScrollReveal>
             <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-orange-500 via-pink-500 to-teal-500 bg-clip-text text-transparent">
+              <h2
+                className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-500 via-purple-600 to-pink-600
+               dark:from-blue-800 dark:via-purple-600 dark:to-pink-700 bg-clip-text text-transparent"
+              >
                 Featured Destinations
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -667,7 +673,7 @@ const Homepage = () => {
                         <Button
                           variant="ghost"
                           className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm"
-                          onClick={() => setActiveDestination(index)}
+                          // onClick={() => setActiveDestination(index)}
                         >
                           Explore
                           <ArrowRight className="w-4 h-4 ml-2" />
@@ -859,49 +865,48 @@ const Homepage = () => {
       {/* Newsletter */}
       <section className="py-24 px-6 bg-background">
         <div className="container mx-auto">
-        
-            <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm border-purple-600 shadow-purple-400 dark:shadow-purple-800 ">
-              <CardContent className="p-10 text-center">
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                  <Mail className="h-8 w-8 text-muted" />
+          <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm border-purple-600 shadow-purple-400 dark:shadow-purple-800 ">
+            <CardContent className="p-10 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+                <Mail className="h-8 w-8 text-muted" />
+              </div>
+              <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Get travel inspiration in your inbox
+              </h3>
+              <p className="text-muted-foreground mb-8">
+                Exclusive deals, new itineraries, and smart tips — no spam, just
+                wanderlust.
+              </p>
+              <form
+                onSubmit={handleSubscribe}
+                className="flex flex-col sm:flex-row gap-3 justify-center"
+              >
+                <div className="relative flex-1 max-w-md">
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={emailSubscription}
+                    onChange={e => setEmailSubscription(e.target.value)}
+                    className="px-4 py-3 pl-10 rounded-lg border-2 border-input focus:border-ring focus:outline-none bg-background w-full"
+                  />
+                  <Mail className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
                 </div>
-                <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  Get travel inspiration in your inbox
-                </h3>
-                <p className="text-muted-foreground mb-8">
-                  Exclusive deals, new itineraries, and smart tips — no spam,
-                  just wanderlust.
-                </p>
-                <form
-                  onSubmit={handleSubscribe}
-                  className="flex flex-col sm:flex-row gap-3 justify-center"
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
-                  <div className="relative flex-1 max-w-md">
-                    <input
-                      type="email"
-                      required
-                      placeholder="you@example.com"
-                      value={emailSubscription}
-                      onChange={e => setEmailSubscription(e.target.value)}
-                      className="px-4 py-3 pl-10 rounded-lg border-2 border-input focus:border-ring focus:outline-none bg-background w-full"
-                    />
-                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                  <Button
+                    type="submit"
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                   >
-                    <Button
-                      type="submit"
-                      className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                    >
-                      <ArrowRight className="w-4 h-4 mr-2" />
-                      Subscribe
-                    </Button>
-                  </motion.div>
-                </form>
-              </CardContent>
-            </Card>
+                    <ArrowRight className="w-4 h-4 mr-2" />
+                    Subscribe
+                  </Button>
+                </motion.div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 

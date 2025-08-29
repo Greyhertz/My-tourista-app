@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useState } from 'react';
+import { ThemeToggle } from '@/components/core/ThemeToggle';
 
 
 
@@ -62,7 +63,8 @@ export default function PricingPage()
   ];
   const [yearly, setYearly] = useState(false);
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black py-20 px-6">
+    <div className="min-h-screen bg-gradient-to-b from-pink-100 to-purple-400 dark:from-gray-900 dark:to-black py-20 px-6">
+      <ThemeToggle />
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
           Simple, Transparent Pricing
@@ -81,7 +83,7 @@ export default function PricingPage()
             onCheckedChange={setYearly}
           />
           <Label htmlFor="billing-switch">
-            Yearly <span className="text-green-600">(Save 20%)</span>
+            Yearly <span className= "text-green-600 dark:text-green-500">(Save 20%)</span>
           </Label>
         </div>
       </div>

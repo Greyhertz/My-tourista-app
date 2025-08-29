@@ -12,17 +12,11 @@ export default function ContactUs() {
     office: string;
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // ⏳ 2 seconds delay
-
-    return () => clearTimeout(timer); // cleanup
-  }, []);
+ 
+  
 
   //  const { theme, changeTheme } = useTheme();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -43,6 +37,14 @@ export default function ContactUs() {
       setIsDarkMode(newTheme === 'dark');
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // ⏳ 2 seconds delay
+
+    return () => clearTimeout(timer); // cleanup
+  }, []);
 
   useEffect(() => {
     if (theme === 'system') {

@@ -5,6 +5,7 @@ import { MapPin } from 'lucide-react';
 import Navbar from '../components/core/Navbar';
 import ScrollButton from '@/components/core/Scroll';
 import Footer from '@/components/core/Footer';
+import { Toaster } from 'sonner';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -12,9 +13,10 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
-    <>
-      {/* Global Animation Styles */}
-      <style>{`
+    <html lang="en">
+      <body>
+        {/* Global Animation Styles */}
+        <style>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -36,21 +38,23 @@ export default function MainLayout({ children }: MainLayoutProps) {
         .animate-delay-400 { animation-delay: 0.4s; animation-fill-mode: both; }
       `}</style>
 
-      <div className="min-h-screen bg-background text-foreground">
-        {/* Separate Navbar Component */}
-        <Navbar />
+        <div className="min-h-screen bg-background text-foreground">
+          {/* Separate Navbar Component */}
+          <Navbar />
 
-        {/* Main Content with proper spacing for fixed navbar */}
-        <main className="pt-16 lg:pt-20 min-h-screen">
-          {/* Content Container with Animation */}
-          <div className="animate-fade-in-up">{children || <Outlet />}</div>
-        </main>
+          {/* Main Content with proper spacing for fixed navbar */}
+          <main className="pt-16 lg:pt-20 min-h-screen">
+            {/* Content Container with Animation */}
+            <div className="animate-fade-in-up">{children || <Outlet />}</div>
+          </main>
+          <Toaster />
 
-        {/* Animated Footer */}
-       <ScrollButton />
-      </div>
+          {/* Animated Footer */}
+          <ScrollButton />
+        </div>
 
-      <Footer />
-    </>
+        <Footer />
+      </body>
+    </html>
   );
 }

@@ -469,3 +469,63 @@
     @apply bg-background text-foreground;
   }
 }
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} 
+
+
+/* [data-sonner-toast][data-type="success"] {
+  background-color: #12cf57; /* Tailwind green-500 
+  color: white;
+}
+
+[data-sonner-toast][data-type="error"] {
+  background-color: #ef4444; /* Tailwind red-500 
+  color: white;
+}
+
+[data-sonner-toast][data-type="info"] {
+  background-color: #3b82f6; /* Tailwind blue-500 
+  color: white;
+}
+
+[data-sonner-toast][data-type="loading"]{
+  background-color: #dae80f;
+  color: var(--primary)
+}
+
+[data-sonner-toast][data-type="dismiss"]{
+  background-color:#d6d2d2 ;
+  color: var(--primary)
+} */
+
+[data-sonner-toast][data-type="success"] {
+  background-color: #000000 ;
+  /* Tailwind green-500 */
+  color: #ffffff;
+}
+
+[data-sonner-toast][data-type="error"] {
+  background-color: #000000; /* Tailwind red-500 */
+  color: white;
+}
+
+[data-sonner-toast][data-type="info"] {
+  background-color: #000000; /* Tailwind blue-500 */
+  color: #ffffff;
+}
+
+[data-sonner-toast][data-type="loading"]{
+  background-color: #000000;
+  color: #ffffff
+}
+
+[data-sonner-toast][data-type="dismiss"]{
+  background-color:#000000;
+  color:#ffffff
+}

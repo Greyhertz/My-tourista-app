@@ -188,6 +188,7 @@ const milestones = [
 export default function EnhancedTravelMateAbout() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -195,6 +196,28 @@ export default function EnhancedTravelMateAbout() {
     }, 4000);
     return () => clearInterval(timer);
   }, []);
+
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // ⏳ 2 seconds delay
+
+    return () => clearTimeout(timer); // cleanup
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading about page...</p>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-violet-50/40 dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">

@@ -59,14 +59,14 @@ const MenuSheet = () => {
                 key={item.name}
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.3 }}
+                transition={{ delay: index * 0.2 }}
               >
                 <Link
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
                       ? 'text-blue-600 scale-105 shadow-md'
-                      : 'text-purple-400 hover:text-purple-600 hover:bg-accent/50 hover:translate-x-2'
+                      : 'text-purple-500 hover:text-purple-600 hover:bg-accent/50 hover:translate-x-2'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -80,12 +80,12 @@ const MenuSheet = () => {
           })}
         </nav>
 
-        <div className="px-4 py-4 border-t border-border/50">
-          <ThemeToggle />
+        <div className="">
+          <ThemeToggle/>
         </div>
         {/* Sign Up button */}
         <div className="px-4 py-4 border-t border-border/50">
-          <Button asChild className="w-full h-12 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-500">
+          <Button asChild className="w-full h-12 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500">
             <Link to="/sign-up">
               <User className="mr-2 h-5 w-5" /> Sign Up
             </Link>

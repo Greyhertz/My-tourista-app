@@ -21,33 +21,6 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   // const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  // const { setTheme, theme } = useTheme();
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const currentScrollY = window.scrollY;
-
-  //     setIsScrolled(currentScrollY > 20);
-
-  //     // Always keep navbar visible - no hiding behavior
-  //     setIsVisible(true);
-  //     setLastScrollY(currentScrollY);
-  //   };
-
-    // let ticking = false;
-    // const throttledScroll = () => {
-    //   if (!ticking) {
-    //     requestAnimationFrame(() => {
-    //       handleScroll();
-    //       ticking = false;
-    //     });
-    //     ticking = true;
-    //   }
-    // };
-
-  //   window.addEventListener('scroll', throttledScroll);
-  //   return () => window.removeEventListener('scroll', throttledScroll);
-  // }, [lastScrollY]);
 
   useEffect(() => {
     const controlHeader = () => {
@@ -125,10 +98,10 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`relative font-medium transition-colors ${
+                  className={`relative font-semibold transition-colors  ${
                     isActive
                       ? 'text-primary'
-                      : 'text-primary hover:text-destructive group-hover:w-full'
+                      : 'text-muted-foreground hover:text-destructive group-hover:w-full'
                   }`}
                 >
                   {item.name}
@@ -142,7 +115,7 @@ export default function Navbar() {
             })}
           </nav>
           <div className="flex items-center space-x-2">
-            <div className="bg-pri">
+            <div className="">
               <ThemeToggle />
             </div>
             <div className="lg:hidden">

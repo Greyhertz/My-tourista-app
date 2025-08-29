@@ -1,5 +1,5 @@
 // src/pages/TravelSettingsPage.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -21,6 +21,22 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import type { JSX } from 'react/jsx-runtime';
+import { Select, SelectTrigger, SelectValue } from '@/components/ui/select';
+// import { Link } from 'react-router-dom';
+// import { zodResolver } from '@hookform/resolvers/zod';
+// import { useForm } from 'react-hook-form';
+// import { z } from 'zod';
+import { useNotification } from '@/context/NotificationContext';
+import {
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+} from '@radix-ui/react-select';
+import { useTravelPreferences } from '@/context/PreferenceContext';
+import { toast } from 'sonner';
+import { useLang } from '@/context/LangContext';
+import { translateText } from '@/api/Lang';
 
 /**
  * TravelSettingsPage
@@ -28,6 +44,7 @@ import type { JSX } from 'react/jsx-runtime';
  * - Dark mode persists to localStorage and toggles document.documentElement.classList
  * - Stubbed handlers -> replace with your API calls
  */
+('use client');
 
 type PaymentMethod = {
   id: string;
@@ -70,80 +87,68 @@ export default function TravelSettingsPage(): JSX.Element {
     setAvatarUrl(url);
   }
 
-  // --- Travel preferences ---
-  const [currency, setCurrency] = useState('USD');
-  const [language, setLanguage] = useState('en');
-  const [homeAirport, setHomeAirport] = useState('LOS'); // IATA code example
-  const [seatPreference, setSeatPreference] = useState('Aisle');
-  const [mealPreference, setMealPreference] = useState('Any');
-  const [travelerType, setTravelerType] = useState('Leisure'); // Leisure/Business/Group
-  const [syncItineraries, setSyncItineraries] = useState(true);
+  const { preferences, updatePreferences, resetPreferences } =
+    useTravelPreferences();
+
   const [shareTripsWith, setShareTripsWith] = useState(''); // email to share with
 
   // --- Integrations (APIs) ---
   const [amadeusConnected, setAmadeusConnected] = useState(true);
   const [geoapifyConnected, setGeoapifyConnected] = useState(true);
   const [unsplashConnected, setUnsplashConnected] = useState(false);
-
   // --- Billing & Payment methods ---
   const [plan, setPlan] = useState<'Free' | 'Pro' | 'Enterprise'>('Pro');
   const [nextBillingDate, setNextBillingDate] = useState('Sept 1, 2025');
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
     { id: 'pm1', brand: 'Visa', last4: '4242', exp: '12/27', default: true },
   ]);
-
   // --- Security & sessions ---
   const [twoFactor, setTwoFactor] = useState(true);
   const [activeSessions] = useState([
     'Chrome — Lagos — Aug 21, 2025',
     'iPhone — Abuja — Aug 20, 2025',
   ]);
-
   // --- Travel documents upload ---
   const [travelDocs, setTravelDocs] = useState<{ id: string; name: string }[]>(
     []
   );
-
   function handleUploadDoc(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (!f) return;
     const id = `doc-${Date.now()}`;
     setTravelDocs(s => [...s, { id, name: f.name }]);
-    void toast(`Uploaded ${f.name}`);
+    void toast.success(`Uploaded ${f.name}`);
   }
 
-  // --- Small toast (dev) ---
-  function toast(msg: string) {
-    console.info('TOAST:', msg);
-    try {
-      /* eslint-disable no-alert */ alert(msg);
-    } catch {}
-    return Promise.resolve();
-  }
+  // notificaions
+  const { addNotification } = useNotification();
+  // language translate
+  const { state, dispatch } = useLang();
+  const [sampleText, setSampleText] = useState('Welcome to our travel app!');
+  const [translated, setTranslated] = useState('');
+
+  const handlelangChange = async (lang: string) => {
+    dispatch({ type: 'SET_LANGUAGE', payload: lang });
+    const result = await translateText(sampleText, lang, 'en');
+    setTranslated(result);
+  };
 
   // --- Actions ---
   function saveProfile() {
     // Replace with API call
     console.log('saveProfile', { profileName, email, phone, bio });
-    void toast('Profile saved');
+    toast.success('Profile saved');
   }
-  function savePreferences() {
-    console.log('savePreferences', {
-      currency,
-      language,
-      homeAirport,
-      seatPreference,
-      mealPreference,
-      travelerType,
-      syncItineraries,
-    });
-    void toast('Preferences saved');
-  }
+
+  const savePreferences = () => {
+    void toast.success('Preferences saved successfully!');
+  };
+
   function toggleIntegration(name: string) {
     if (name === 'amadeus') setAmadeusConnected(v => !v);
     if (name === 'geoapify') setGeoapifyConnected(v => !v);
     if (name === 'unsplash') setUnsplashConnected(v => !v);
-    void toast(`${name} toggled (mock)`);
+    void toast.info(`${name} toggled (mock)`);
   }
   function addPaymentMethod() {
     const id = `pm${Date.now()}`;
@@ -157,18 +162,18 @@ export default function TravelSettingsPage(): JSX.Element {
         default: false,
       },
     ]);
-    void toast('Payment method added (mock)');
+    void toast.info('Payment method added (mock)');
   }
   function removePaymentMethod(id: string) {
     setPaymentMethods(s => s.filter(m => m.id !== id));
-    void toast('Payment method removed');
+    void toast.dismiss('Payment method removed');
   }
   function cancelSubscription() {
     setPlan('Free');
-    void toast('Subscription cancelled — downgraded to Free (mock)');
+    void toast.dismiss('Subscription cancelled — downgraded to Free (mock)');
   }
   function downloadInvoice(id: string) {
-    void toast(`Downloading invoice ${id} (mock)`);
+    void toast.loading(`Downloading invoice ${id} (mock)`);
   }
 
   // --- UI: large settings hub ---
@@ -212,7 +217,7 @@ export default function TravelSettingsPage(): JSX.Element {
               variant="ghost"
               onClick={() => {
                 navigator.clipboard?.writeText(window.location.href);
-                void toast('Profile URL copied');
+                void toast.success('Profile URL copied');
               }}
             >
               Copy profile link
@@ -314,12 +319,18 @@ export default function TravelSettingsPage(): JSX.Element {
                       onClick={() => {
                         setProfileName('Prince Onuoha');
                         setEmail('prince@example.com');
-                        void toast('Reverted profile (mock)');
+                        void toast.info('Reverted profile (mock)');
                       }}
                     >
                       Reset
                     </Button>
-                    <Button onClick={saveProfile}>Save Profile</Button>
+                    <Button
+                      onClick={() => {
+                        saveProfile();
+                      }}
+                    >
+                      Save Profile
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -328,7 +339,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Preferences */}
           <TabsContent value="preferences">
-            <Card>
+            <Card className="bg-card backdrop-blur-xl border border-border shadow-2xl">
               <CardHeader>
                 <CardTitle>Travel Preferences</CardTitle>
                 <CardDescription>
@@ -336,86 +347,133 @@ export default function TravelSettingsPage(): JSX.Element {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="grid md:grid-cols-2 gap-6">
+              <CardContent className="grid md:grid-cols-2 gap-6 bg-card backdrop-blur-xl border border-border shadow-2xl">
                 <div className="space-y-4">
-                  <div>
-                    <Label>Default currency</Label>
-                    <select
-                      value={currency}
-                      onChange={e => setCurrency(e.target.value)}
-                      className="w-full rounded-md border px-3 py-2"
+                  {/* Currency */}
+                  <div className="relative">
+                    <Label>Default Currency</Label>
+                    <Select
+                    // value={preferences.currency}
+                    // onValueChange={val =>
+                    //   updatePreferences({ currency: val })
+                    // }
                     >
-                      <option value="USD">USD — $</option>
-                      <option value="EUR">EUR — €</option>
-                      <option value="NGN">NGN — ₦</option>
-                      <option value="GBP">GBP — £</option>
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD">USD — $</SelectItem>
+                        <SelectItem value="EUR">EUR — €</SelectItem>
+                        <SelectItem value="NGN">NGN — ₦</SelectItem>
+                        <SelectItem value="GBP">GBP — £</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
+                  {/* Language */}
                   <div>
                     <Label>Language</Label>
-                    <select
-                      value={language}
-                      onChange={e => setLanguage(e.target.value)}
-                      className="w-full rounded-md border px-3 py-2"
+                    <Select
+                      value={state.currentLang}
+                      onValueChange={e => handlelangChange(e.target.value)}
                     >
-                      <option value="en">English</option>
-                      <option value="ig">Igbo</option>
-                      <option value="fr">Français</option>
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select language" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="en">English</SelectItem>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                        <option value="de">German</option>
+                        <option value="ig">Igbo</option>
+                        <option value="yo">chinese</option>
+                      </SelectContent>
+                    </Select>
+                    {toast.success(`translated to${sampleText}`)}
+                    <div className="mt-6">
+                      <p className="text-gray-600">Original: {sampleText}</p>
+                      <p className="font-semibold mt-2">
+                        Translated: {translated}
+                      </p>
+                    </div>
                   </div>
 
+                  {/* Home airport */}
                   <div>
                     <Label>Home airport (IATA)</Label>
                     <Input
-                      value={homeAirport}
-                      onChange={e => setHomeAirport(e.target.value)}
+                      value={preferences.homeAirport}
+                      onChange={e =>
+                        updatePreferences({ homeAirport: e.target.value })
+                      }
                       placeholder="LOS"
                     />
                   </div>
 
+                  {/* Traveler type */}
                   <div>
-                    <Label>Traveler type</Label>
-                    <select
-                      value={travelerType}
-                      onChange={e => setTravelerType(e.target.value)}
-                      className="w-full rounded-md border px-3 py-2"
+                    <Label>Traveler Type</Label>
+                    <Select
+                      value={preferences.travelerType}
+                      onValueChange={val =>
+                        updatePreferences({ travelerType: val })
+                      }
                     >
-                      <option>Leisure</option>
-                      <option>Business</option>
-                      <option>Group</option>
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Leisure">Leisure</SelectItem>
+                        <SelectItem value="Business">Business</SelectItem>
+                        <SelectItem value="Group">Group</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
                 <div className="space-y-4">
+                  {/* Seat preference */}
                   <div>
-                    <Label>Seat preference</Label>
-                    <select
-                      value={seatPreference}
-                      onChange={e => setSeatPreference(e.target.value)}
-                      className="w-full rounded-md border px-3 py-2"
+                    <Label>Seat Preference</Label>
+                    <Select
+                      value={preferences.seatPreference}
+                      onValueChange={val =>
+                        updatePreferences({ seatPreference: val })
+                      }
                     >
-                      <option>Aisle</option>
-                      <option>Window</option>
-                      <option>Any</option>
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Aisle">Aisle</SelectItem>
+                        <SelectItem value="Window">Window</SelectItem>
+                        <SelectItem value="Any">Any</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
+                  {/* Meal preference */}
                   <div>
-                    <Label>Meal preference</Label>
-                    <select
-                      value={mealPreference}
-                      onChange={e => setMealPreference(e.target.value)}
-                      className="w-full rounded-md border px-3 py-2"
+                    <Label>Meal Preference</Label>
+                    <Select
+                      value={preferences.mealPreference}
+                      onValueChange={val =>
+                        updatePreferences({ mealPreference: val })
+                      }
                     >
-                      <option>Any</option>
-                      <option>Vegetarian</option>
-                      <option>Vegan</option>
-                      <option>Halal</option>
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Any">Any</SelectItem>
+                        <SelectItem value="Vegetarian">Vegetarian</SelectItem>
+                        <SelectItem value="Vegan">Vegan</SelectItem>
+                        <SelectItem value="Halal">Halal</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
+                  {/* Sync itineraries */}
                   <div className="flex items-center justify-between">
                     <div>
                       <Label>Sync itineraries</Label>
@@ -424,18 +482,16 @@ export default function TravelSettingsPage(): JSX.Element {
                       </div>
                     </div>
                     <Switch
-                      checked={syncItineraries}
-                      onCheckedChange={setSyncItineraries}
+                      checked={preferences.syncItineraries}
+                      onCheckedChange={val =>
+                        updatePreferences({ syncItineraries: val })
+                      }
                     />
                   </div>
 
+                  {/* Actions */}
                   <div className="flex gap-2 justify-end">
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        /* revert */ void toast('Preferences reverted (mock)');
-                      }}
-                    >
+                    <Button variant="outline" onClick={resetPreferences}>
                       Reset
                     </Button>
                     <Button onClick={savePreferences}>Save Preferences</Button>
@@ -596,9 +652,7 @@ export default function TravelSettingsPage(): JSX.Element {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => {
-                                  /* set default (mock) */ void toast(
-                                    'Set default (mock)'
-                                  );
+                                  addNotification('set default mock', 'info');
                                 }}
                               >
                                 Make default
@@ -728,7 +782,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Travel Docs */}
           <TabsContent value="docs">
-            <Card>
+            <Card className="bg-card/90 backdrop-blur-xl border border-border shadow-2xl">
               <CardHeader>
                 <CardTitle>Travel Documents</CardTitle>
                 <CardDescription>
@@ -759,7 +813,7 @@ export default function TravelSettingsPage(): JSX.Element {
                             size="sm"
                             variant="ghost"
                             onClick={() =>
-                              void toast(`Download ${d.name} (mock)`)
+                              void toast.loading(`Download ${d.name} (mock)`)
                             }
                           >
                             Download
@@ -769,7 +823,7 @@ export default function TravelSettingsPage(): JSX.Element {
                             variant="destructive"
                             onClick={() => {
                               setTravelDocs(s => s.filter(x => x.id !== d.id));
-                              void toast('Document deleted');
+                              void toast.error('Document deleted');
                             }}
                           >
                             Delete
@@ -814,7 +868,7 @@ export default function TravelSettingsPage(): JSX.Element {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      /* logout everywhere (mock) */ void toast(
+                      /* logout everywhere (mock) */ void toast.error(
                         'Signed out everywhere (mock)'
                       );
                     }}
@@ -824,7 +878,7 @@ export default function TravelSettingsPage(): JSX.Element {
                   <Button
                     variant="destructive"
                     onClick={() => {
-                      /* delete account (mock) */ void toast(
+                      /* delete account (mock) */ void toast.dismiss(
                         'Account deletion requested (mock)'
                       );
                     }}
