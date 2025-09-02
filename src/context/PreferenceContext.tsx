@@ -1,5 +1,8 @@
-import { useContext, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useState, type ReactNode } from 'react';
 import { createContext } from 'react';
+import { useLang } from './LangContext';
+import { toast } from 'sonner';
+
 
 type Preferences = {
   currency: string;
@@ -21,14 +24,14 @@ const TravelPreferencesContext = createContext<
   TravelPreferencesContextType | undefined
 >(undefined);
 
-export  function TravelPreferecesProvider({
-  children,
-}: {
+export function TravelPreferecesProvider({children}: {
   children: ReactNode;
-}) {
+  })
+{
+  const { state } = useLang(); // ✅ correctly destructured
   const [preferences, setPreferences] = useState<Preferences>({
     currency: 'USD',
-    language: 'en',
+    language: state.currentLang,
     homeAirport: 'LOS',
     travelerType: 'Leisure',
     seatPreference: 'Any',
@@ -37,9 +40,15 @@ export  function TravelPreferecesProvider({
   });
 
   const updatePreferences = (updates: Partial<Preferences>) => {
-    setPreferences((prev) => ({ ...prev, ...updates }));
+    setPreferences(prev => ({ ...prev, ...updates }));
   };
 
+  useEffect(() => {
+    setPreferences(prev => ({
+      ...prev,
+      language: state.currentLang,
+    }));
+  }, [state.currentLang]);
 
   const resetPreferences = () => {
     updatePreferences({
@@ -52,7 +61,7 @@ export  function TravelPreferecesProvider({
       syncItineraries: true,
     });
 
-    ('Preferences reverted to default');
+    toast.success('Preferences reverted to default');
   };
 
   return (
@@ -68,7 +77,8 @@ export function useTravelPreferences() {
   const context = useContext(TravelPreferencesContext);
   if (!context)
     throw new Error(
-      'usetravelpreferences must be used inside the travelPreferenceProvider'
+      'useTravelPreferences must be used within a TravelPreferencesProvider'
     );
+
   return context;
 }

@@ -17,11 +17,12 @@ export function AppProviders({ children }: { children: ReactNode }) {
       themes={['light', 'dark', 'ocean', 'sunset']}
       disableTransitionOnChange
     >
-      <TravelPreferecesProvider>
-        <NotificationProvider>
-          <LangProvider>{children}</LangProvider>
-        </NotificationProvider>
-      </TravelPreferecesProvider>
+      <NotificationProvider>
+        <LangProvider>
+          {' '}
+          <TravelPreferecesProvider>{children} </TravelPreferecesProvider>
+        </LangProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 }

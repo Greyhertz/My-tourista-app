@@ -16,7 +16,7 @@ import Test from './pages/Test';
 import BillingPage from './pages/BillingsPage';
 import { IntegrationsList } from './pages/Intergration';
 import PricingPage from './pages/Pricing';
-import { Welcome } from './pages/Welcome';
+import Welcome from './pages/Welcome';
 
 export const router = createBrowserRouter([
   {

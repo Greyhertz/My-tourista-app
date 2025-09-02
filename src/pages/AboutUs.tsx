@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardContent,
@@ -30,6 +30,7 @@ import {
   TrendingUp,
   CheckCircle,
 } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 
 const stats = [
   {
@@ -188,7 +189,7 @@ const milestones = [
 export default function EnhancedTravelMateAbout() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -196,8 +197,6 @@ export default function EnhancedTravelMateAbout() {
     }, 4000);
     return () => clearInterval(timer);
   }, []);
-
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -218,6 +217,24 @@ export default function EnhancedTravelMateAbout() {
     );
   }
 
+  const ScrollReveal = ({ children, delay = 0 }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+      once: true,
+      margin: '-100px',
+    });
+
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0.1, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.6, delay }}
+      >
+        {children}
+      </motion.div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-violet-50/40 dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">
@@ -377,6 +394,201 @@ export default function EnhancedTravelMateAbout() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </section>
+
+        {/* Travel Packages Section */}
+        <section className="py-32 px-6 ">
+          <div className="container mx-auto">
+            <ScrollReveal>
+              <div className="text-center mb-20">
+                <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-fuchsia-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                  Curated Travel Packages
+                </h2>
+                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Discover immersive journeys crafted with passion and detail
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+              {[
+                {
+                  title: 'European Grand Tour',
+                  duration: '14 Days',
+                  price: '$3,499',
+                  originalPrice: '$4,200',
+                  image:
+                    'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['France', 'Italy', 'Switzerland', 'Austria'],
+                  highlights: [
+                    'Eiffel Tower',
+                    'Colosseum',
+                    'Alps',
+                    'Vienna Palace',
+                  ],
+                  rating: 4.9,
+                  reviews: 847,
+                  description:
+                    'Journey through iconic capitals and timeless landscapes in the heart of Europe.',
+                },
+                {
+                  title: 'Asian Adventure',
+                  duration: '12 Days',
+                  price: '$2,799',
+                  originalPrice: '$3,400',
+                  image:
+                    'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['Japan', 'Thailand', 'Vietnam'],
+                  highlights: [
+                    'Tokyo Temples',
+                    'Bangkok Markets',
+                    'Ha Long Bay',
+                  ],
+                  rating: 4.8,
+                  reviews: 623,
+                  description:
+                    'Dive into Asia’s rich traditions, bustling cities, and natural wonders.',
+                },
+                {
+                  title: 'African Safari',
+                  duration: '10 Days',
+                  price: '$4,299',
+                  originalPrice: '$5,100',
+                  image:
+                    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['Kenya', 'Tanzania'],
+                  highlights: [
+                    'Serengeti',
+                    'Masai Mara',
+                    'Kilimanjaro',
+                    'Ngorongoro',
+                  ],
+                  rating: 4.9,
+                  reviews: 412,
+                  description:
+                    'Witness the wild in its purest form across the vast African plains.',
+                },
+                {
+                  title: 'South American Discovery',
+                  duration: '16 Days',
+                  price: '$3,899',
+                  originalPrice: '$4,600',
+                  image:
+                    'https://images.unsplash.com/photo-1531065208531-4036c0dba3d5?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['Peru', 'Chile', 'Argentina'],
+                  highlights: [
+                    'Machu Picchu',
+                    'Atacama Desert',
+                    'Patagonia',
+                    'Buenos Aires',
+                  ],
+                  rating: 4.8,
+                  reviews: 356,
+                  description:
+                    'From Incan wonders to Patagonian peaks, experience South America’s soul.',
+                },
+                {
+                  title: 'Mediterranean Cruise',
+                  duration: '8 Days',
+                  price: '$2,199',
+                  originalPrice: '$2,800',
+                  image:
+                    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['Spain', 'Italy', 'Greece', 'Turkey'],
+                  highlights: ['Barcelona', 'Rome', 'Santorini', 'Istanbul'],
+                  rating: 4.7,
+                  reviews: 934,
+                  description:
+                    'Sail through turquoise waters and explore legendary Mediterranean coasts.',
+                },
+                {
+                  title: 'Nordic Northern Lights',
+                  duration: '7 Days',
+                  price: '$2,999',
+                  originalPrice: '$3,500',
+                  image:
+                    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop',
+                  countries: ['Norway', 'Iceland', 'Finland'],
+                  highlights: [
+                    'Aurora Borealis',
+                    'Fjords',
+                    'Ice Hotels',
+                    'Reykjavik',
+                  ],
+                  rating: 4.9,
+                  reviews: 278,
+                  description:
+                    'Chase the aurora and marvel at the Arctic’s otherworldly beauty.',
+                },
+              ].map((pkg, index) => (
+                <ScrollReveal key={index} delay={index * 0.1}>
+                  <motion.div whileHover={{ scale: 1.03, y: -10 }}>
+                    <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
+                      {/* Background Image with permanent tint */}
+                      <img
+                        src={pkg.image}
+                        alt={pkg.title}
+                        className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+
+                      {/* Description overlay (always visible) */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4">
+                        <p className="text-sm text-primary-foreground">{pkg.description}</p>
+                      </div>
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+                      {/* Hover Overlay Content */}
+                      <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
+                        <h3 className="text-2xl font-bold text-primary-foreground mb-2">
+                          {pkg.title}
+                        </h3>
+                        <p className="text-sm text-secondary mb-3">
+                          {pkg.duration}
+                        </p>
+
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="text-xl font-bold text-emerald-400">
+                            {pkg.price}
+                          </span>
+                          <span className="text-secondary line-through">
+                            {pkg.originalPrice}
+                          </span>
+                        </div>
+
+                        <ul className="text-sm text-secondary grid grid-cols-2 gap-x-4 gap-y-1 mb-4">
+                          {pkg.highlights.map((h, i) => (
+                            <li key={i}>• {h}</li>
+                          ))}
+                        </ul>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-secondary">
+                            ⭐ {pkg.rating} ({pkg.reviews})
+                          </span>
+                          <Button
+                            size="sm"
+                            className="rounded-full bg-secondary text-primary hover:bg-destructive"
+                          >
+                            Explore
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Discount Badge */}
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-red-600/90 text-secondary-foreground backdrop-blur-sm">
+                          Save{' '}
+                          {parseInt(pkg.originalPrice.replace(/\$|,/g, '')) -
+                            parseInt(pkg.price.replace(/\$|,/g, ''))}
+                        </Badge>
+                      </div>
+                    </div>
+                  </motion.div>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -607,41 +819,7 @@ export default function EnhancedTravelMateAbout() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="bg-card/50 backdrop-blur-sm border-t border-border py-12 mt-16">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="flex items-center justify-center gap-8 mb-6">
-            <Button
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Privacy
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Terms
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Support
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Careers
-            </Button>
-          </div>
-          <p className="text-muted-foreground">
-            © {new Date().getFullYear()} TravelMate — Crafted with ❤️ for
-            curious travelers worldwide
-          </p>
-        </div>
-      </footer>
+      
 
       {/* Video Modal */}
       {isVideoPlaying && (

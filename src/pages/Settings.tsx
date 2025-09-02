@@ -21,22 +21,27 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import type { JSX } from 'react/jsx-runtime';
-import { Select, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectLabel,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
 // import { Link } from 'react-router-dom';
 // import { zodResolver } from '@hookform/resolvers/zod';
 // import { useForm } from 'react-hook-form';
 // import { z } from 'zod';
 import { useNotification } from '@/context/NotificationContext';
-import {
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-} from '@radix-ui/react-select';
+
 import { useTravelPreferences } from '@/context/PreferenceContext';
 import { toast } from 'sonner';
 import { useLang } from '@/context/LangContext';
-import { translateText } from '@/api/Lang';
+
+
 
 /**
  * TravelSettingsPage
@@ -53,6 +58,9 @@ type PaymentMethod = {
   exp: string;
   default?: boolean;
 };
+type PymentMethodincludeIrreversible =  PaymentMethod &{
+irriversible: boolean
+ }
 
 export default function TravelSettingsPage(): JSX.Element {
   // --- Dark mode (persisted) ---
@@ -123,13 +131,19 @@ export default function TravelSettingsPage(): JSX.Element {
   // notificaions
   const { addNotification } = useNotification();
   // language translate
-  const { state, dispatch } = useLang();
-  const [sampleText, setSampleText] = useState('Welcome to our travel app!');
-  const [translated, setTranslated] = useState('');
-
+  const { state, dispatch, translate } = useLang();
+  const [sampleText] = useState('Welcome to our travel app!');
+  const [translated, setTranslated] = useState('')
+  state
   const handlelangChange = async (lang: string) => {
+    // update PreferenceContext
+    updatePreferences({ language: lang });
+
+    // update LangContext
     dispatch({ type: 'SET_LANGUAGE', payload: lang });
-    const result = await translateText(sampleText, lang, 'en');
+
+    // sample translation test (optional)
+    const result = await translate(sampleText, lang);
     setTranslated(result);
   };
 
@@ -353,10 +367,10 @@ export default function TravelSettingsPage(): JSX.Element {
                   <div className="relative">
                     <Label>Default Currency</Label>
                     <Select
-                    // value={preferences.currency}
-                    // onValueChange={val =>
-                    //   updatePreferences({ currency: val })
-                    // }
+                      value={preferences.currency}
+                      onValueChange={val =>
+                        updatePreferences({ currency: val })
+                      }
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select currency" />
@@ -374,27 +388,34 @@ export default function TravelSettingsPage(): JSX.Element {
                   <div>
                     <Label>Language</Label>
                     <Select
-                      value={state.currentLang}
-                      onValueChange={e => handlelangChange(e.target.value)}
+                      value={preferences.language}
+                      onValueChange={value => handlelangChange(value)} // 👈 no need for e.target.value
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="en">English</SelectItem>
-                        <option value="fr">French</option>
-                        <option value="es">Spanish</option>
-                        <option value="de">German</option>
-                        <option value="ig">Igbo</option>
-                        <option value="yo">chinese</option>
+                        <SelectGroup>
+                          <SelectItem value="en">English</SelectItem>
+                          <SelectItem value="fr">French</SelectItem>
+                          <SelectItem value="es">Spanish</SelectItem>
+                          <SelectItem value="de">German</SelectItem>
+                          <SelectItem value="ig">Igbo</SelectItem>
+                          <SelectItem value="yo">Yoruba</SelectItem>
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
-                    {toast.success(`translated to${sampleText}`)}
-                    <div className="mt-6">
-                      <p className="text-gray-600">Original: {sampleText}</p>
-                      <p className="font-semibold mt-2">
-                        Translated: {translated}
-                      </p>
+                    {/* {toast.success(`translated to${sampleText}`)} */}
+                    {state.loading && (
+                      <div className="text-sm text-muted-foreground">
+                        Translating…
+                      </div>
+                    )}
+                    {state.error && (
+                      <div className="text-sm text-red-500">{ state.error }</div>
+                    )}
+                    <div className="font-semibold mt-2">
+                      Translated: {translated || '(no translation yet)'}
                     </div>
                   </div>
 

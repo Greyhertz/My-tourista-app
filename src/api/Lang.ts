@@ -1,18 +1,21 @@
-export async function translateText(
-  text: string,
-  targetLang: string,
-  sourceLang = 'en'
-) {
-  const res = await fetch('https://libretranslate.com/translate', {
+export async function translateText(text: string, targetLang: string) {
+  const res = await fetch('https://libretranslate.de/translate', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       q: text,
-      source: sourceLang, // "en" or "auto"
-      target: targetLang, // e.g. "es"
+      source: 'en',
+      target: targetLang,
       format: 'text',
     }),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   });
+
+  if (!res.ok) {
+    throw new Error(`Translation failed: ${res.status}`);
+  }
 
   const data = await res.json();
   return data.translatedText;
