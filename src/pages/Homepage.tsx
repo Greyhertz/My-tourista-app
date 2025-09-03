@@ -44,10 +44,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import NewsLetterBox from '@/components/core/LetterBox';
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [emailSubscription, setEmailSubscription] = useState('');
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -308,11 +308,7 @@ const Homepage = () => {
     console.log('Searching for:', searchQuery);
   };
 
-  const handleSubscribe = e => {
-    e.preventDefault();
-    console.log('Subscribing:', emailSubscription);
-    setEmailSubscription('');
-  };
+ 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-300 to-background dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">
@@ -383,7 +379,7 @@ const Homepage = () => {
             transition={{ duration: 1, delay: 0.8 }}
             className="max-w-5xl mx-auto mb-16"
           >
-            <Card className="bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <Card className="bg-card  backdrop-blur-xl border border-white/20 shadow-2xl">
               <CardContent className="p-8">
                 <form onSubmit={handleSearch}>
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
@@ -503,12 +499,12 @@ const Homepage = () => {
                   transition={{ duration: 0.8, delay: 1.4 + index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <Card className="text-center bg-white/20 backdrop-blur-sm border-white/30 shadow-lg">
+                  <Card className="text-center bg-slate-4 backdrop-blur-sm border-white/30 shadow-lg">
                     <CardContent className="p-6">
                       <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
-                        <stat.icon className="h-6 w-6 text-white" />
+                        <stat.icon className="h-6 w-6 " />
                       </div>
-                      <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                      <div className="text-3xl md:text-4xl font-bold mb-2">
                         {stat.prefix}
                         {stat.number}
                       </div>
@@ -958,52 +954,7 @@ const Homepage = () => {
  
 
       {/* Newsletter */}
-      <section className="py-24 px-6 bg-background">
-        <div className="container mx-auto">
-          <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm border-purple-600 shadow-purple-400 dark:shadow-purple-800">
-            <CardContent className="p-10 text-center">
-              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                <Mail className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Get travel inspiration in your inbox
-              </h3>
-              <p className="text-muted-foreground mb-8">
-                Exclusive deals, new itineraries, and smart tips — no spam, just
-                wanderlust.
-              </p>
-              <form
-                onSubmit={handleSubscribe}
-                className="flex flex-col sm:flex-row gap-3 justify-center"
-              >
-                <div className="relative flex-1 max-w-md">
-                  <input
-                    type="email"
-                    required
-                    placeholder="you@example.com"
-                    value={emailSubscription}
-                    onChange={e => setEmailSubscription(e.target.value)}
-                    className="px-4 py-3 pl-10 rounded-lg border-2 border-input focus:border-ring focus:outline-none bg-background w-full"
-                  />
-                  <Mail className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
-                </div>
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <Button
-                    type="submit"
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                  >
-                    <ArrowRight className="w-4 h-4 mr-2" />
-                    Subscribe
-                  </Button>
-                </motion.div>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+          <NewsLetterBox />
 
       {/* Call to Action */}
       <section className="py-32 px-6 bg-gradient-to-r from-primary to-secondary relative overflow-hidden">

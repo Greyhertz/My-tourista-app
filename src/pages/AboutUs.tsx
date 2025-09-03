@@ -31,6 +31,8 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
+import NewsLetterBox from '@/components/core/LetterBox';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const stats = [
   {
@@ -246,6 +248,37 @@ export default function EnhancedTravelMateAbout() {
       </div>
 
       {/* HERO SECTION */}
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl font-extrabold mb-6"
+        >
+          About Us
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-lg max-w-2xl"
+        >
+          Discover our journey, mission, and the people behind our vision.
+        </motion.p>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-6 grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto">
+        {['100+ Destinations', '50K+ Travelers', '10+ Years Experience'].map(
+          (stat, i) => (
+            <Card key={i} className="shadow-lg rounded-2xl">
+              <CardContent className="text-center p-6 font-bold text-xl">
+                {stat}
+              </CardContent>
+            </Card>
+          )
+        )}
+      </section>
       <header className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -397,6 +430,42 @@ export default function EnhancedTravelMateAbout() {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="py-20 px-6 container mx-auto">
+          <h2 className="text-3xl font-bold mb-10 text-center">
+            Frequently Asked Questions
+          </h2>
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full max-w-2xl mx-auto"
+          >
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What services do you provide?</AccordionTrigger>
+              <AccordionContent>
+                We offer travel planning, hotel bookings, guided tours, and
+                destination insights.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>
+                Do you operate internationally?
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes, we partner with agencies and hotels in over 50 countries
+                worldwide.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Can I customize my trip?</AccordionTrigger>
+              <AccordionContent>
+                Absolutely, our AI-powered system allows full customization of
+                your itineraries.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </section>
+        
         {/* Travel Packages Section */}
         <section className="py-32 px-6 ">
           <div className="container mx-auto">
@@ -534,7 +603,9 @@ export default function EnhancedTravelMateAbout() {
 
                       {/* Description overlay (always visible) */}
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4">
-                        <p className="text-sm text-primary-foreground">{pkg.description}</p>
+                        <p className="text-sm text-primary-foreground">
+                          {pkg.description}
+                        </p>
                       </div>
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
@@ -700,7 +771,7 @@ export default function EnhancedTravelMateAbout() {
                       />
                       <AvatarFallback className="text-lg">
                         {member.name
-                          .split(' ')
+                          .split('')
                           .map(n => n[0])
                           .join('')}
                       </AvatarFallback>
@@ -819,7 +890,7 @@ export default function EnhancedTravelMateAbout() {
         </section>
       </main>
 
-      
+      <NewsLetterBox />
 
       {/* Video Modal */}
       {isVideoPlaying && (

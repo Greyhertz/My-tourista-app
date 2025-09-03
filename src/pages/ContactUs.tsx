@@ -1,69 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
-import Header from '../components/core/Header';
-// import CustomDrawer from '../components/core/CustomDrawer';
-// import { ChangeProfile } from "../components/ChangeProfile";
-// import useTheme from "../hooks/useTheme";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import NewsLetterBox from "@/components/core/LetterBox";
 
 export default function ContactUs() {
-  const data = useLoaderData() as {
-    supportEmail: string;
-    phone: string;
-    office: string;
-  };
-
- 
-  
-
-  //  const { theme, changeTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
-
-  const toggleDrawer = () => setDrawerOpen(prev => !prev);
-  const toggleThemeDropdown = () => setThemeDropdownOpen(prev => !prev);
-
-  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
-    setTheme(newTheme);
-    setThemeDropdownOpen(false);
-    if (newTheme === 'system') {
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      setIsDarkMode(prefersDark);
-    } else {
-      setIsDarkMode(newTheme === 'dark');
-    }
-  };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // ⏳ 2 seconds delay
-
-    return () => clearTimeout(timer); // cleanup
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (theme === 'system') {
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      setIsDarkMode(prefersDark);
-    } else {
-      setIsDarkMode(theme === 'dark');
-    }
-  }, [theme]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-950">
         <div className="flex flex-col items-center space-y-4">
           <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          <p className="text-xl text-gray-700 dark:text-gray-300 font-semibold animate-pulse">
-            Loading...
+          <p className="text-xl font-semibold text-gray-600 dark:text-gray-300 animate-pulse">
+            Loading Contact Page...
           </p>
         </div>
       </div>
@@ -71,148 +35,142 @@ export default function ContactUs() {
   }
 
   return (
-    <div className={isDarkMode ? 'dark' : ''}>
-      <div className="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-sans">
-        {/* Hero */}
+    <div className="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-sans">
+      {/* Hero Section */}
+        <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl font-extrabold mb-6"
+        >
+          Get in Touch
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-lg max-w-2xl"
+        >
+         Our team is here to answer your questions and help you plan your next
+          adventure.
+        </motion.p>
+      </section>
+      {/* Quick Contact Stats */}
+      <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          {
+            icon: Mail,
+            title: "Email Support",
+            desc: "greyhert120@gmail.com",
+          },
+          {
+            icon: Phone,
+            title: "Call Us",
+            desc: "+234 91638788900",
+          },
+          {
+            icon: Clock,
+            title: "Office Hours",
+            desc: "Mon - Fri, 9am - 6pm",
+          },
+        ].map((item, i) => (
+          <Card key={i} className="shadow-lg hover:shadow-xl transition">
+            <CardContent className="flex flex-col items-center p-6 space-y-2">
+              <item.icon className="w-10 h-10 text-blue-500" />
+              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </section>
 
-        {/* <button
-    onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}
-    className="bg-gray-300 dark:bg-gray-700 text-sm px-3 py-1 rounded"
-  >
-    Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-  </button> */}
-
-        <Header stuff={{ toggleDrawer }} />
-        {/* <CustomDrawer
-          isOpen={isDrawerOpen}
-          isDarkMode={isDarkMode}
-          onClose={() => setDrawerOpen(false)}
-          onThemeChange={handleThemeChange}
-          currentTheme={theme}
-          themeDropdownOpen={themeDropdownOpen}
-          toggleThemeDropdown={toggleThemeDropdown}
-        /> */}
-
-        <section className="px-6 py-20 text-center border-b border-gray-300 bg-gray-300 dark:bg-gray-900 dark:border-gray-800 ">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            We'd Love to Hear From You
-          </h1>
-          <p className="text-lg  font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
-            Whether you're planning your next journey or need assistance, our
-            team is here to help.
-          </p>
-        </section>
-
-        {/* Contact Info Grid */}
-        <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-semibold">Customer Support</h3>
-            <p className="text-gray-600 dark:text-gray-400">Available 24/7</p>
-            <a
-              href={`mailto:${data.supportEmail}`}
-              className="text-blue-600 dark:text-blue-400 underline"
-            >
-              {data.supportEmail}
-            </a>
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-semibold">Phone</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Mon - Fri, 9am - 6pm
+      {/* Contact Form */}
+      <section className="bg-background">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <h2 className="text-4xl font-bold">We’d Love to Hear from You</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
+              Whether you’re planning your next trip, have questions about our
+              services, or just want to say hello—drop us a message.
             </p>
-            <a
-              href={`tel:${data.phone}`}
-              className="text-blue-600 dark:text-blue-400 underline"
-            >
-              {data.phone}
-            </a>
-          </div>
-          <div className="text-center space-y-2">
-            <h3 className="text-xl font-semibold">Head Office</h3>
-            <p className="text-gray-600 dark:text-gray-400">{data.office}</p>
-          </div>
-        </section>
+            <img
+              src="/asset/polygon-scatter-haikei.svg"
+              alt="Contact Illustration"
+              className="w-72 md:w-80 animate-float"
+            />
+          </motion.div>
 
-        {/* Contact Form with Animation */}
-        <section className="bg-gray-200 dark:bg-gray-900 py-16 px-6 ">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl relative overflow-hidden">
-            {/* ✨ Animated blob */}
-            <div className="hidden lg:flex justify-center items-center relative z-10">
-              <div className="space-y-6">
-                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  We'd Love to Hear From You
-                </h2>
-                <p className="text-lg text-gray-700">
-                  Whether you're planning your next journey or need assistance,
-                  our team is here to help.
-                </p>
-                <img
-                  src="/asset/polygon-scatter-haikei.svg"
-                  alt="Contact Illustration"
-                  className="w-64 sm:w-72 md:w-80 animate-float"
-                />
-              </div>
+          <motion.form
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl"
+          >
+            <div className="grid md:grid-cols-2 gap-6">
+              <Input placeholder="Full Name" required />
+              <Input placeholder="Email Address" type="email" required />
             </div>
+            <Input placeholder="Subject" required />
+            <Textarea rows={5} placeholder="Write your message..." required />
+            <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+              Send Message
+            </Button>
+          </motion.form>
+        </div>
+      </section>
 
-            {/* Contact Form */}
-            <form className="space-y-6 relative z-10">
-              <h2 className="text-2xl font-bold mb-4">Send Us a Message</h2>
+      {/* FAQ Section */}
+      <section className="py-20 px-6 bg-white dark:bg-gray-950">
+        <h2 className="text-3xl font-bold text-center mb-10">FAQs</h2>
+        <div className="max-w-2xl mx-auto">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="q1">
+              <AccordionTrigger>How quickly do you respond?</AccordionTrigger>
+              <AccordionContent>
+                We aim to reply to all inquiries within 24 hours.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="q2">
+              <AccordionTrigger>
+                Can I visit your office in person?
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes! Our office is open Monday to Friday from 9am to 6pm.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </section>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block font-medium mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-2 rounded-md border border-gray-600 focus:border-0 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Jane Doe"
-                  />
-                </div>
-                <div>
-                  <label className="block font-medium mb-1">Email</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-2 rounded-md border border-gray-600 focus:border-0 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="you@example.com"
-                  />
-                </div>
-              </div>
+      {/* Map Section */}
+      <section className="px-6 pb-20">
+        <div className="max-w-6xl mx-auto mt-10 rounded-xl overflow-hidden shadow-lg">
+          <iframe
+            title="Location Map"
+            className="w-full h-80"
+            src="https://maps.google.com/maps?q=Times%20Square,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </section>
 
-              <div>
-                <label className="block font-medium mb-1">Message</label>
-                <textarea
-                  rows={5}
-                  required
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 focus:border-0 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Write your message here..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-6 py-2 rounded-md transition"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </section>
-        {/* 
-         <ChangeProfile setUsername={setUserName} />  */}
-
-        {/* Map */}
-        <section className="px-6 pb-20">
-          <div className="max-w-6xl mx-auto mt-10 rounded-xl overflow-hidden shadow-md">
-            <iframe
-              title="Location Map"
-              className="w-full h-72"
-              src="https://maps.google.com/maps?q=Times%20Square,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed"
-              loading="lazy"
-            ></iframe>
-          </div>
-        </section>
-      </div>
+      {/* Final CTA */}
+     
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+         <NewsLetterBox />
+        </motion.div>
+     
     </div>
   );
 }
+  
