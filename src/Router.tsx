@@ -18,6 +18,7 @@ import { IntegrationsList } from './pages/Intergration';
 import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
 import CartComponent from './pages/Cart';
+import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
   {
@@ -50,9 +51,7 @@ export const router = createBrowserRouter([
       {
         path: '*',
         element: (
-          <div className="p-6 text-destructive bg-background">
-            404 - Page Not Found
-          </div>
+        <NotFound />
         ),
       },
     ],
