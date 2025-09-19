@@ -65,20 +65,33 @@ irriversible: boolean
 
 export default function TravelSettingsPage(): JSX.Element {
   // --- Dark mode (persisted) ---
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('travel-app-dark') === 'true';
-    } catch {
-      return false;
-    }
-  });
-  useEffect(() => {
-    if (darkMode) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-    try {
-      localStorage.setItem('travel-app-dark', darkMode ? 'true' : 'false');
-    } catch {}
-  }, [darkMode]);
+  // const [darkMode, setDarkMode] = useState<boolean>(() => {
+  //   try {
+  //     return localStorage.getItem('travel-app-dark') === 'true';
+  //   } catch {
+  //     return false;
+  //   }
+  // });
+  // useEffect(() => {
+  //   if (darkMode) document.documentElement.classList.add('dark');
+  //   else document.documentElement.classList.remove('dark');
+  //   try {
+  //     localStorage.setItem('travel-app-dark', darkMode ? 'true' : 'false');
+  //   } catch {}
+  // }, [darkMode]);
+
+       {
+         /* <div className="flex items-center gap-2">
+              <Label htmlFor="dark-mode" className="text-sm">
+                Dark
+              </Label>
+              <Switch
+                id="dark-mode"
+                checked={darkMode}
+                onCheckedChange={setDarkMode}
+              />
+            </div> */
+       }
 
   // --- Profile ---
   const [profileName, setProfileName] = useState('Prince Onuoha');
@@ -218,16 +231,6 @@ export default function TravelSettingsPage(): JSX.Element {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Label htmlFor="dark-mode" className="text-sm">
-                Dark
-              </Label>
-              <Switch
-                id="dark-mode"
-                checked={darkMode}
-                onCheckedChange={setDarkMode}
-              />
-            </div>
             <Button
               variant="ghost"
               onClick={() => {
