@@ -224,6 +224,7 @@
   margin: 0;
   font-weight: bold;
   color: hsl(120, 80%, 48%) yellow;
+  text-decoration: hsl(119, 96%, 41%)
 }
 
 /* .header svg {
@@ -294,6 +295,8 @@
 
     --card: 0 0% 100%;
 
+    --success: 119, 100%, 50%;
+
     --card-foreground: 224 71.4% 4.1%;
 
     --popover: 0 0% 100%;
@@ -362,6 +365,8 @@
     --foreground: 210 20% 98%;
 
     --card: 224 71.4% 4.1%;
+
+    --success: 119, 96%, 41%
 
     --card-foreground: 210 20% 98%;
 

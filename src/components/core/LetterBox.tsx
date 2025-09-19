@@ -15,7 +15,7 @@ export default function NewsLetterBox()
     setEmailSubscription('');
   };
   return (
-    <section className="py-24 px-6 bg-background">
+    <section className="py-24 px-6">
       <div className="container mx-auto">
         <Card className="max-w-3xl mx-auto bg-card/80 backdrop-blur-sm  shadow-purple-400 dark:shadow-purple-800">
           <CardContent className="p-10 text-center">

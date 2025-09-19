@@ -1,22 +1,38 @@
-import { useParams, Link } from "react-router-dom";
-// import { blogPosts } from "../data/blogData";
-import { blogPosts } from "../data/DataBlog";// Adjust the import path as necessary
-import { motion } from "framer-motion";
+// import { useParams, Link} from "react-router-dom";
+// import { mockPosts } from "@/data/DataBlog";
+//// Adjust the import path as necessary
+// import { useBlog } from "@/context/BlogContex";
 // import { Icon } from "lucide-react";
 // import * as Icon from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
+import { useBlog, type BlogPost } from "@/context/BlogContex";
+import { Link, useParams } from "react-router-dom";
 
-export default function BlogPostDetail() {
+type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  author: string;
+  publishedAt: string;
+  // commentSection: string;
+  // add any other properties your blog posts have
+};
+
+// const {slug, title, excerpt, image, author, publishedt} = useBlog()
+
+export default function BlogPostDetail()
+{
+  const blogPosts = useBlog() as unknown as BlogPost[]  ;
   const { slug } = useParams();
   const post = blogPosts.find((p) => p.slug === slug)
-
   if (!post) {
     return <div className="text-center text-red-500 mt-10">Post not found.</div>;
   }
-
+  
   const recentPosts = blogPosts
-    .filter((p) => p.slug !== slug)
+  .filter((p) => p.slug !== slug)
    //  .slice(0, 6);
-
   return (
     <div
       className="flex flex-col lg:flex-row gap-10 p-10  py-16 h-full"
@@ -112,3 +128,37 @@ export default function BlogPostDetail() {
     </div>
   );
 }
+
+// BlogPostDetail.tsx
+// export default function BlogPostDetail() {
+//   const blogPosts = useBlog() as unknown as BlogPost[];
+//   const { slug } = useParams();
+
+//   const post = blogPosts.find((p) => p.slug === slug);
+
+//   if (!post) {
+//     return <div className="text-center text-red-500 mt-10">Post not found.</div>;
+//   }
+
+//   const recentPosts = blogPosts.filter((p) => p.slug !== slug);
+
+//   return (
+//     <div className="p-6">
+//       <h1 className="text-3xl font-bold">{post.title}</h1>
+//       <img src={post.image} alt={post.title} className="rounded-lg my-6" />
+//       <p>{post.excerpt}</p>
+//       <p className="text-gray-500">{post.publishedAt}</p>
+
+//       <h2 className="mt-8 text-xl font-semibold">Recent Posts</h2>
+//       <ul>
+//         {recentPosts.map(r => (
+//           <li key={r.slug}>
+//             <Link to={`/blog/${r.slug}`} className="text-blue-600 hover:underline">
+//               {r.title}
+//             </Link>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }

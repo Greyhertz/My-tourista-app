@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, Clock } from "lucide-react";
 import NewsLetterBox from "@/components/core/LetterBox";
 
 export default function ContactUs() {
@@ -23,21 +23,19 @@ export default function ContactUs() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-950">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          <p className="text-xl font-semibold text-gray-600 dark:text-gray-300 animate-pulse">
-            Loading Contact Page...
-          </p>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading contact page...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-sans">
+    <div className="bg-background text-foreground font-sm">
       {/* Hero Section */}
-        <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,7 +50,7 @@ export default function ContactUs() {
           transition={{ delay: 0.5 }}
           className="text-lg max-w-2xl"
         >
-         Our team is here to answer your questions and help you plan your next
+          Our team is here to answer your questions and help you plan your next
           adventure.
         </motion.p>
       </section>
@@ -61,18 +59,18 @@ export default function ContactUs() {
         {[
           {
             icon: Mail,
-            title: "Email Support",
-            desc: "greyhert120@gmail.com",
+            title: 'Email Support',
+            desc: 'greyhert120@gmail.com',
           },
           {
             icon: Phone,
-            title: "Call Us",
-            desc: "+234 91638788900",
+            title: 'Call Us',
+            desc: '+234 91638788900',
           },
           {
             icon: Clock,
-            title: "Office Hours",
-            desc: "Mon - Fri, 9am - 6pm",
+            title: 'Office Hours',
+            desc: 'Mon - Fri, 9am - 6pm',
           },
         ].map((item, i) => (
           <Card key={i} className="shadow-lg hover:shadow-xl transition">
@@ -94,13 +92,13 @@ export default function ContactUs() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h2 className="text-4xl font-bold">We’d Love to Hear from You</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+            <h2 className="text-4xl ">We’d Love to Hear from You</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-base">
               Whether you’re planning your next trip, have questions about our
               services, or just want to say hello—drop us a message.
             </p>
             <img
-              src="/asset/polygon-scatter-haikei.svg"
+              src="https://sdmntpritalynorth.oaiusercontent.com/files/00000000-569c-6246-a776-5694f82b5137/raw?se=2025-09-03T18%3A09%3A03Z&sp=r&sv=2024-08-04&sr=b&scid=3b050c1b-e990-583b-884c-d6f25c2a71be&skoid=b928fb90-500a-412f-a661-1ece57a7c318&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-03T06%3A28%3A19Z&ske=2025-09-04T06%3A28%3A19Z&sks=b&skv=2024-08-04&sig=iYXgDxVGYURc893OkBhVio4jf/iIrwzOZA1nDMnBOfM%3D"
               alt="Contact Illustration"
               className="w-72 md:w-80 animate-float"
             />
@@ -120,7 +118,7 @@ export default function ContactUs() {
             <Textarea rows={5} placeholder="Write your message..." required />
             <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
               Send Message
-            </Button>
+            </Button> 
           </motion.form>
         </div>
       </section>
@@ -161,15 +159,14 @@ export default function ContactUs() {
       </section>
 
       {/* Final CTA */}
-     
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-         <NewsLetterBox />
-        </motion.div>
-     
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <NewsLetterBox />
+      </motion.div>
     </div>
   );
 }

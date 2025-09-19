@@ -5,6 +5,7 @@ import { LangProvider } from './context/LangContext';
 import { ThemeProvider } from './components/core/ThemeProvider';
 import { TravelPreferecesProvider } from './context/PreferenceContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { BlogProvider } from './context/BlogContex';
 //  import { ThemeProvider } from 'next-themes';
 
 export function AppProviders({ children }: { children: ReactNode }) {
@@ -18,10 +19,12 @@ export function AppProviders({ children }: { children: ReactNode }) {
       disableTransitionOnChange
     >
       <NotificationProvider>
-        <LangProvider>
-          {' '}
-          <TravelPreferecesProvider>{children} </TravelPreferecesProvider>
-        </LangProvider>
+        <BlogProvider>
+          <LangProvider>
+            {' '}
+            <TravelPreferecesProvider>{children} </TravelPreferecesProvider>
+          </LangProvider>
+        </BlogProvider>
       </NotificationProvider>
     </ThemeProvider>
   );

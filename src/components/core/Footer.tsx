@@ -15,42 +15,70 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="py-20 px-6 bg-card text-card-foreground border-t border-muted backdrop-blur-sm">
+    <footer className="py-20 px-6 bg-card text-card-foreground border-muted backdrop-blur-sm">
       <div className="container mx-auto">
         {/* Top grid */}
-        <div className="grid md:grid-cols-5 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
           {/* Brand + socials */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 flex flex-col items-center text-center md:items-start md:text-left">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+              <div
+                className="w-12 h-12 bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600
+                rounded-xl flex items-center justify-center shadow-lg"
+              >
                 <Compass className="h-6 w-6 text-white" />
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent animate-pulse">
                 TravelMate
               </span>
             </div>
 
-            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+            <p className="text-base text-foreground text-clip- leading-relaxed mb-6 max-w-md">
               Creating unforgettable travel experiences since 2010. Your
               adventure starts here with AI-powered planning and world-class
               service.
+              <a
+                href=""
+                className="text-muted-foreground hover:underline text-xl"
+              >
+                Learn more
+              </a>
             </p>
 
-            <div className="flex space-x-4">
+            {/* socials */}
+            <div className="flex space-x-4 justify-center md:justify-start">
               {[
-                { icon: Facebook, label: 'Facebook' },
-                { icon: Twitter, label: 'Twitter' },
-                { icon: Instagram, label: 'Instagram' },
-                { icon: Youtube, label: 'YouTube' },
-              ].map(({ icon: Icon, label }) => (
+                {
+                  icon: Facebook,
+                  label: 'Facebook',
+                  color: 'hover:bg-blue-600 hover:text-white',
+                },
+                {
+                  icon: Twitter,
+                  label: 'Twitter',
+                  color: 'hover:bg-black hover:text-white',
+                },
+                {
+                  icon: Instagram,
+                  label: 'Instagram',
+                  color:
+                    'hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:text-white',
+                },
+                {
+                  icon: Youtube,
+                  label: 'YouTube',
+                  color: 'hover:bg-red-600 hover:text-white',
+                },
+              ].map(({ icon: Icon, label, color }) => (
                 <motion.a
                   key={label}
                   href="#"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  className="p-2 rounded-full bg-muted hover:bg-primary/10 transition-colors"
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`p-1.5 rounded-full  transition-colors duration-300 bg-muted ${color} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
                   aria-label={label}
                 >
-                  <Icon className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                  <Icon className={`${color} text-foreground`} />
                 </motion.a>
               ))}
             </div>
@@ -95,20 +123,23 @@ export default function Footer() {
               ],
             },
           ].map((col, index) => (
-            <div key={index}>
+            <div
+              key={index}
+              className="flex flex-col items-center text-center md:items-start md:text-left"
+            >
               <h3 className="font-semibold mb-6 flex items-center text-lg text-primary">
                 {col.icon}
                 {col.title}
               </h3>
-              <ul className="space-y-3">
+              <ul className="flex flex-wrap justify-center gap-4    md:flex-col md:justify-start md:gap-0 md:space-y-4">
                 {col.items.map(item => (
                   <li key={item}>
                     <motion.a
                       href="#"
                       whileHover={{ x: 4 }}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center"
+                      className="text-[15px] font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center md:justify-start"
                     >
-                      <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                       {item}
                     </motion.a>
                   </li>
@@ -120,21 +151,21 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-muted pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground flex items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <p className="text-sm text-muted-foreground flex items-center justify-center md:justify-start">
               <Heart className="w-4 h-4 mr-2 text-destructive" fill="red" />©{' '}
               {new Date().getFullYear()} TravelMate. All rights reserved. Made
               with love for travelers worldwide.
             </p>
 
-            <div className="flex space-x-6 text-sm">
+            <div className="flex flex-col sm:flex-row sm:space-x-6 gap-3 text-sm text-center">
               {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(
                 link => (
                   <motion.a
                     key={link}
                     href="#"
                     whileHover={{ y: -2 }}
-                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center justify-center text-green-700 dark:text-green-500 hover:text-foreground transition-colors"
                   >
                     <Shield className="w-3 h-3 mr-1" />
                     {link}

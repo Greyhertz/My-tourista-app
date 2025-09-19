@@ -33,7 +33,7 @@ import {
 import { motion, useInView } from 'framer-motion';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-
+import { ScrollReveal } from './Homepage';
 const stats = [
   {
     Icon: Users,
@@ -219,27 +219,9 @@ export default function EnhancedTravelMateAbout() {
     );
   }
 
-  const ScrollReveal = ({ children, delay = 0 }) => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, {
-      once: true,
-      margin: '-100px',
-    });
-
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0.1, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-        transition={{ duration: 0.6, delay }}
-      >
-        {children}
-      </motion.div>
-    );
-  };
-
+  
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-violet-50/40 dark:from-background dark:via-blue-950/30 dark:to-violet-950/40">
+    <div className="min-h-screen bg-gradient-to-br ">
       {/* Floating Background Elements - Theme Responsive */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-primary/10 to-violet-500/10 blur-3xl animate-pulse" />
@@ -272,7 +254,7 @@ export default function EnhancedTravelMateAbout() {
         {['100+ Destinations', '50K+ Travelers', '10+ Years Experience'].map(
           (stat, i) => (
             <Card key={i} className="shadow-lg rounded-2xl">
-              <CardContent className="text-center p-6 font-bold text-xl">
+              <CardContent className="text-center p-6 font-bold text-xl text-foreground">
                 {stat}
               </CardContent>
             </Card>
@@ -340,11 +322,18 @@ export default function EnhancedTravelMateAbout() {
                   <div className="relative overflow-hidden rounded-xl">
                     {/* Hero Image - Properly sized */}
                     <div className="aspect-[4/3] relative">
-                      <img
+                      {/* <img
                         src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&h=600&q=80"
                         alt="Beautiful tropical destination with crystal clear waters"
                         className="w-full h-full object-cover"
-                      />
+                      /> */}
+                      {/* <video src=""></video> */}
+                      <iframe
+                        src="https://www.youtube.com/embkJQP7kiw5Fk"
+                        frameBorder="0"
+                        className="w-full h-full object-cover"
+                      ></iframe>
+
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 
                       {/* Video Play Button */}
@@ -433,7 +422,8 @@ export default function EnhancedTravelMateAbout() {
         {/* FAQ Section */}
         <section className="py-20 px-6 container mx-auto">
           <h2 className="text-3xl font-bold mb-10 text-center">
-            Frequently Asked Questions
+            Frequently Asked Questions (FAQ's)
+            {/* FAQ's */}
           </h2>
           <Accordion
             type="single"
@@ -465,7 +455,7 @@ export default function EnhancedTravelMateAbout() {
             </AccordionItem>
           </Accordion>
         </section>
-        
+
         {/* Travel Packages Section */}
         <section className="py-32 px-6 ">
           <div className="container mx-auto">
@@ -592,26 +582,25 @@ export default function EnhancedTravelMateAbout() {
                 },
               ].map((pkg, index) => (
                 <ScrollReveal key={index} delay={index * 0.1}>
-                  <motion.div whileHover={{ scale: 1.03, y: -10 }}>
+                  <motion.div whileHover={{ y: -10 }}>
                     <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
                       {/* Background Image with permanent tint */}
                       <img
                         src={pkg.image}
                         alt={pkg.title}
-                        className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-80 object-cover transition-transform duration-500"
                       />
 
                       {/* Description overlay (always visible) */}
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4">
-                        <p className="text-sm text-primary-foreground">
+                        <p className="text-sm text-white">
                           {pkg.description}
                         </p>
                       </div>
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
 
                       {/* Hover Overlay Content */}
-                      <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
+                      {/* <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
                         <h3 className="text-2xl font-bold text-primary-foreground mb-2">
                           {pkg.title}
                         </h3>
@@ -645,7 +634,7 @@ export default function EnhancedTravelMateAbout() {
                             Explore
                           </Button>
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* Discount Badge */}
                       <div className="absolute top-4 left-4">
@@ -784,7 +773,11 @@ export default function EnhancedTravelMateAbout() {
                   <p className="text-sm text-muted-foreground mb-4">
                     {member.bio}
                   </p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-foreground"
+                  >
                     Connect
                   </Button>
                 </CardContent>
@@ -865,7 +858,7 @@ export default function EnhancedTravelMateAbout() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="text-primary-foreground border-primary-foreground hover:bg-background/10 px-6"
+                  className="text-primary border-primary-foreground hover:bg-background/10 px-6"
                 >
                   Start Planning Trip
                 </Button>

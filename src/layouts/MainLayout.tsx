@@ -43,7 +43,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           <Navbar />
 
           {/* Main Content with proper spacing for fixed navbar */}
-          <main className="pt-16 lg:pt-20 min-h-screen">
+          <main className=" ">
             {/* Content Container with Animation */}
             <div className="animate-fade-in-up">{children || <Outlet />}</div>
           </main>

@@ -1,4 +1,5 @@
 // src/pages/TravelSettingsPage.tsx
+'Use Client'
 import React, { useEffect, useReducer, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -86,7 +87,7 @@ export default function TravelSettingsPage(): JSX.Element {
   const [bio, setBio] = useState('Traveler • Photographer • Food lover');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
+                                      
   function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (!f) return;
@@ -192,7 +193,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
   // --- UI: large settings hub ---
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black py-20 px-6 mt-20">
+    <div className="min-h-screen bg-background py-20 px-6 mt-20">
       <motion.header
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -254,7 +255,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Profile */}
           <TabsContent value="profile">
-            <Card>
+            <Card className="bg-card text-foreground">
               <CardHeader>
                 <CardTitle>Profile</CardTitle>
                 <CardDescription>Manage your traveler profile</CardDescription>
@@ -361,7 +362,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="grid md:grid-cols-2 gap-6 bg-card backdrop-blur-xl border border-border shadow-2xl">
+              <CardContent className="grid md:grid-cols-2 gap-6 bg-card text-foreground backdrop-blur-xl border border-border shadow-2xl">
                 <div className="space-y-4">
                   {/* Currency */}
                   <div className="relative">
@@ -412,7 +413,7 @@ export default function TravelSettingsPage(): JSX.Element {
                       </div>
                     )}
                     {state.error && (
-                      <div className="text-sm text-red-500">{ state.error }</div>
+                      <div className="text-sm text-red-500">{state.error}</div>
                     )}
                     <div className="font-semibold mt-2">
                       Translated: {translated || '(no translation yet)'}
@@ -436,8 +437,8 @@ export default function TravelSettingsPage(): JSX.Element {
                     <Label>Traveler Type</Label>
                     <Select
                       value={preferences.travelerType}
-                      onValueChange={val =>
-                        updatePreferences({ travelerType: val })
+                      onValueChange={e =>
+                        updatePreferences({ travelerType: e.target.value })
                       }
                     >
                       <SelectTrigger className="w-full">
@@ -524,7 +525,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Integrations */}
           <TabsContent value="integrations">
-            <Card>
+            <Card className="bg-card text-foreground">
               <CardHeader>
                 <CardTitle>Integrations</CardTitle>
                 <CardDescription>
@@ -603,7 +604,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 </div>
 
                 <aside>
-                  <Card>
+                  <Card className="text-foreground">
                     <CardHeader>
                       <CardTitle>API Keys & Limits</CardTitle>
                     </CardHeader>
@@ -630,7 +631,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Billing */}
           <TabsContent value="billing">
-            <Card>
+            <Card className="bg-card text-foreground">
               <CardHeader>
                 <CardTitle>Billing</CardTitle>
                 <CardDescription>Subscription & invoices</CardDescription>
@@ -751,7 +752,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 </div>
 
                 <aside>
-                  <Card>
+                  <Card className="bg-card text-foreground">
                     <CardHeader>
                       <CardTitle>Billing Summary</CardTitle>
                     </CardHeader>
@@ -785,7 +786,7 @@ export default function TravelSettingsPage(): JSX.Element {
                     </CardContent>
                   </Card>
 
-                  <Card className="mt-4">
+                  <Card className="mt-4 bg-card text-foreground">
                     <CardHeader>
                       <CardTitle>Travel Credits</CardTitle>
                     </CardHeader>
@@ -803,7 +804,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Travel Docs */}
           <TabsContent value="docs">
-            <Card className="bg-card/90 backdrop-blur-xl border border-border shadow-2xl">
+            <Card className="bg-card text-foreground backdrop-blur-xl border  shadow-2xl">
               <CardHeader>
                 <CardTitle>Travel Documents</CardTitle>
                 <CardDescription>
@@ -860,7 +861,7 @@ export default function TravelSettingsPage(): JSX.Element {
 
           {/* Security */}
           <TabsContent value="security">
-            <Card>
+            <Card className="bg-card text-foreground">
               <CardHeader>
                 <CardTitle>Security</CardTitle>
                 <CardDescription>Protect your account</CardDescription>

@@ -16,7 +16,8 @@ import Test from './pages/Test';
 import BillingPage from './pages/BillingsPage';
 import { IntegrationsList } from './pages/Intergration';
 import PricingPage from './pages/Pricing';
-import Welcome from './pages/Welcome';
+import { Welcome } from './pages/Welcome';
+import CartComponent from './pages/Cart';
 
 export const router = createBrowserRouter([
   {
@@ -26,9 +27,8 @@ export const router = createBrowserRouter([
       { index: true, element: <Homepage /> },
       { path: 'about-us', element: <AboutUs /> },
       { path: 'blog', element: <BlogPage /> },
-      { path: 'blog/:slug', element: <BlogPostDetail /> },
+      { path: '/blog/:slug', element: <BlogPostDetail /> },
       { path: 'contact-us', element: <ContactUs /> },
-      { path: 'sign-up', element: <SignUpPage /> },
       { path: 'test', element: <Test /> },
       {
         path: 'explore-destination',
@@ -46,6 +46,7 @@ export const router = createBrowserRouter([
       { path: 'pricing', element: <PricingPage /> },
       { path: 'billing', element: <BillingPage /> },
       { path: 'welcome', element: <Welcome /> },
+
       {
         path: '*',
         element: (
@@ -56,4 +57,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: 'cart', element: <CartComponent /> },
+  { path: 'sign-up', element: <SignUpPage /> },
 ]);

@@ -8,6 +8,7 @@ import {
 import { fetchMultipleImages } from '../api/Unsplash';
 import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { BlogSection } from '@/components/core/BlogSection';
 
 export default function ExploreDestinations() {
   const navigate = useNavigate();
@@ -363,7 +364,7 @@ export default function ExploreDestinations() {
       </div>
 
       {/* Blog Section */}
-      <div className="max-w-6xl mx-auto px-6 my-20 text-center">
+      {/* <div className="max-w-6xl mx-auto px-6 my-20 text-center">
         <h2 className="text-3xl font-bold mb-8 text-foreground">
           📰 Trending Travel Blogs
         </h2>
@@ -387,7 +388,15 @@ export default function ExploreDestinations() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
+
+      <BlogSection
+        title="Travel Reviews"
+        limit={3}
+        category="all"
+        compact={true}
+        featured={true}
+      />
 
       {/* Map Section */}
       <div className="max-w-6xl mx-auto px-6 my-20">

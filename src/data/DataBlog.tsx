@@ -42,7 +42,21 @@
 //       'From Google Translate to offline maps and AI-based guides, here’s how I planned an efficient trip entirely from my phone. Travel smart, not hard.',
 //   },
 // ];
-export const blogPosts = [
+export const fetchTravelBlogs = async (limit = 20) => {
+  try {
+    const response = await fetch(
+      `https://dev.to/api/articles?tag=travel&per_page=${limit}`
+    );
+    if (!response.ok) throw new Error('Failed to fetch articles');
+    return await response.json();
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+};
+
+
+export const mockPosts = [
   {
     id: 1,
     slug: 'the-ultimate-guide-to-backpacking-through-southeast-asia',
@@ -124,7 +138,7 @@ export const blogPosts = [
     slug: 'street-food-adventures-in-bangkok-a-culinary-journey',
     title: 'Street Food Adventures in Bangkok: A Culinary Journey',
     excerpt:
-      "Experience the vibrant flavors of Bangkok’s street food scene. From spicy pad thai to sweet mango sticky rice, this guide introduces you to the city’s best food stalls, local favorites, and essential safety tips for enjoying authentic Thai cuisine while navigating bustling night markets.",
+      'Experience the vibrant flavors of Bangkok’s street food scene. From spicy pad thai to sweet mango sticky rice, this guide introduces you to the city’s best food stalls, local favorites, and essential safety tips for enjoying authentic Thai cuisine while navigating bustling night markets.',
     image:
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
     category: 'food',
@@ -271,4 +285,127 @@ export const blogPosts = [
     likes: 170,
     featured: true,
   },
+
+  {
+    id: 13,
+    slug: '10-hidden-gems-in-southeast-asia',
+    title: '10 Hidden Gems in Southeast Asia',
+    excerpt:
+      'Beyond the bustling cities and popular beaches, Southeast Asia hides countless treasures waiting to be discovered. From secret waterfalls tucked away in lush jungles to remote island villages where time seems to stand still, this guide unveils destinations few tourists ever reach. Whether you’re seeking untouched cultural traditions, serene natural wonders, or simply a quieter escape from the crowds, these hidden gems reveal an authentic side of the region that will surprise even seasoned travelers.',
+    image:
+      'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2070&auto=format&fit=crop',
+    category: 'adventure',
+    categoryName: 'Adventure Guide',
+    destination: 'asia',
+    destinationName: 'Southeast Asia',
+    author: 'Sarah Chen',
+    publishedAt: '2024-05-20',
+    readTime: 8,
+    views: 1757,
+    likes: 42,
+    featured: false,
+  },
+
+  {
+    id: 14,
+    slug: 'the-ultimate-european-food-tour',
+    title: 'The Ultimate European Food Tour',
+    excerpt:
+      'Europe is a paradise for food lovers, where every country offers a unique culinary story. From savoring rich pastas in Italy and buttery croissants in Paris to indulging in hearty sausages in Germany and tapas in Spain, this journey celebrates Europe’s extraordinary flavors. Along the way, you’ll uncover regional specialties, meet local artisans, and explore bustling markets that reflect centuries of culture and tradition. This food tour is more than a feast—it’s a cultural adventure that connects history, people, and palate.',
+    image:
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2070&auto=format&fit=crop',
+    category: 'food',
+    categoryName: 'Food & Culture',
+    destination: 'europe',
+    destinationName: 'Europe',
+    author: 'Marco Rossi',
+    publishedAt: '2024-12-12',
+    readTime: 12,
+    views: 0,
+    likes: 0,
+    featured: false,
+  },
+
+  {
+    id: 15,
+    slug: 'solo-female-travel-safety-and-empowerment',
+    title: 'Solo Female Travel: Safety & Empowerment',
+    excerpt:
+      'Traveling solo as a woman can be both liberating and challenging. This guide combines practical advice with inspiring stories from women who have journeyed across the globe. From navigating cultural norms and staying safe on the road to building confidence and embracing independence, it highlights strategies that empower female travelers. More than just a safety manual, it’s a celebration of courage, self-discovery, and the transformative power of exploring the world on your own terms.',
+    image:
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2070&auto=format&fit=crop',
+    category: 'travel-tips',
+    categoryName: 'Travel Tips',
+    destination: 'global',
+    destinationName: 'Worldwide',
+    author: 'Emma Thompson',
+    publishedAt: '2024-12-10',
+    readTime: 6,
+    views: 0,
+    likes: 0,
+    featured: false,
+  },
+
+  {
+    id: 16,
+    slug: 'photography-guide-capturing-aurora',
+    title: 'Photography Guide: Capturing Aurora',
+    excerpt:
+      'Few sights on Earth are as breathtaking as the northern lights dancing across the night sky. Yet capturing them on camera requires patience, the right equipment, and technical know-how. This photography guide explains how to master exposure settings, find ideal shooting locations, and anticipate natural conditions that create the best displays. Beyond technique, it encourages travelers to embrace the wonder of the aurora as both an artistic challenge and a once-in-a-lifetime experience under the stars.',
+    image:
+      'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?q=80&w=2070&auto=format&fit=crop',
+    category: 'photography',
+    categoryName: 'Photography',
+    destination: 'nordic',
+    destinationName: 'Nordic Countries',
+    author: 'Lars Andersen',
+    publishedAt: '2024-12-08',
+    readTime: 10,
+    views: 0,
+    likes: 0,
+    featured: false,
+  },
+
+  {
+    id: 17,
+    slug: 'budget-backpacking-through-africa',
+    title: 'Budget Backpacking Through Africa',
+    excerpt:
+      'Africa is a continent of incredible diversity, from vast deserts and savannas to vibrant cities and ancient cultures. For backpackers, it offers unforgettable adventures at surprisingly affordable costs—if you know where to look. This guide explores budget-friendly routes, tips for traveling safely, and advice on connecting with local communities. Whether you dream of trekking through national parks, riding public transport with locals, or discovering hidden gems off the beaten path, Africa promises a backpacking journey rich in culture and adventure.',
+    image:
+      'https://images.unsplash.com/photo-1547036967-23d11aacaee0?q=80&w=2070&auto=format&fit=crop',
+    category: 'budget',
+    categoryName: 'Budget Travel',
+    destination: 'africa',
+    destinationName: 'Africa',
+    author: 'David Okonkwo',
+    publishedAt: '2024-12-05',
+    readTime: 15,
+    views: 0,
+    likes: 0,
+    featured: false,
+  },
+
+  {
+    id: 18,
+    slug: 'digital-nomad-hotspots-2025',
+    title: 'Digital Nomad Hotspots 2025',
+    excerpt:
+      'Remote work is transforming how people travel, live, and connect across the globe. This guide highlights the best cities and towns in 2025 where digital nomads can find reliable WiFi, welcoming communities, and inspiring surroundings. From buzzing co-working hubs in Asia to laid-back coastal escapes in South America, each destination combines work-life balance with cultural richness. Whether you’re seeking affordability, adventure, or a thriving creative network, these hotspots represent the future of location-independent living.',
+    image:
+      'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?q=80&w=2070&auto=format&fit=crop',
+    category: 'remote-work',
+    categoryName: 'Remote Work',
+    destination: 'global',
+    destinationName: 'Worldwide',
+    author: 'Alex Kim',
+    publishedAt: '2024-12-02',
+    readTime: 9,
+    views: 0,
+    likes: 0,
+    featured: false,
+  },
 ];
+
+[
+]

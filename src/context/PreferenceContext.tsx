@@ -3,16 +3,17 @@ import { createContext } from 'react';
 import { useLang } from './LangContext';
 import { toast } from 'sonner';
 
+type TravelerType = 'Leisure' | 'Business' | 'Adventure' | 'Family';
 
-type Preferences = {
+ type Preferences = {
   currency: string;
   language: string;
   homeAirport: string;
-  travelerType: string;
+  travelerType: TravelerType;
   seatPreference: string;
   mealPreference: string;
   syncItineraries: boolean;
-};
+ };
 
 type TravelPreferencesContextType = {
   preferences: Preferences;
@@ -41,7 +42,7 @@ export function TravelPreferecesProvider({children}: {
 
   const updatePreferences = (updates: Partial<Preferences>) => {
     setPreferences(prev => ({ ...prev, ...updates }));
-  };
+  }; 
 
   useEffect(() => {
     setPreferences(prev => ({
