@@ -59,9 +59,9 @@ type PaymentMethod = {
   exp: string;
   default?: boolean;
 };
-type PymentMethodincludeIrreversible =  PaymentMethod &{
-irriversible: boolean
- }
+// type PymentMethodincludeIrreversible =  PaymentMethod &{
+// irriversible: boolean
+//  }
 
 export default function TravelSettingsPage(): JSX.Element {
   // --- Dark mode (persisted) ---
@@ -440,8 +440,8 @@ export default function TravelSettingsPage(): JSX.Element {
                     <Label>Traveler Type</Label>
                     <Select
                       value={preferences.travelerType}
-                      onValueChange={e =>
-                        updatePreferences({ travelerType: e.target.value })
+                      onValueChange={val =>
+                        updatePreferences({ travelerType: val })
                       }
                     >
                       <SelectTrigger className="w-full">

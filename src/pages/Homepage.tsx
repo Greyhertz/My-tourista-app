@@ -347,8 +347,8 @@ const ScrollReveal = ({ children, delay = 0 }: ScrollRevealProps) => {
   );
 };
 
-  const handleSearch = e => {
-    e.target.preventDefault();
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log('Searching for:', searchQuery);
   };
 

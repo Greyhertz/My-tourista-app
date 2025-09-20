@@ -13,11 +13,11 @@ import DestinationDetails from './pages/DestinationDetails';
 import BlogPage from './pages/BlogPage';
 import BlogPostDetail from './pages/BlogPostDetails';
 import Test from './pages/Test';
-import BillingPage from './pages/BillingsPage';
-import { IntegrationsList } from './pages/Intergration';
-import PricingPage from './pages/Pricing';
+// import BillingPage from './pages/BillingsPage';
+// import { IntegrationsList } from './pages/Intergration';
+// import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
-import CartComponent from './pages/Cart';
+// import CartComponent  from './pages/Cart';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -43,9 +43,9 @@ export const router = createBrowserRouter([
       },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'destination/:city', element: <DestinationDetails /> },
-      { path: 'integration', element: <IntegrationsList /> },
-      { path: 'pricing', element: <PricingPage /> },
-      { path: 'billing', element: <BillingPage /> },
+      // { path: 'integration', element: <IntegrationsList /> },
+      // { path: 'pricing', element: <PricingPage /> },
+      // { path: 'billing', element: <BillingPage /> },
       { path: 'welcome', element: <Welcome /> },
 
       {
@@ -56,6 +56,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: 'cart', element: <CartComponent /> },
+  // { path: '/cart', element: <CartComponent /> },
   { path: 'sign-up', element: <SignUpPage /> },
 ]);

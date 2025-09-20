@@ -6,13 +6,13 @@ import { toast } from 'sonner';
 type TravelerType = 'Leisure' | 'Business' | 'Adventure' | 'Family';
 
  type Preferences = {
-  currency: string;
-  language: string;
-  homeAirport: string;
-  travelerType: TravelerType;
-  seatPreference: string;
-  mealPreference: string;
-  syncItineraries: boolean;
+   currency: string;
+   language: string;
+   homeAirport: string;
+   travelerType: 'Leisure' | 'Business' | 'Adventure' | 'Family';
+   seatPreference: string;
+   mealPreference: string;
+   syncItineraries: boolean;
  };
 
 type TravelPreferencesContextType = {
