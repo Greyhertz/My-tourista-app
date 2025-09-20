@@ -439,10 +439,10 @@ export default function TravelSettingsPage(): JSX.Element {
                   <div>
                     <Label>Traveler Type</Label>
                     <Select
-                      value={preferences.travelerType}
-                      onValueChange={val =>
-                        updatePreferences({ travelerType: val })
-                      }
+                      // value={preferences.travelerType}
+                      // onValueChange={val =>
+                      //   updatePreferences({ travelerType: val })
+                      // }
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue />
