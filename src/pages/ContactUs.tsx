@@ -14,23 +14,6 @@ import { Mail, Phone, Clock } from "lucide-react";
 import NewsLetterBox from "@/components/core/LetterBox";
 
 export default function ContactUs() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading contact page...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-background text-foreground font-sm">

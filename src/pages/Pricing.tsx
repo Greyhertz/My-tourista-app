@@ -92,7 +92,7 @@ export default function PricingPage()
         {plans.map(plan => (
           <Card
             key={plan.name}
-            className={`flex flex-col justify-between shadow-lg rounded-2xl border ${
+            className={`flex flex-col justify-between text-primary shadow-lg rounded-2xl border ${
               plan.highlight
                 ? 'border-purple-600 shadow-purple-300 dark:shadow-purple-800 scale-105'
                 : 'border-gray-200 dark:border-gray-800'
@@ -100,7 +100,7 @@ export default function PricingPage()
           >
             <CardHeader>
               <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-muted-foreground mb-4">
                 {plan.description}
               </p>
               <p className="text-4xl font-extrabold mb-4">

@@ -15,9 +15,9 @@ import BlogPostDetail from './pages/BlogPostDetails';
 import Test from './pages/Test';
 // import BillingPage from './pages/BillingsPage';
 // import { IntegrationsList } from './pages/Intergration';
-// import PricingPage from './pages/Pricing';
+import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
-// import CartComponent  from './pages/Cart';
+import Cart  from './pages/Cart';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -44,18 +44,16 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <SettingsPage /> },
       { path: 'destination/:city', element: <DestinationDetails /> },
       // { path: 'integration', element: <IntegrationsList /> },
-      // { path: 'pricing', element: <PricingPage /> },
       // { path: 'billing', element: <BillingPage /> },
       { path: 'welcome', element: <Welcome /> },
 
       {
         path: '*',
-        element: ( 
-        <NotFound />
-        ),
+        element: <NotFound />,
       },
     ],
   },
-  // { path: '/cart', element: <CartComponent /> },
+  { path: 'pricing', element: <PricingPage /> },
+  { path: '/cart', element: <Cart /> },
   { path: 'sign-up', element: <SignUpPage /> },
 ]);

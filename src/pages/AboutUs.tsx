@@ -191,7 +191,7 @@ const milestones = [
 export default function EnhancedTravelMateAbout() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -200,24 +200,24 @@ export default function EnhancedTravelMateAbout() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // ⏳ 2 seconds delay
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000); // ⏳ 2 seconds delay
 
-    return () => clearTimeout(timer); // cleanup
-  }, []);
+  //   return () => clearTimeout(timer); // cleanup
+  // }, []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading about page...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen bg-background flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+  //         <p className="text-muted-foreground">Loading about page...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   
   return (
@@ -582,7 +582,7 @@ export default function EnhancedTravelMateAbout() {
                 },
               ].map((pkg, index) => (
                 <ScrollReveal key={index} delay={index * 0.1}>
-                  <motion.div whileHover={{ y: -10 }}>
+                  <motion.div whileHover={{  }}>
                     <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
                       {/* Background Image with permanent tint */}
                       <img
@@ -600,7 +600,7 @@ export default function EnhancedTravelMateAbout() {
 
 
                       {/* Hover Overlay Content */}
-                      {/* <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
+                      <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
                         <h3 className="text-2xl font-bold text-primary-foreground mb-2">
                           {pkg.title}
                         </h3>
@@ -634,7 +634,7 @@ export default function EnhancedTravelMateAbout() {
                             Explore
                           </Button>
                         </div>
-                      </div> */}
+                      </div>
 
                       {/* Discount Badge */}
                       <div className="absolute top-4 left-4">
