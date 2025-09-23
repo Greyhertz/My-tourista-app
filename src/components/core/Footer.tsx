@@ -28,7 +28,7 @@ export default function Footer() {
               >
                 <Compass className="h-6 w-6 text-white" />
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent animate-pulse">
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
                 TravelMate
               </span>
             </div>
@@ -37,12 +37,6 @@ export default function Footer() {
               Creating unforgettable travel experiences since 2010. Your
               adventure starts here with AI-powered planning and world-class
               service.
-              <a
-                href=""
-                className="text-muted-foreground hover:underline text-xl"
-              >
-                Learn more
-              </a>
             </p>
 
             {/* socials */}

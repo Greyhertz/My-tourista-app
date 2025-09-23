@@ -732,7 +732,7 @@ const TravelBlogPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl font-extrabold mb-6"
+              className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
             >
               Travel Stories & Guides
             </motion.h1>
@@ -740,13 +740,13 @@ const TravelBlogPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="text-lg max-w-2xl"
+              className="text-lg max-w-2xl text-secondary text-center mx-auto mb-8 md:mb-12"
             >
               Discover amazing destinations, practical travel tips, and
               inspiring stories from fellow adventurers
             </motion.p>
             {state.usingMockData && (
-              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
+              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50 ">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription className="text-yellow-800">
                   ⚠️ Currently showing sample data. Live feed temporarily

@@ -18,12 +18,12 @@ export default function ContactUs() {
   return (
     <div className="bg-background text-foreground font-sm">
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500  p-6">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-extrabold mb-6"
+          className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
         >
           Get in Touch
         </motion.h1>
@@ -31,7 +31,7 @@ export default function ContactUs() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-lg max-w-2xl"
+          className="text-lg max-w-2xl text-secondary"
         >
           Our team is here to answer your questions and help you plan your next
           adventure.

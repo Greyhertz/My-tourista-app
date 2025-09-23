@@ -29,8 +29,15 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   const currentPageName = getPageName(location.pathname);
 
-  // Handle route transitions with loading effect for ALL navigation types
   useEffect(() => {
+    // Skip loading animation for home page
+    if (location.pathname === '/' || location.pathname === '') {
+      setIsTransitioning(false);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Show loading for other pages
     setIsTransitioning(true);
 
     // Scroll to top immediately for any navigation (including back/forward)
@@ -39,23 +46,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
     // Show loading for at least 2 seconds
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 2000); // 2 seconds loading time
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, [location.pathname, location.key]); // Added location.key to catch back/forward navigation
-
-  // Also handle browser back/forward buttons specifically
-  useEffect(() => {
-    const handlePopState = () => {
-      window.scrollTo(0, 0);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
+  }, [location.pathname, location.key]);
 
   return (
     <>
@@ -94,19 +88,22 @@ export default function MainLayout({ children }: MainLayoutProps) {
         .animate-delay-300 { animation-delay: 0.3s; animation-fill-mode: both; }
         .animate-delay-400 { animation-delay: 0.4s; animation-fill-mode: both; }
 
-        /* Facebook-style skeleton loading */
+        /* Facebook-style skeleton loading - theme aware */
         .skeleton {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.5s infinite;
-        }
-
+        background: linear-gradient(90deg, 
+          hsl(var(--muted)) 25%, 
+          hsl(var(--muted-foreground) / 0.2) 75%, 
+          hsl(var(--muted)) 100%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+}
         @keyframes shimmer {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
 
-        /* Pulse dots animation */
+        /* Pulse dots animation - theme aware */
         .pulse-dots {
           display: flex;
           gap: 8px;
@@ -115,7 +112,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         .pulse-dot {
           width: 12px;
           height: 12px;
-          background: #3498db;
+          background: hsl(var(--primary));
           border-radius: 50%;
           animation: pulse 1.4s infinite ease-in-out both;
         }
@@ -129,7 +126,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Wave animation */
+        /* Wave animation - theme aware */
         .wave {
           display: flex;
           gap: 4px;
@@ -138,7 +135,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
         .wave-bar {
           width: 6px;
-          background: #3498db;
+          background: hsl(var(--primary));
           border-radius: 3px;
           animation: wave 1.2s infinite ease-in-out;
         }
@@ -161,7 +158,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
           left: 0;
           right: 0;
           bottom: 0;
-          background: white;
           z-index: 9999;
           display: flex;
           align-items: center;
@@ -187,14 +183,14 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
             {/* Loading indicator with page name */}
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-              <div className="bg-white rounded-lg px-8 py-6 shadow-xl border flex items-center space-x-4">
+              <div className="bg-background rounded-lg px-8 py-6 shadow-xl border flex items-center space-x-4">
                 <div className="pulse-dots">
                   <div className="pulse-dot"></div>
                   <div className="pulse-dot"></div>
                   <div className="pulse-dot"></div>
                 </div>
                 <div className="text-left">
-                  <p className="text-gray-800 font-semibold text-lg">
+                  <p className="text-muted-foreground font-semibold text-lg">
                     Loading {currentPageName}
                   </p>
                   <p className="text-gray-500 text-sm">

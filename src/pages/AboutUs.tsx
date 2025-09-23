@@ -32,7 +32,12 @@ import {
 } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import NewsLetterBox from '@/components/core/LetterBox';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { ScrollReveal } from './Homepage';
 const stats = [
   {
@@ -219,7 +224,6 @@ export default function EnhancedTravelMateAbout() {
   //   );
   // }
 
-  
   return (
     <div className="min-h-screen bg-gradient-to-br ">
       {/* Floating Background Elements - Theme Responsive */}
@@ -230,12 +234,12 @@ export default function EnhancedTravelMateAbout() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 p-6">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-extrabold mb-6"
+          className="text-5xl md:text-7xl font-extrabold mb-6 text-secondary"
         >
           About Us
         </motion.h1>
@@ -243,7 +247,7 @@ export default function EnhancedTravelMateAbout() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-lg max-w-2xl"
+          className="text-lg max-w-2xl text-secondary"
         >
           Discover our journey, mission, and the people behind our vision.
         </motion.p>
@@ -421,39 +425,45 @@ export default function EnhancedTravelMateAbout() {
 
         {/* FAQ Section */}
         <section className="py-20 px-6 container mx-auto">
-          <h2 className="text-3xl font-bold mb-10 text-center">
-            Frequently Asked Questions (FAQ's)
-            {/* FAQ's */}
-          </h2>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full max-w-2xl mx-auto"
-          >
-            <AccordionItem value="item-1">
-              <AccordionTrigger>What services do you provide?</AccordionTrigger>
-              <AccordionContent>
-                We offer travel planning, hotel bookings, guided tours, and
-                destination insights.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                Do you operate internationally?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we partner with agencies and hotels in over 50 countries
-                worldwide.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Can I customize my trip?</AccordionTrigger>
-              <AccordionContent>
-                Absolutely, our AI-powered system allows full customization of
-                your itineraries.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <ScrollReveal>
+            <h2 className="text-3xl font-bold mb-10 text-center">
+              Frequently Asked Questions (FAQ's)
+              {/* FAQ's */}
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal>
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full max-w-2xl mx-auto"
+            >
+              <AccordionItem value="item-1">
+                <AccordionTrigger>
+                  What services do you provide?
+                </AccordionTrigger>
+                <AccordionContent>
+                  We offer travel planning, hotel bookings, guided tours, and
+                  destination insights.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>
+                  Do you operate internationally?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Yes, we partner with agencies and hotels in over 50 countries
+                  worldwide.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Can I customize my trip?</AccordionTrigger>
+                <AccordionContent>
+                  Absolutely, our AI-powered system allows full customization of
+                  your itineraries.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </ScrollReveal>
         </section>
 
         {/* Travel Packages Section */}
@@ -534,7 +544,7 @@ export default function EnhancedTravelMateAbout() {
                   price: '$3,899',
                   originalPrice: '$4,600',
                   image:
-                    'https://images.unsplash.com/photo-1531065208531-4036c0dba3d5?q=80&w=2070&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1545330785-15356daae141?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                   countries: ['Peru', 'Chile', 'Argentina'],
                   highlights: [
                     'Machu Picchu',
@@ -582,7 +592,7 @@ export default function EnhancedTravelMateAbout() {
                 },
               ].map((pkg, index) => (
                 <ScrollReveal key={index} delay={index * 0.1}>
-                  <motion.div whileHover={{  }}>
+                  <motion.div whileHover={{}}>
                     <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
                       {/* Background Image with permanent tint */}
                       <img
@@ -593,11 +603,8 @@ export default function EnhancedTravelMateAbout() {
 
                       {/* Description overlay (always visible) */}
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4">
-                        <p className="text-sm text-white">
-                          {pkg.description}
-                        </p>
+                        <p className="text-sm text-white">{pkg.description}</p>
                       </div>
-
 
                       {/* Hover Overlay Content */}
                       <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">

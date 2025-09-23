@@ -9,7 +9,7 @@ import { fetchMultipleImages } from '../api/Unsplash';
 import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BlogSection } from '@/components/core/BlogSection';
-
+import { ScrollReveal } from './Homepage';
 export default function ExploreDestinations() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -144,15 +144,33 @@ export default function ExploreDestinations() {
   }, []);
 
   return (
+    // <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
+    //   <motion.h1
+    //     initial={{ opacity: 0, y: 20 }}
+    //     animate={{ opacity: 1, y: 0 }}
+    //     transition={{ duration: 0.8 }}
+    //     className="text-5xl md:text-7xl font-extrabold mb-6"
+    //   >
+    //     About Us
+    //   </motion.h1>
+    //   <motion.p
+    //     initial={{ opacity: 0 }}
+    //     animate={{ opacity: 1 }}
+    //     transition={{ delay: 0.5 }}
+    //     className="text-lg max-w-2xl"
+    //   >
+    //     Discover our journey, mission, and the people behind our vision.
+    //   </motion.p>
+    // </section>
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background text-foreground">
-      <div className="max-w-7xl mx-auto py-16 px-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
         <motion.h1
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-5xl font-extrabold text-center mb-8 text-primary"
+          className="text-5xl font-extrabold text-center mb-8 text-secondary"
         >
-          ✈️ Discover Stunning Destinations
+          Discover Stunning Destinations
         </motion.h1>
 
         <Suspense fallback={<div>Loading deals...</div>}></Suspense>
@@ -171,7 +189,7 @@ export default function ExploreDestinations() {
               placeholder="Search cities, attractions, hotels..."
               value={query}
               onChange={e => setQuery(e.target.value)}
-              className="pl-10 pr-4 py-3 w-full rounded-full border border-border bg-background text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary"
+              className="pl-10 pr-4 py-3 w-full rounded-full   bg-background text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary"
             />
             <button
               type="submit"
@@ -189,45 +207,47 @@ export default function ExploreDestinations() {
           </p>
         )}
         {error && <p className="text-destructive text-center mb-6">{error}</p>}
-
-        {/* Featured Cities */}
-        <div className="mt-16 w-full max-w-6xl scroll-section mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-foreground">
-              🌟 Top Global Picks
-            </h2>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>
-                Set {currentCitySet + 1} of {citySets.length}
-              </span>
-              <div className="flex gap-1">
-                {citySets.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${
-                      i === currentCitySet ? 'bg-primary' : 'bg-muted'
-                    }`}
-                  />
-                ))}
-              </div>
+      </section>
+      {/* Featured Cities */}
+      <div className="mt-16 w-full max-w-6xl scroll-section mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-bold text-foreground">
+            🌟 Top Global Picks
+          </h2>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>
+              Set {currentCitySet + 1} of {citySets.length}
+            </span>
+            <div className="flex gap-1">
+              {citySets.map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${
+                    i === currentCitySet ? 'bg-primary' : 'bg-muted'
+                  }`}
+                />
+              ))}
             </div>
           </div>
-          <motion.div
-            key={currentCitySet}
-            initial={{ opacity: 0, x: 300 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 1 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {featured.map((item, index) => (
-              <motion.div
-                key={`${currentCitySet}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-card text-card-foreground rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              >
+        </div>
+        <motion.div
+          key={currentCitySet}
+          initial={{ opacity: 0, x: 300 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 1 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {featured.map((item, index) => (
+            <motion.div
+              key={`${currentCitySet}-${index}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-card text-card-foreground rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+            >
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer">
+                {/* Background Image */}
                 <img
                   src={item.image}
                   alt={item.city}
@@ -236,31 +256,40 @@ export default function ExploreDestinations() {
                     target.src =
                       'https://via.placeholder.com/400?text=Image+Not+Available';
                   }}
-                  className="h-56 w-full object-cover"
+                  className="w-full h-96 object-cover transition-transform duration-500"
                 />
-                <div className="p-5 space-y-2">
-                  <h3 className="text-xl font-bold">{item.city}</h3>
-                  <p className="text-sm text-muted-foreground">
+                {/* Static Overlay Content */}
+                <div className="absolute inset-x-0 bottom-0 bg-foreground/90 transition duration-500 flex flex-col justify-end p-4 rounded-2xl">
+                  <h3 className="text-lg font-bold text-primary-foreground mb-1">
+                    {item.city}
+                  </h3>
+                  <p className="text-sm text-secondary mb-2">
                     {item.location.city}, {item.location.state},{' '}
                     {item.location.country}
                   </p>
-                  <div className="flex items-center gap-2 text-sm text-yellow-500">
-                    <span>⭐ {item.rating}</span>
-                    <span className="text-muted-foreground">
-                      ({item.review}+ reviews)
+
+                  {/* Reviews with background */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-yellow-500 text-black text-sm font-semibold px-2 py-0.5 rounded-md">
+                      ⭐ {item.rating}
+                    </span>
+                    <span className="bg-gray-700 text-gray-200 text-sm px-2 py-0.5 rounded-md">
+                      {item.review}+ reviews
                     </span>
                   </div>
+
                   <button
                     onClick={() => setQuery(item.city)}
-                    className="mt-3 w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90"
+                    className="w-full bg-primary text-primary-foreground py-1.5 text-sm rounded-lg hover:bg-primary/90"
                   >
                     🔍 Explore {item.city}
                   </button>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+                2
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
 
       {/* Controls */}
@@ -312,54 +341,62 @@ export default function ExploreDestinations() {
       {/* Hotels Section */}
       <div className="max-w-6xl mx-auto px-6 my-16 scroll-section">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl font-bold text-foreground mb-6">
-              Premium Hotel & Resort Packages
-            </h2>
-            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              Explore luxury accommodations in the world's top destinations. Our
-              curated selection of premium resorts offers spa treatments,
-              infinity pools, and world-class cuisine.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Whether you're planning a honeymoon or a business trip, we bring
-              you the most relaxing and stylish stays from Bali to Barcelona.
-            </p>
-          </div>
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-              alt="Luxury resort"
-              className="rounded-2xl shadow-2xl"
-            />
-          </div>
+          <ScrollReveal>
+            <div>
+              <h2 className="text-4xl font-bold text-foreground mb-6">
+                Premium Hotel & Resort Packages
+              </h2>
+              <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+                Explore luxury accommodations in the world's top destinations.
+                Our curated selection of premium resorts offers spa treatments,
+                infinity pools, and world-class cuisine.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Whether you're planning a honeymoon or a business trip, we bring
+                you the most relaxing and stylish stays from Bali to Barcelona.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div className="relative">
+              <img
+                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+                alt="Luxury resort"
+                className="rounded-2xl shadow-2xl"
+              />
+            </div>
+          </ScrollReveal>
         </div>
       </div>
 
       {/* Travel Moments */}
       <div className="max-w-6xl mx-auto px-6 my-16 scroll-section">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68"
-              alt="Airport travel"
-              className="rounded-2xl shadow-2xl"
-            />
-          </div>
-          <div>
-            <h2 className="text-4xl font-bold text-primary mb-6">
-              Unforgettable Travel Moments
-            </h2>
-            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              From bustling airport terminals to serene beach sunsets, every
-              moment of your journey tells a story. Discover experiences you'll
-              never forget.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Capture memories with every step you take. Your passport is a
-              canvas of your travels—let it be colorful.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="relative">
+              <img
+                src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Travel moments"
+                className="rounded-2xl shadow-2xl"
+              />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div>
+              <h2 className="text-4xl font-bold text-primary mb-6">
+                Unforgettable Travel Moments
+              </h2>
+              <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+                From bustling airport terminals to serene beach sunsets, every
+                moment of your journey tells a story. Discover experiences
+                you'll never forget.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Capture memories with every step you take. Your passport is a
+                canvas of your travels—let it be colorful.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </div>
 
@@ -399,7 +436,7 @@ export default function ExploreDestinations() {
       />
 
       {/* Map Section */}
-      <div className="max-w-6xl mx-auto px-6 my-20">
+      <div className="max-w-6xl mx-auto px-6 my-20 py-6">
         <div className="rounded-lg overflow-hidden shadow-lg h-96 bg-card">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509373!2d144.9556513153178!3d-37.8173279797517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1f3aab3%3A0xf577d5e79a2393b1!2sTravel+Agency!5e0!3m2!1sen!2sau!4v1611816302287!5m2!1sen!2sau"
