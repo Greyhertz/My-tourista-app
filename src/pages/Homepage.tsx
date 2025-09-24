@@ -88,10 +88,10 @@ const Homepage = () => {
   const destinationsRef = useRef(null);
   const featuresRef = useRef(null);
   const [currentTextIndex] = useState(0);
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -500]);
-  // const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity1 = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const scale1 = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
+  // Remove parallax transforms to stop frequent animations
+  // const y1 = useTransform(scrollYProgress, [0, 1], [0, -500]);
+  // const opacity1 = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  // const scale1 = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
   const { state, actions } = useBlog();
 
   useEffect(() => {
@@ -119,15 +119,6 @@ const Homepage = () => {
     window.addEventListener('scroll', controlHeader);
     return () => window.removeEventListener('scroll', controlHeader);
   }, [lastScrollY]);
-
-  // Animated text cycling effect
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentTextIndex(prev => (prev + 1) % animatedTexts.length);
-  //   }, 3000); // Change text every 3 seconds
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   const destinations = [
     {
@@ -243,45 +234,6 @@ const Homepage = () => {
     },
   ];
 
-  // const testimonials = [
-  //   {
-  //     name: 'Sarah Johnson',
-  //     location: 'New York, USA',
-  //     image:
-  //       'https://images.unsplash.com/photo-1494790108755-2616b9f3c0ec?q=80&w=100',
-  //     rating: 5,
-  //     text: 'TravelMate planned our honeymoon to Bali perfectly! Every detail was taken care of, from airport transfers to restaurant reservations. The AI recommendations were spot-on!',
-  //     trip: 'Bali Honeymoon Package',
-  //   },
-  //   {
-  //     name: 'Miguel Rodriguez',
-  //     location: 'Barcelona, Spain',
-  //     image:
-  //       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100',
-  //     rating: 5,
-  //     text: 'The 24/7 support saved our vacation when our flight got cancelled. They had us rebooked and upgraded within minutes. Absolutely incredible service!',
-  //     trip: 'European Adventure Tour',
-  //   },
-  //   {
-  //     name: 'Priya Patel',
-  //     location: 'Mumbai, India',
-  //     image:
-  //       'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?q=80&w=100',
-  //     rating: 5,
-  //     text: 'As a solo female traveler, I felt completely safe and supported. The local guides were amazing and the VIP access made everything so seamless.',
-  //     trip: 'Solo Japan Discovery',
-  //   },
-  //   {
-  //     name: 'David Chen',
-  //     location: 'Sydney, Australia',
-  //     image:
-  //       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100',
-  //     rating: 5,
-  //     text: "We've used TravelMate for 5 family vacations now. The kids love the personalized activities they suggest, and we love the stress-free planning!",
-  //     trip: 'Family Safari Adventure',
-  //   },
-  // ];
-
   const travelTypes = [
     {
       type: 'Adventure',
@@ -322,41 +274,10 @@ const Homepage = () => {
     { number: '15', label: 'Years Experience', prefix: '', icon: Award },
   ];
 
-// Enhanced scroll-triggered animations
-type ScrollRevealProps = {
-  children: React.ReactNode;
-  delay?: number;
-};
-
-const ScrollReveal = ({ children, delay = 0 }: ScrollRevealProps) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    once: true,
-    margin: '-100px',
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0.2, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay }}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Searching for:', searchQuery);
   };
-
-  // const heroImages = [
-  //   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3',
-  //   'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3',
-  //   'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3',
-  // ];
 
   // Animated text phrases
   const animatedTexts = [
@@ -391,10 +312,8 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
         <div className="absolute inset-0 bg-background/0" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/40" />
 
-        <motion.div
-          style={{ y: y1, opacity: opacity1, scale: scale1 }}
-          className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"
-        />
+        {/* Remove parallax style application */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
 
         <div className="container mx-auto text-center relative z-10">
           <motion.div
@@ -514,18 +433,13 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
 
                     {/* Search Button */}
                     <div className="flex flex-col justify-end">
-                      <motion.div
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
+                      <Button
+                        type="submit"
+                        className="h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg"
                       >
-                        <Button
-                          type="submit"
-                          className="h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg"
-                        >
-                          <Search className="w-4 h-4 mr-2" />
-                          Search Trips
-                        </Button>
-                      </motion.div>
+                        <Search className="w-4 h-4 mr-2" />
+                        Search Trips
+                      </Button>
                     </div>
                   </div>
 
@@ -534,14 +448,13 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
                     <span className="text-sm text-gray-600">Popular:</span>
                     {['Paris', 'Tokyo', 'Bali', 'Maldives', 'Iceland'].map(
                       city => (
-                        <motion.div key={city} whileHover={{ scale: 1.05 }}>
-                          <Badge
-                            variant="secondary"
-                            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                          >
-                            {city}
-                          </Badge>
-                        </motion.div>
+                        <Badge
+                          key={city}
+                          variant="secondary"
+                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                        >
+                          {city}
+                        </Badge>
                       )
                     )}
                   </div>
@@ -564,7 +477,6 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
                 >
                   <Card className="text-center bg-white/20 backdrop-blur-sm border-white/30 shadow-lg">
                     <CardContent className="p-6">
@@ -604,7 +516,7 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
           ].map((Icon, i) => (
             <div
               key={i}
-              className="absolute animate-pulse"
+              className="absolute"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -636,21 +548,19 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {travelTypes.map((type, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <motion.div whileHover={{ scale: 1.05, y: -10 }}>
-                  <Card className="text-center bg-card/70 backdrop-blur-sm border-border/50 shadow-lg group cursor-pointer hover:bg-card/90 transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <type.icon className="h-8 w-8  text-foreground" />
-                      </div>
-                      <h3 className="font-bold text-foreground mb-2 group-hover:text-primary transition-all duration-300">
-                        {type.type}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {type.count}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <Card className="text-center bg-card/70 backdrop-blur-sm border-border/50 shadow-lg group cursor-pointer hover:bg-card/90 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center transition-transform duration-300">
+                      <type.icon className="h-8 w-8  text-foreground" />
+                    </div>
+                    <h3 className="font-bold text-foreground mb-2 transition-all duration-300">
+                      {type.type}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {type.count}
+                    </p>
+                  </CardContent>
+                </Card>
               </ScrollReveal>
             ))}
           </div>
@@ -677,10 +587,7 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {destinations.map((destination, index) => (
               <ScrollReveal key={index} delay={index * 0.15}>
-                <motion.div
-                  whileHover={{ scale: 1.03, y: -15 }}
-                  className="relative overflow-hidden rounded-3xl shadow-2xl group cursor-pointer h-96"
-                >
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl group cursor-pointer h-96">
                   <img
                     src={destination.image}
                     alt={destination.name}
@@ -700,7 +607,7 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
                       </Badge>
                     </div>
 
-                    <h3 className="text-2xl font-bold mb-2 group-hover:scale-105 transition-transform duration-300">
+                    <h3 className="text-2xl font-bold mb-2 transition-transform duration-300">
                       {destination.name}
                     </h3>
 
@@ -724,21 +631,16 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
                       <span className="text-xl font-bold">
                         From {destination.price}
                       </span>
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                      <Button
+                        variant="ghost"
+                        className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm"
                       >
-                        <Button
-                          variant="ghost"
-                          className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm"
-                        >
-                          Explore
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </motion.div>
+                        Explore
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </ScrollReveal>
             ))}
           </div>
@@ -761,28 +663,26 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {features.map((f, i) => (
               <ScrollReveal key={f.title} delay={i * 0.08}>
-                <motion.div whileHover={{ scale: 1.02, y: -5 }}>
-                  <Card className="bg-card shadow-lg border-border/50 hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="w-12 h-12 rounded-xl mb-4 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-                        <f.icon className="h-6 w-6 text-background" />
-                      </div>
-                      <h3 className="font-bold text-lg mb-2 text-foreground">
-                        {f.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-3">
-                        {f.description}
-                      </p>
-                      <Badge
-                        variant="secondary"
-                        className="text-xs font-semibold"
-                      >
-                        <CheckCircle2 className="w-3 h-3 mr-1" />
-                        {f.stats}
-                      </Badge>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <Card className="bg-card shadow-lg border-border/50 hover:shadow-xl transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl mb-4 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                      <f.icon className="h-6 w-6 text-background" />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-foreground">
+                      {f.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-3">
+                      {f.description}
+                    </p>
+                    <Badge
+                      variant="secondary"
+                      className="text-xs font-semibold"
+                    >
+                      <CheckCircle2 className="w-3 h-3 mr-1" />
+                      {f.stats}
+                    </Badge>
+                  </CardContent>
+                </Card>
               </ScrollReveal>
             ))}
           </div>
@@ -878,32 +778,22 @@ dark:from-black dark:via-slate-900 dark:to-bg-bacgroun"
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  size="lg"
+                  className="bg-background text-foreground px-12 py-5 text-lg font-semibold shadow-2xl hover:bg-muted"
                 >
-                  <Button
-                    size="lg"
-                    className="bg-background text-foreground px-12 py-5 text-lg font-semibold shadow-2xl hover:bg-muted"
-                  >
-                    <Compass className="w-5 h-5 mr-2" />
-                    Plan My Trip
-                  </Button>
-                </motion.div>
+                  <Compass className="w-5 h-5 mr-2" />
+                  Plan My Trip
+                </Button>
 
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-primary-foreground bg-no text-primary-foreground px-12 py-5 text-lg font-semibold backdrop-blur-sm hover:bg-primary-foreground/10"
                 >
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-primary-foreground bg-no text-primary-foreground px-12 py-5 text-lg font-semibold backdrop-blur-sm hover:bg-primary-foreground/10"
-                  >
-                    <Headphones className="w-5 h-5 mr-2" />
-                    Talk to Expert
-                  </Button>
-                </motion.div>
+                  <Headphones className="w-5 h-5 mr-2" />
+                  Talk to Expert
+                </Button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
