@@ -54,12 +54,12 @@ const MenuSheet = () => {
 
       <SheetContent
         side="right"
-        className="w-[320px] bg-background/95 backdrop-blur-md border-l border-border/50 shadow-xl flex flex-col overflow-y-auto"
+        className="w-[350px] bg-background/95 backdrop-blur-md border-l border-border/50 shadow-xl flex flex-col overflow-y-auto"
       >
         {/* Header */}
         <SheetHeader className="px-4 py-4 border-b border-border/50">
           <SheetTitle className="flex items-center space-x-2">
-            <div className="w-12 h-12 bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-7 h-7 bg-gradient-to-br from-amber-400 via-rose-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
               <Compass className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
@@ -85,8 +85,8 @@ const MenuSheet = () => {
                   onClick={handleLinkClick}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
-                      ? 'text-blue-600 scale-105 shadow-md'
-                      : 'text-purple-500 hover:text-purple-600 hover:bg-accent/50 hover:translate-x-2'
+                      ? 'text'
+                      : ' hover:bg-accent/50 hover:translate-x-2'
                   }`}
                 >
                   <Icon className="w-5 h-5" />

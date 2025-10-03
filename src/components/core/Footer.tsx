@@ -15,7 +15,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="py-20 px-6 bg-card text-card-foreground border-muted backdrop-blur-sm">
+    <footer className="pb-10 pt-2 px-6 bg-card text-card-foreground border-muted backdrop-blur-sm">
       <div className="container mx-auto">
         {/* Top grid */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">

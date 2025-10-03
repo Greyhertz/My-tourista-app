@@ -54,8 +54,8 @@ const TravelBlogPage = () => {
     { id: 'tips', name: 'Travel Tips', count: 0 },
     { id: 'food', name: 'Food & Culture', count: 0 },
     { id: 'budget', name: 'Budget Travel', count: 0 },
-     { id: 'itineraries', name: 'itineraries', displayName: 'Itineraries' },
-    { id: 'photography', name: 'photography', displayName: 'Photography' }
+    { id: 'itineraries', name: 'itineraries', displayName: 'Itineraries' },
+    { id: 'photography', name: 'photography', displayName: 'Photography' },
   ];
 
   const destinations = [
@@ -121,15 +121,14 @@ const TravelBlogPage = () => {
       year: 'numeric',
     });
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleReadMore = (post: BlogPost) => {
     if (post.url) {
       // If it's from API, open the original dev.to article
       window.open(post.url, '_blank');
+    } else {
+      navigate(`/blog/${post.slug}`);
     }
-  else {
-    navigate(`/blog/${post.slug}`);
-  }
   };
 
   // Categories and destinations for the form
@@ -181,7 +180,7 @@ const TravelBlogPage = () => {
       if (!formData.excerpt.trim()) {
         newErrors.excerpt = 'Description is required';
       }
- 
+
       if (!formData.author.trim()) {
         newErrors.author = 'Author name is required';
       }
@@ -275,7 +274,7 @@ const TravelBlogPage = () => {
 
     return (
       <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <Card className="bg-card text-foreground rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-lg border">
+        <Card className="text-foreground rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-lg border">
           {/* Header */}
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="flex items-center gap-3">
@@ -304,21 +303,38 @@ const TravelBlogPage = () => {
           <CardContent className="space-y-6">
             {/* Title */}
             <div className="space-y-2">
+              {/* <div
+                className="flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Input
+                  placeholder="Full Name"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div> */}
               <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                 <User className="h-4 w-4" />
                 Post Title *
               </Label>
-              <Input
-                type="text"
-                placeholder="e.g., My Amazing Journey Through Tokyo"
-                value={formData.title}
-                onChange={e => handleInputChange('title', e.target.value)}
-                className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                  errors.title
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-input bg-background'
-                }`}
-              />
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                {' '}
+                <Input
+                  type="text"
+                  placeholder="e.g., My Amazing Journey Through Tokyo"
+                  value={formData.title}
+                  onChange={e => handleInputChange('title', e.target.value)}
+                  className={`bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground${
+                    errors.title
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-input bg-background'
+                  }`}
+                />
+              </div>
+
               {errors.title && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -335,28 +351,30 @@ const TravelBlogPage = () => {
                   <Filter className="h-4 w-4" />
                   Category *
                 </Label>
-
-                <Select
-                  value={formData.category}
-                  onValueChange={val => handleInputChange('category', val)}
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
                 >
-                  <SelectTrigger
-                    className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                      errors.category
-                        ? 'border-red-500 bg-red-50'
-                        : 'border-input bg-background'
-                    }`}
+                  {' '}
+                  <Select
+                    value={formData.category}
+                    onValueChange={val => handleInputChange('category', val)}
                   >
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map(category => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <SelectTrigger
+                      className={` border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground
+               ${errors.category ? 'border-red-500 bg-red-50' : ''}`}
+                    >
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      {categories.map(category => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 {errors.category && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
@@ -372,28 +390,36 @@ const TravelBlogPage = () => {
                   <MapPin className="h-4 w-4" />
                   Destination *
                 </Label>
-
-                <Select
-                  value={formData.destination}
-                  onValueChange={val => handleInputChange('destination', val)}
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
                 >
-                  <SelectTrigger
-                    className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                      errors.destination
-                        ? 'border-red-500 bg-red-500'
-                        : 'border-input bg-background'
-                    }`}
+                  {' '}
+                  <Select
+                    value={formData.destination}
+                    onValueChange={val => handleInputChange('destination', val)}
                   >
-                    <SelectValue placeholder="Select destination" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {destinations.map(destination => (
-                      <SelectItem key={destination.id} value={destination.id}>
-                        {destination.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <SelectTrigger
+                      className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                        errors.destination
+                          ? 'border-red-500 bg-red-500'
+                          : 'border-input bg-background'
+                      }`}
+                    >
+                      <SelectValue
+                        placeholder="Select destination"
+                        className="placeholder:text-muted-foreground"
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      {destinations.map(destination => (
+                        <SelectItem key={destination.id} value={destination.id}>
+                          {destination.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 {errors.destination && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
@@ -410,17 +436,23 @@ const TravelBlogPage = () => {
                 <Calendar className="h-4 w-4" />
                 Story Description *
               </Label>
-              <Textarea
-                placeholder="Share the highlights of your travel experience, what made it special, and any tips for fellow travelers..."
-                value={formData.excerpt}
-                onChange={e => handleInputChange('excerpt', e.target.value)}
-                className={`flex min-h-[100px] w-full rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                  errors.excerpt
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-input bg-background'
-                }`}
-                rows={4}
-              />
+              <div
+                className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Textarea
+                  placeholder="Share the highlights of your travel experience, what made it special, and any tips for fellow travelers..."
+                  value={formData.excerpt}
+                  onChange={e => handleInputChange('excerpt', e.target.value)}
+                  className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                    errors.excerpt
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-input bg-background'
+                  }`}
+                  rows={4}
+                />
+              </div>
+
               {errors.excerpt && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -440,17 +472,24 @@ const TravelBlogPage = () => {
                   <User className="h-4 w-4" />
                   Your Name *
                 </Label>
-                <Input
-                  type="text"
-                  placeholder="e.g., John Doe"
-                  value={formData.author}
-                  onChange={e => handleInputChange('author', e.target.value)}
-                  className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                    errors.author
-                      ? 'border-red-500 bg-red-50'
-                      : 'border-input bg-background'
-                  }`}
-                />
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
+                  {' '}
+                  <Input
+                    type="text"
+                    placeholder="e.g., John Doe"
+                    value={formData.author}
+                    onChange={e => handleInputChange('author', e.target.value)}
+                    className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                      errors.author
+                        ? 'border-red-500 bg-red-50'
+                        : 'border-input bg-background'
+                    }`}
+                  />
+                </div>
+
                 {errors.author && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -465,21 +504,30 @@ const TravelBlogPage = () => {
                   <Clock className="h-4 w-4" />
                   Read Time (minutes)
                 </Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={60}
-                  placeholder="5"
-                  value={formData.readTime}
-                  onChange={e =>
-                    handleInputChange('readTime', parseInt(e.target.value) || 5)
-                  }
-                  className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                    errors.readTime
-                      ? 'border-red-500 bg-red-50'
-                      : 'border-input bg-background'
-                  }`}
-                />
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                   transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
+                  <Input
+                    type="number"
+                    min={1}
+                    max={60}
+                    placeholder="5"
+                    value={formData.readTime}
+                    onChange={e =>
+                      handleInputChange(
+                        'readTime',
+                        parseInt(e.target.value) || 5
+                      )
+                    }
+                    className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                      errors.readTime
+                        ? 'border-red-500 bg-red-50'
+                        : 'border-input bg-background'
+                    }`}
+                  />
+                </div>
+
                 {errors.readTime && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -495,17 +543,24 @@ const TravelBlogPage = () => {
                 <Eye className="h-4 w-4" />
                 Cover Image URL (optional)
               </Label>
-              <Input
-                type="url"
-                placeholder="https://example.com/your-image.jpg"
-                value={formData.image}
-                onChange={e => handleInputChange('image', e.target.value)}
-                className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                  errors.image
-                    ? 'border-red-500 bg-red-50'
-                    : 'border-input bg-background'
-                }`}
-              />
+              <div
+                className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                   transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                {' '}
+                <Input
+                  type="url"
+                  placeholder="https://example.com/your-image.jpg"
+                  value={formData.image}
+                  onChange={e => handleInputChange('image', e.target.value)}
+                  className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground${
+                    errors.image
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-input bg-background'
+                  }`}
+                />
+              </div>
+
               {errors.image && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -536,19 +591,15 @@ const TravelBlogPage = () => {
                   {formData.category && (
                     <span className="flex items-center gap-1">
                       <Filter className="h-3 w-3" />
-                      {
-                        categories.find(c => c.id === formData.category)
-                          ?.name
-                      }
+                      {categories.find(c => c.id === formData.category)?.name}
                     </span>
                   )}
                   {formData.destination && (
                     <span className="flex items-center gap-1">
                       <MapPin className="h-3 w-3" />
                       {
-                        destinations.find(
-                          d => d.id === formData.destination
-                        )?.name
+                        destinations.find(d => d.id === formData.destination)
+                          ?.name
                       }
                     </span>
                   )}
@@ -574,7 +625,7 @@ const TravelBlogPage = () => {
                   !formData.title ||
                   !formData.excerpt ||
                   !formData.author ||
-                  !formData.category || 
+                  !formData.category ||
                   !formData.destination
                 }
                 className="flex-1 inline-flex items-center justify-center gap-2"
@@ -723,62 +774,73 @@ const TravelBlogPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-
       {/* Header Section */}
-    
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 text-white p-6">
-          <div className="text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
-            >
-              Travel Stories & Guides
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-lg max-w-2xl text-secondary text-center mx-auto mb-8 md:mb-12"
-            >
-              Discover amazing destinations, practical travel tips, and
-              inspiring stories from fellow adventurers
-            </motion.p>
-            {state.usingMockData && (
-              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50 ">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-yellow-800">
-                  ⚠️ Currently showing sample data. Live feed temporarily
-                  unavailable.
-                </AlertDescription>
-              </Alert>
-            )}
-            {state.error && (
-              <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-yellow-800">
-                  {state.error}
-                </AlertDescription>
-              </Alert>
-            )}
 
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto relative">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search destinations, tips, guides..."
-                  className="w-full bg-white pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-                  value={state.searchTerm}
-                  onChange={e => actions.setSearchTerm(e.target.value)}
-                />
-              </div>
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white p-6">
+        <div className="text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
+          >
+            Travel Stories & Guides
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg max-w-2xl text-secondary text-center mx-auto mb-8 md:mb-12"
+          >
+            Discover amazing destinations, practical travel tips, and inspiring
+            stories from fellow adventurers
+          </motion.p>
+          {state.usingMockData && (
+            <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50 ">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-yellow-800">
+                ⚠️ Currently showing sample data. Live feed temporarily
+                unavailable.
+              </AlertDescription>
+            </Alert>
+          )}
+          {state.error && (
+            <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-yellow-800">
+                {state.error}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* <div
+                className="flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Input
+                  placeholder="Full Name"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                /> */}
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto relative">
+            <div
+              className="relative flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+            >
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search destinations, tips, guides..."
+                className="w-full bg-white pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-primary/50 "
+                value={state.searchTerm}
+                onChange={e => actions.setSearchTerm(e.target.value)}
+              />
             </div>
           </div>
-        </section>
-   
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Filters Section */}
@@ -856,7 +918,7 @@ const TravelBlogPage = () => {
             }`}
           >
             <div className="bg-card rounded-lg border p-4 space-y-4">
-              <div>
+              <div className="">
                 <Label className="block text-sm font-medium text-foreground mb-2">
                   Destination
                 </Label>
@@ -868,7 +930,7 @@ const TravelBlogPage = () => {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select destination" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-card">
                     {destinations.map(dest => (
                       <SelectItem key={dest.id} value={dest.id}>
                         {dest.name}
@@ -893,7 +955,7 @@ const TravelBlogPage = () => {
               <SelectTrigger className="w-full max-w-xs">
                 <SelectValue placeholder="Select destination" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-card">
                 {destinations.map(dest => (
                   <SelectItem key={dest.id} value={dest.id}>
                     {dest.name}

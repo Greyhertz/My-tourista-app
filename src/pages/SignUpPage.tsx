@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Lock, Mail, Phone, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,26 +16,141 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/core/ThemeToggle';
+import { useNavigate } from 'react-router-dom';
+import { validateForm, validateField } from '@/utils/validateForm';
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const texts = [
     'Discover New Destinations 🌍',
     'Book Trips Effortlessly ✈️',
     'Experience Memorable Journeys 🏖️',
   ];
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentText, setCurrentText] = useState(0);
 
+  // form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
+
+  // animated text
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentText(prev => (prev + 1) % texts.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [texts.length]);
+  }, []);
+
+  // password strength helper
+  function getPasswordStrength(password: string) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+
+    if (strength <= 1) return { label: 'Weak', color: 'text-red-500' };
+    if (strength === 2) return { label: 'Medium', color: 'text-yellow-500' };
+    return { label: 'Strong', color: 'text-green-500' };
+  }
+
+  // ✅ Centralized validation options
+  const validationOptions = {
+    required: [
+      'name',
+      'email',
+      'phone',
+      'password',
+      'confirmPassword',
+    ] as Array<'name' | 'email' | 'phone' | 'password' | 'confirmPassword'>,
+    name: ['name'] as Array<'name'>,
+    minLength: [
+      { field: 'name', length: 3 }],
+    email: ['email'] as Array<'email'>,
+    phone: ['phone'] as Array<'phone'>,
+    password: [
+      {
+        field: 'password',
+        minLength: 8,
+        requireUppercase: true,
+        requireNumber: true,
+        requireSpecialChar: true,
+      },
+    ],
+    match: [
+      {
+        field: 'confirmPassword',
+        matchWith: 'password',
+        message: 'Passwords do not match',
+      },
+    ],
+    // custom: [
+    //   {
+    //     field: 'name',
+    //     validate: (value: string) =>
+    //     {
+    //       if (!value) return 'Name is required';
+    //       if (value.length < 3) return 'Name must be at least 3 characters';
+    //       if (!/^[A-Za-z\s]+$/.test(value)) return 'Name must only contain letters and spaces';
+    //       return undefined;
+    //     },
+    //   }
+    // ],
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+
+    // ✅ Use utility validateField
+    const error = validateField(
+      name as keyof typeof formData,
+      value,
+      formData,
+      validationOptions
+    );
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) =>
+  {
+    e.preventDefault();
+
+    // ✅ Use utility validateForm
+    const newErrors = validateForm(formData, validationOptions);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0)
+    {
+      setIsSubmitting(true);
+      setTimeout(() =>
+      {
+        handleData(); // navigate
+        setIsSubmitting(false);
+      }, 1500);
+    }
+  };
+
+  const passwordStrength = getPasswordStrength(formData.password);
+  const navigate = useNavigate();
+
+  const handleData = () => {
+    navigate(`/review/${formData.name}`, {
+      state: { ...formData },
+    });
+  };
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      {/* Left Side (Image + Animated Text) */}
+      {/* Left side */}
       <div
         className="relative hidden lg:flex items-center justify-center bg-cover bg-center"
         style={{
@@ -48,7 +163,6 @@ export default function SignUpPage() {
           key={currentText}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.8 }}
           className="relative z-10 text-4xl font-extrabold text-white text-center px-6"
         >
@@ -56,37 +170,45 @@ export default function SignUpPage() {
         </motion.h2>
       </div>
 
-      {/* Right Side (Form) */}
+      {/* Right side form */}
+      <div>
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
 
-      <div className="flex items-center justify-center px-6 py-12 bg-background">
-        <Card className="w-full max-w-md bg-transparent shadow-none border-none text-foreground">
-          <div className="absolute top-4 right-4">
-            <ThemeToggle />
-          </div>
-          <CardHeader className="space-y-2 text-center">
-            <CardTitle className="text-3xl font-bold tracking-tight text-foreground">
-              Create an Account
-            </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Sign up to <span className="font-semibold">TravelMate</span> and
-              start your journey
-            </CardDescription>
-          </CardHeader>
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center justify-center px-6 py-12 bg-background"
+        >
+          <Card className="w-full max-w-md bg-transparent shadow-none border-none text-foreground">
+            <CardHeader className="space-y-2 text-center">
+              <CardTitle className="text-3xl font-bold tracking-tight">
+                Create an Account
+              </CardTitle>
+              <CardDescription>
+                Sign up to <span className="font-semibold">TravelMate</span> and
+                start your journey
+              </CardDescription>
+            </CardHeader>
 
-          <CardContent>
-            <form className="space-y-4">
+            <CardContent className="space-y-4">
               {/* Name */}
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Full Name</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="name"
-                    placeholder="Full Name"
-                    className="pl-10"
-                    required
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    className={`pl-10 ${errors.name ? 'border-red-500' : ''}`}
                   />
                 </div>
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -96,12 +218,37 @@ export default function SignUpPage() {
                   <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="email"
+                    name="email"
                     type="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="you@example.com"
-                    className="pl-10"
-                    required
+                    className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email}</p>
+                )}
+              </div>
+
+              {/* Phone */}
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+234 801 234 5678"
+                    className={`pl-10 ${errors.phone ? 'border-red-500' : ''}`}
+                  />
+                </div>
+                {errors.phone && (
+                  <p className="text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
 
               {/* Password */}
@@ -111,15 +258,19 @@ export default function SignUpPage() {
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="password"
+                    name="password"
                     type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
                     placeholder="••••••••"
-                    className="pl-10 pr-10"
-                    required
+                    className={`pl-10 pr-10 ${
+                      errors.password ? 'border-red-500' : ''
+                    }`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? (
                       <EyeOff className="h-5 w-5" />
@@ -128,13 +279,66 @@ export default function SignUpPage() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                )}
+                {formData.password && (
+                  <p
+                    className={`text-sm font-semibold ${passwordStrength.color}`}
+                  >
+                    Strength: {passwordStrength.label}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className={`pl-10 pr-10 ${
+                      errors.confirmPassword ? 'border-red-500' : ''
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 focus-ring-4 hover:shadow-lg"
               >
-                Sign Up
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Signing
+                    up...
+                  </>
+                ) : (
+                  <>Sign Up</>
+                )}
               </Button>
 
               <div className="my-6 flex items-center">
@@ -145,7 +349,7 @@ export default function SignUpPage() {
                 <Separator className="flex-1" />
               </div>
 
-              {/* Social Logins */}
+              {/* Social Logins with SVGs */}
               <div className="flex flex-col space-y-3">
                 {/* Google */}
                 <Button
@@ -174,7 +378,7 @@ export default function SignUpPage() {
                   Continue with Google
                 </Button>
 
-                {/* Apple / iOS */}
+                {/* Apple */}
                 <Button
                   type="button"
                   variant="outline"
@@ -186,19 +390,19 @@ export default function SignUpPage() {
                   Continue with Apple
                 </Button>
               </div>
-            </form>
-          </CardContent>
+            </CardContent>
 
-          <CardFooter className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <a
-              href="/login"
-              className="ml-1 font-medium text-primary hover:underline"
-            >
-              Log in
-            </a>
-          </CardFooter>
-        </Card>
+            <CardFooter className="text-center text-sm text-muted-foreground">
+              Already have an account?{' '}
+              <a
+                href="/login"
+                className="ml-1 font-medium text-primary hover:underline"
+              >
+                Log in
+              </a>
+            </CardFooter>
+          </Card>
+        </form>
       </div>
     </div>
   );

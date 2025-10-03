@@ -13,3 +13,4 @@ export default function ContextProvider({ children }: { children: ReactNode }) {
 export function useAppContext() {
   return useContext(AppContext);
 }
+ 

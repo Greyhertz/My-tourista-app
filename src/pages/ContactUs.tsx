@@ -1,29 +1,27 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "@/components/ui/accordion";
-import { Mail, Phone, Clock } from "lucide-react";
-import NewsLetterBox from "@/components/core/LetterBox";
+} from '@/components/ui/accordion';
+import { Mail, Phone, Clock } from 'lucide-react';
+import NewsLetterBox from '@/components/core/LetterBox';
 
 export default function ContactUs() {
-
   return (
     <div className="bg-background text-foreground font-sm">
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500  p-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-primary via-fuchsia-500 to-accent p-6">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
+          className="text-5xl md:text-7xl font-extrabold mb-6 text-primary-foreground"
         >
           Get in Touch
         </motion.h1>
@@ -31,12 +29,13 @@ export default function ContactUs() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-lg max-w-2xl text-secondary"
+          className="text-lg max-w-2xl text-foreground/80"
         >
           Our team is here to answer your questions and help you plan your next
           adventure.
         </motion.p>
       </section>
+
       {/* Quick Contact Stats */}
       <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
@@ -56,11 +55,14 @@ export default function ContactUs() {
             desc: 'Mon - Fri, 9am - 6pm',
           },
         ].map((item, i) => (
-          <Card key={i} className="shadow-lg hover:shadow-xl transition">
+          <Card
+            key={i}
+            className="shadow-lg hover:shadow-xl transition border border-border bg-card"
+          >
             <CardContent className="flex flex-col items-center p-6 space-y-2">
-              <item.icon className="w-10 h-10 text-blue-500" />
+              <item.icon className="w-10 h-10 text-primary" />
               <h3 className="text-lg font-semibold">{item.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
+              <p className="text-muted-foreground">{item.desc}</p>
             </CardContent>
           </Card>
         ))}
@@ -75,13 +77,13 @@ export default function ContactUs() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h2 className="text-4xl ">We’d Love to Hear from You</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-base">
+            <h2 className="text-4xl font-bold">We’d Love to Hear from You</h2>
+            <p className="text-muted-foreground text-base">
               Whether you’re planning your next trip, have questions about our
               services, or just want to say hello—drop us a message.
             </p>
             <img
-              src="https://sdmntpritalynorth.oaiusercontent.com/files/00000000-569c-6246-a776-5694f82b5137/raw?se=2025-09-03T18%3A09%3A03Z&sp=r&sv=2024-08-04&sr=b&scid=3b050c1b-e990-583b-884c-d6f25c2a71be&skoid=b928fb90-500a-412f-a661-1ece57a7c318&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-03T06%3A28%3A19Z&ske=2025-09-04T06%3A28%3A19Z&sks=b&skv=2024-08-04&sig=iYXgDxVGYURc893OkBhVio4jf/iIrwzOZA1nDMnBOfM%3D"
+              src="https://sdmntpritalynorth.oaiusercontent.com/files/00000000-569c-6246-a776-5694f82b5137/raw"
               alt="Contact Illustration"
               className="w-72 md:w-80 animate-float"
             />
@@ -91,23 +93,65 @@ export default function ContactUs() {
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl"
+            className="space-y-6 bg-card p-8 rounded-xl shadow-2xl border border-border"
           >
             <div className="grid md:grid-cols-2 gap-6">
-              <Input placeholder="Full Name" required />
-              <Input placeholder="Email Address" type="email" required />
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Input
+                  placeholder="Full Name"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                {' '}
+                <Input
+                  placeholder="Email Address"
+                  type="email"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
             </div>
-            <Input placeholder="Subject" required />
-            <Textarea rows={5} placeholder="Write your message..." required />
-            <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+            <div
+              className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+            >
+              {' '}
+              <Input
+                placeholder="Subject"
+                required
+                className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+            <div
+              className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+            >
+              {' '}
+              <Textarea
+                rows={5}
+                placeholder="Write your message..."
+                required
+                className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+            <Button className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90">
               Send Message
-            </Button> 
+            </Button>
           </motion.form>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-6 bg-white dark:bg-gray-950">
+      <section className="py-20 px-6 bg-background">
         <h2 className="text-3xl font-bold text-center mb-10">FAQs</h2>
         <div className="max-w-2xl mx-auto">
           <Accordion type="single" collapsible>
@@ -131,7 +175,7 @@ export default function ContactUs() {
 
       {/* Map Section */}
       <section className="px-6 pb-20">
-        <div className="max-w-6xl mx-auto mt-10 rounded-xl overflow-hidden shadow-lg">
+        <div className="max-w-6xl mx-auto mt-10 rounded-xl overflow-hidden shadow-lg border border-border">
           <iframe
             title="Location Map"
             className="w-full h-80"
@@ -142,7 +186,6 @@ export default function ContactUs() {
       </section>
 
       {/* Final CTA */}
-
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -153,4 +196,3 @@ export default function ContactUs() {
     </div>
   );
 }
-  

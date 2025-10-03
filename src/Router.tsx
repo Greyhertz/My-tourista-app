@@ -19,6 +19,8 @@ import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
 // import Cart  from './pages/Cart';
 import NotFound from './pages/NotFound';
+import Reviewpage from './pages/Reviewpage';
+import { MyForm } from './pages/form';
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +47,6 @@ export const router = createBrowserRouter([
       { path: 'destination/:city', element: <DestinationDetails /> },
       // { path: 'integration', element: <IntegrationsList /> },
       // { path: 'billing', element: <BillingPage /> },
-      { path: 'welcome', element: <Welcome /> },
 
       {
         path: '*',
@@ -56,4 +57,7 @@ export const router = createBrowserRouter([
   { path: 'pricing', element: <PricingPage /> },
   // { path: '/cart', element: <Cart /> },
   { path: 'sign-up', element: <SignUpPage /> },
+  { path: 'review/:name', element: <Reviewpage/> },
+  { path: 'welcome', element: <Welcome /> },
+  {path: 'my-form', element: <MyForm/>}
 ]);

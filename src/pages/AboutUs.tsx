@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -29,9 +23,9 @@ import {
   Calendar,
   TrendingUp,
   CheckCircle,
+  Sparkles,
 } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import NewsLetterBox from '@/components/core/LetterBox';
+import { motion } from 'framer-motion';
 import {
   Accordion,
   AccordionContent,
@@ -39,6 +33,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ScrollReveal } from './Homepage';
+
 const stats = [
   {
     Icon: Users,
@@ -61,39 +56,37 @@ const features = [
     Icon: Compass,
     title: 'AI-Powered Planning',
     desc: 'Smart itineraries that adapt to your preferences and real-time conditions.',
-    color: 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400',
+    color: 'bg-primary/10 text-primary',
   },
   {
     Icon: Camera,
     title: 'AR Photo Guide',
     desc: 'Augmented reality overlays showing perfect shot compositions and timing.',
-    color: 'bg-green-50 text-green-600 dark:bg-green-950 dark:text-green-400',
+    color: 'bg-accent/10 text-accent',
   },
   {
     Icon: Heart,
     title: 'Social Travel Network',
     desc: 'Connect with like-minded travelers and share experiences in real-time.',
-    color: 'bg-pink-50 text-pink-600 dark:bg-pink-950 dark:text-pink-400',
+    color: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
   },
   {
     Icon: Globe,
     title: 'Offline-First Design',
     desc: 'Full functionality without internet - perfect for remote adventures.',
-    color:
-      'bg-violet-50 text-violet-600 dark:bg-violet-950 dark:text-violet-400',
+    color: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
   },
   {
     Icon: Shield,
     title: 'Safety Alerts',
     desc: 'Real-time safety updates and emergency assistance wherever you are.',
-    color: 'bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400',
+    color: 'bg-red-500/10 text-red-600 dark:text-red-400',
   },
   {
     Icon: Zap,
     title: 'Instant Booking',
     desc: 'Book flights, hotels, and activities with one tap - no endless forms.',
-    color:
-      'bg-yellow-50 text-yellow-600 dark:bg-yellow-950 dark:text-yellow-400',
+    color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
   },
 ];
 
@@ -196,7 +189,6 @@ const milestones = [
 export default function EnhancedTravelMateAbout() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -205,175 +197,193 @@ export default function EnhancedTravelMateAbout() {
     return () => clearInterval(timer);
   }, []);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000); // ⏳ 2 seconds delay
-
-  //   return () => clearTimeout(timer); // cleanup
-  // }, []);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="min-h-screen bg-background flex items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-  //         <p className="text-muted-foreground">Loading about page...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br ">
-      {/* Floating Background Elements - Theme Responsive */}
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Floating Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-primary/10 to-violet-500/10 blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-gradient-to-l from-accent/20 to-primary/20 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-[600px] h-[300px] rounded-full bg-gradient-to-t from-green-400/10 to-blue-500/10 blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl" />
       </div>
 
-      {/* HERO SECTION */}
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 p-6">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-extrabold mb-6 text-secondary"
-        >
-          About Us
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-lg max-w-2xl text-secondary"
-        >
-          Discover our journey, mission, and the people behind our vision.
-        </motion.p>
+      {/* HERO SECTION - Enhanced */}
+      <section className="relative min-h-[70vh] flex flex-col items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5" />
+
+        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '1s' }}
+        />
+
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-6"
+          >
+            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4 mr-2 inline" />
+              About TravelMate
+            </Badge>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+          >
+            About Us
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          >
+            Discover our journey, mission, and the passionate people behind the
+            world's most innovative travel platform
+          </motion.p>
+        </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-6 grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto">
-        {['100+ Destinations', '50K+ Travelers', '10+ Years Experience'].map(
-          (stat, i) => (
-            <Card key={i} className="shadow-lg rounded-2xl">
-              <CardContent className="text-center p-6 font-bold text-xl text-foreground">
-                {stat}
-              </CardContent>
-            </Card>
-          )
-        )}
+      {/* Quick Stats - Enhanced */}
+      <section className="relative z-10 -mt-16 px-6 mb-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              '100+ Destinations',
+              '50K+ Travelers',
+              '10+ Years Experience',
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Card className="bg-card/80 backdrop-blur-sm border-2 border-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                  <CardContent className="p-8 text-center">
+                    <p className="text-2xl md:text-3xl font-bold text-foreground">
+                      {stat}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
-      <header className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+
+      {/* Main Header Section - Enhanced */}
+      <header className="relative overflow-hidden px-6 py-16">
+        <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <Badge className="bg-gradient-to-r from-primary to-violet-600 text-primary-foreground px-4 py-1 hover:from-primary/90 hover:to-violet-600/90">
-                  ✨ Winner: Best Travel App 2024
-                </Badge>
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-gradient-to-r from-foreground via-primary to-violet-600 bg-clip-text text-transparent">
-                  TravelMate
-                </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                  The world's first AI-powered travel companion that learns,
-                  adapts, and grows with every journey.
-                  <span className="font-semibold text-primary">
-                    {' '}
-                    Plan smarter. Travel better. Connect deeper.
-                  </span>
-                </p>
-              </div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <Badge className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-2 text-sm hover:from-primary/90 hover:to-accent/90">
+                <Award className="w-4 h-4 mr-2 inline" />
+                Winner: Best Travel App 2024
+              </Badge>
 
-              <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="shadow-lg px-8">
-                  <Smartphone className="w-5 h-5 mr-2" />
+              <h2 className="text-5xl md:text-6xl font-bold leading-tight bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+                TravelMate
+              </h2>
+
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                The world's first AI-powered travel companion that learns,
+                adapts, and grows with every journey.
+                <span className="block mt-2 font-semibold text-primary">
+                  Plan smarter. Travel better. Connect deeper.
+                </span>
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Button size="lg" className="shadow-lg px-8 group">
+                  <Smartphone className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                   Download Free
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-6"
+                  className="px-6 border-2 group"
                   onClick={() => setIsVideoPlaying(true)}
                 >
-                  <Play className="w-5 h-5 mr-2" />
+                  <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                   Watch Demo
                 </Button>
               </div>
 
-              {/* Stats */}
+              {/* Stats Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-border">
                 {stats.map((stat, i) => (
-                  <div key={i} className="text-center space-y-2">
-                    <stat.Icon className={`w-8 h-8 mx-auto ${stat.color}`} />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.1 + 0.5 }}
+                    className="text-center space-y-2 group"
+                  >
+                    <stat.Icon
+                      className={`w-8 h-8 mx-auto ${stat.color} group-hover:scale-110 transition-transform`}
+                    />
                     <div className="text-2xl font-bold text-foreground">
                       {stat.value}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {stat.label}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Content - Hero Visual */}
-            <div className="relative">
-              <Card className="shadow-2xl bg-card border-border">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
+              <Card className="relative shadow-2xl bg-card border-2 border-border overflow-hidden">
                 <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-xl">
-                    {/* Hero Image - Properly sized */}
-                    <div className="aspect-[4/3] relative">
-                      {/* <img
-                        src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&h=600&q=80"
-                        alt="Beautiful tropical destination with crystal clear waters"
-                        className="w-full h-full object-cover"
-                      /> */}
-                      {/* <video src=""></video> */}
-                      <iframe
-                        src="https://www.youtube.com/embkJQP7kiw5Fk"
-                        frameBorder="0"
-                        className="w-full h-full object-cover"
-                      ></iframe>
+                  <div className="aspect-[4/3] relative group">
+                    <iframe
+                      src="https://youtu.be/exI_hD_4jAM"
+                      className="w-full h-full"
+                      allowFullScreen
+                    />
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-
-                      {/* Video Play Button */}
-                      <Button
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full w-16 h-16 bg-background/90 hover:bg-background text-primary"
-                        onClick={() => setIsVideoPlaying(true)}
-                      >
-                        <Play className="w-8 h-8" />
-                      </Button>
-
-                      {/* Floating Feature Cards */}
-                      <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-border">
-                        <div className="flex items-center gap-2">
-                          <Camera className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-medium text-foreground">
-                            AR Photo Mode
-                          </span>
-                        </div>
+                    {/* Floating Feature Cards */}
+                    <div className="absolute top-4 right-4 bg-card/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border">
+                      <div className="flex items-center gap-2">
+                        <Camera className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-medium text-foreground">
+                          AR Photo Mode
+                        </span>
                       </div>
+                    </div>
 
-                      <div className="absolute bottom-4 left-4 bg-background/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-border">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="w-10 h-10">
-                            <AvatarImage
-                              src={team[0].image}
-                              alt={team[0].name}
-                            />
-                            <AvatarFallback>SJ</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="font-semibold text-sm text-foreground">
-                              Sarah Johnson
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                              Founder & CEO
-                            </div>
+                    <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10 ring-2 ring-primary">
+                          <AvatarImage src={team[0].image} alt={team[0].name} />
+                          <AvatarFallback>SJ</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-semibold text-sm text-foreground">
+                            {team[0].name}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Founder & CEO
                           </div>
                         </div>
                       </div>
@@ -381,19 +391,23 @@ export default function EnhancedTravelMateAbout() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
+            </motion.div>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6">
-        {/* FEATURES SECTION */}
-        <section className="py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">
+        {/* FEATURES SECTION - Enhanced */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 px-4 py-2" variant="outline">
+              <Sparkles className="w-4 h-4 mr-2 inline" />
+              Our Features
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
               Revolutionary Travel Features
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Cutting-edge technology meets intuitive design to create the
               ultimate travel companion
             </p>
@@ -401,317 +415,173 @@ export default function EnhancedTravelMateAbout() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, i) => (
-              <Card
+              <motion.div
                 key={i}
-                className="group hover:shadow-xl transition-all duration-300 bg-card border-border hover:-translate-y-1"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
               >
-                <CardContent className="p-6">
-                  <div
-                    className={`inline-flex p-4 rounded-xl ${feature.color} mb-4`}
-                  >
-                    <feature.Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.desc}
-                  </p>
-                </CardContent>
-              </Card>
+                <Card className="group h-full hover:shadow-2xl transition-all duration-500 bg-card border-2 border-border hover:border-primary/50 hover:-translate-y-2">
+                  <CardContent className="p-8">
+                    <div
+                      className={`inline-flex p-4 rounded-2xl ${feature.color} mb-6 group-hover:scale-110 transition-transform`}
+                    >
+                      <feature.Icon className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.desc}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="py-20 px-6 container mx-auto">
-          <ScrollReveal>
-            <h2 className="text-3xl font-bold mb-10 text-center">
-              Frequently Asked Questions (FAQ's)
-              {/* FAQ's */}
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full max-w-2xl mx-auto"
-            >
-              <AccordionItem value="item-1">
-                <AccordionTrigger>
-                  What services do you provide?
-                </AccordionTrigger>
-                <AccordionContent>
-                  We offer travel planning, hotel bookings, guided tours, and
-                  destination insights.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>
-                  Do you operate internationally?
-                </AccordionTrigger>
-                <AccordionContent>
-                  Yes, we partner with agencies and hotels in over 50 countries
-                  worldwide.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>Can I customize my trip?</AccordionTrigger>
-                <AccordionContent>
-                  Absolutely, our AI-powered system allows full customization of
-                  your itineraries.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </ScrollReveal>
-        </section>
-
-        {/* Travel Packages Section */}
-        <section className="py-32 px-6 ">
-          <div className="container mx-auto">
+        {/* FAQ Section - Enhanced */}
+        <section className="py-20">
+          <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <div className="text-center mb-20">
-                <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-fuchsia-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                  Curated Travel Packages
+              <div className="text-center mb-12">
+                <Badge className="mb-4 px-4 py-2" variant="outline">
+                  <CheckCircle className="w-4 h-4 mr-2 inline" />
+                  FAQs
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Frequently Asked Questions
                 </h2>
-                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                  Discover immersive journeys crafted with passion and detail
+                <p className="text-xl text-muted-foreground">
+                  Everything you need to know about TravelMate
                 </p>
               </div>
             </ScrollReveal>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-              {[
-                {
-                  title: 'European Grand Tour',
-                  duration: '14 Days',
-                  price: '$3,499',
-                  originalPrice: '$4,200',
-                  image:
-                    'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=2070&auto=format&fit=crop',
-                  countries: ['France', 'Italy', 'Switzerland', 'Austria'],
-                  highlights: [
-                    'Eiffel Tower',
-                    'Colosseum',
-                    'Alps',
-                    'Vienna Palace',
-                  ],
-                  rating: 4.9,
-                  reviews: 847,
-                  description:
-                    'Journey through iconic capitals and timeless landscapes in the heart of Europe.',
-                },
-                {
-                  title: 'Asian Adventure',
-                  duration: '12 Days',
-                  price: '$2,799',
-                  originalPrice: '$3,400',
-                  image:
-                    'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=2070&auto=format&fit=crop',
-                  countries: ['Japan', 'Thailand', 'Vietnam'],
-                  highlights: [
-                    'Tokyo Temples',
-                    'Bangkok Markets',
-                    'Ha Long Bay',
-                  ],
-                  rating: 4.8,
-                  reviews: 623,
-                  description:
-                    'Dive into Asia’s rich traditions, bustling cities, and natural wonders.',
-                },
-                {
-                  title: 'African Safari',
-                  duration: '10 Days',
-                  price: '$4,299',
-                  originalPrice: '$5,100',
-                  image:
-                    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=2070&auto=format&fit=crop',
-                  countries: ['Kenya', 'Tanzania'],
-                  highlights: [
-                    'Serengeti',
-                    'Masai Mara',
-                    'Kilimanjaro',
-                    'Ngorongoro',
-                  ],
-                  rating: 4.9,
-                  reviews: 412,
-                  description:
-                    'Witness the wild in its purest form across the vast African plains.',
-                },
-                {
-                  title: 'South American Discovery',
-                  duration: '16 Days',
-                  price: '$3,899',
-                  originalPrice: '$4,600',
-                  image:
-                    'https://images.unsplash.com/photo-1545330785-15356daae141?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                  countries: ['Peru', 'Chile', 'Argentina'],
-                  highlights: [
-                    'Machu Picchu',
-                    'Atacama Desert',
-                    'Patagonia',
-                    'Buenos Aires',
-                  ],
-                  rating: 4.8,
-                  reviews: 356,
-                  description:
-                    'From Incan wonders to Patagonian peaks, experience South America’s soul.',
-                },
-                {
-                  title: 'Mediterranean Cruise',
-                  duration: '8 Days',
-                  price: '$2,199',
-                  originalPrice: '$2,800',
-                  image:
-                    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop',
-                  countries: ['Spain', 'Italy', 'Greece', 'Turkey'],
-                  highlights: ['Barcelona', 'Rome', 'Santorini', 'Istanbul'],
-                  rating: 4.7,
-                  reviews: 934,
-                  description:
-                    'Sail through turquoise waters and explore legendary Mediterranean coasts.',
-                },
-                {
-                  title: 'Nordic Northern Lights',
-                  duration: '7 Days',
-                  price: '$2,999',
-                  originalPrice: '$3,500',
-                  image:
-                    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop',
-                  countries: ['Norway', 'Iceland', 'Finland'],
-                  highlights: [
-                    'Aurora Borealis',
-                    'Fjords',
-                    'Ice Hotels',
-                    'Reykjavik',
-                  ],
-                  rating: 4.9,
-                  reviews: 278,
-                  description:
-                    'Chase the aurora and marvel at the Arctic’s otherworldly beauty.',
-                },
-              ].map((pkg, index) => (
-                <ScrollReveal key={index} delay={index * 0.1}>
-                  <motion.div whileHover={{}}>
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
-                      {/* Background Image with permanent tint */}
-                      <img
-                        src={pkg.image}
-                        alt={pkg.title}
-                        className="w-full h-80 object-cover transition-transform duration-500"
-                      />
+            <ScrollReveal>
+              <Card className="bg-card/50 backdrop-blur-sm border-2 border-border shadow-xl">
+                <CardContent className="p-8">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full space-y-4"
+                  >
+                    <AccordionItem
+                      value="item-1"
+                      className="border-b border-border"
+                    >
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                        What services do you provide?
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                        We offer comprehensive travel planning, hotel bookings,
+                        guided tours, and destination insights powered by AI
+                        technology.
+                      </AccordionContent>
+                    </AccordionItem>
 
-                      {/* Description overlay (always visible) */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4">
-                        <p className="text-sm text-white">{pkg.description}</p>
-                      </div>
+                    <AccordionItem
+                      value="item-2"
+                      className="border-b border-border"
+                    >
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                        Do you operate internationally?
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                        Yes, we partner with agencies and hotels in over 50
+                        countries worldwide, ensuring you have support wherever
+                        you travel.
+                      </AccordionContent>
+                    </AccordionItem>
 
-                      {/* Hover Overlay Content */}
-                      <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-90 transition duration-500 flex flex-col justify-end p-6  object-cover mt-16 rounded-2xl">
-                        <h3 className="text-2xl font-bold text-primary-foreground mb-2">
-                          {pkg.title}
-                        </h3>
-                        <p className="text-sm text-secondary mb-3">
-                          {pkg.duration}
-                        </p>
-
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="text-xl font-bold text-emerald-400">
-                            {pkg.price}
-                          </span>
-                          <span className="text-secondary line-through">
-                            {pkg.originalPrice}
-                          </span>
-                        </div>
-
-                        <ul className="text-sm text-secondary grid grid-cols-2 gap-x-4 gap-y-1 mb-4">
-                          {pkg.highlights.map((h, i) => (
-                            <li key={i}>• {h}</li>
-                          ))}
-                        </ul>
-
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-secondary">
-                            ⭐ {pkg.rating} ({pkg.reviews})
-                          </span>
-                          <Button
-                            size="sm"
-                            className="rounded-full bg-secondary text-primary hover:bg-destructive"
-                          >
-                            Explore
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Discount Badge */}
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-red-600/90 text-secondary-foreground backdrop-blur-sm">
-                          Save{' '}
-                          {parseInt(pkg.originalPrice.replace(/\$|,/g, '')) -
-                            parseInt(pkg.price.replace(/\$|,/g, ''))}
-                        </Badge>
-                      </div>
-                    </div>
-                  </motion.div>
-                </ScrollReveal>
-              ))}
-            </div>
+                    <AccordionItem value="item-3" className="border-b-0">
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                        Can I customize my trip?
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                        Absolutely! Our AI-powered system allows full
+                        customization of your itineraries based on your
+                        preferences, budget, and travel style.
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
         </section>
 
-        {/* TESTIMONIALS CAROUSEL */}
-        <section className="py-16">
+        {/* TESTIMONIALS CAROUSEL - Enhanced */}
+        <section className="py-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">
+            <Badge className="mb-4 px-4 py-2" variant="outline">
+              <Star className="w-4 h-4 mr-2 inline" />
+              Testimonials
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
               Loved by Millions
             </h2>
             <p className="text-xl text-muted-foreground">
-              Real stories from real travelers
+              Real stories from real travelers around the world
             </p>
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            <Card className="bg-gradient-to-r from-primary to-violet-600 text-primary-foreground border-0 shadow-2xl">
-              <CardContent className="p-8 text-center">
-                <Quote className="w-12 h-12 mx-auto mb-6 opacity-50" />
-                <p className="text-xl mb-6 leading-relaxed">
-                  "{testimonials[currentTestimonial].text}"
-                </p>
-                <div className="flex items-center justify-center gap-4">
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage
-                      src={testimonials[currentTestimonial].avatar}
-                    />
-                    <AvatarFallback>
-                      {testimonials[currentTestimonial].author[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-left">
-                    <div className="font-semibold">
-                      {testimonials[currentTestimonial].author}
-                    </div>
-                    <div className="text-primary-foreground/70 text-sm">
-                      {testimonials[currentTestimonial].location}
+            <Card className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 shadow-2xl overflow-hidden">
+              <CardContent className="p-12 text-center relative">
+                <div className="absolute top-8 left-8 opacity-20">
+                  <Quote className="w-16 h-16" />
+                </div>
+
+                <motion.div
+                  key={currentTestimonial}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <p className="text-xl md:text-2xl mb-8 leading-relaxed relative z-10">
+                    "{testimonials[currentTestimonial].text}"
+                  </p>
+
+                  <div className="flex items-center justify-center gap-4 mb-6">
+                    <Avatar className="w-16 h-16 ring-4 ring-primary-foreground/20">
+                      <AvatarImage
+                        src={testimonials[currentTestimonial].avatar}
+                      />
+                      <AvatarFallback>
+                        {testimonials[currentTestimonial].author[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="text-left">
+                      <div className="font-bold text-lg">
+                        {testimonials[currentTestimonial].author}
+                      </div>
+                      <div className="text-primary-foreground/80">
+                        {testimonials[currentTestimonial].location}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex justify-center mt-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-current text-yellow-400"
-                    />
-                  ))}
-                </div>
+
+                  <div className="flex justify-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-current text-amber-300"
+                      />
+                    ))}
+                  </div>
+                </motion.div>
               </CardContent>
             </Card>
 
-            {/* Navigation */}
-            <div className="flex justify-center mt-6 gap-4">
+            <div className="flex justify-center mt-8 gap-4">
               <Button
                 variant="outline"
-                size="sm"
-                className="rounded-full"
+                size="icon"
+                className="rounded-full w-12 h-12 border-2"
                 onClick={() =>
                   setCurrentTestimonial(
                     prev =>
@@ -719,33 +589,37 @@ export default function EnhancedTravelMateAbout() {
                   )
                 }
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-5 h-5" />
               </Button>
               <Button
                 variant="outline"
-                size="sm"
-                className="rounded-full"
+                size="icon"
+                className="rounded-full w-12 h-12 border-2"
                 onClick={() =>
                   setCurrentTestimonial(
                     prev => (prev + 1) % testimonials.length
                   )
                 }
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5" />
               </Button>
             </div>
           </div>
         </section>
 
-        <Separator className="my-16" />
+        <Separator className="my-20" />
 
-        {/* TEAM SECTION */}
-        <section className="py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">
+        {/* TEAM SECTION - Enhanced */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 px-4 py-2" variant="outline">
+              <Users className="w-4 h-4 mr-2 inline" />
+              Our Team
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
               Meet Our Dream Team
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Passionate travelers and tech innovators working together to
               revolutionize how you explore the world
             </p>
@@ -753,52 +627,57 @@ export default function EnhancedTravelMateAbout() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, i) => (
-              <Card
+              <motion.div
                 key={i}
-                className="group hover:shadow-xl transition-all duration-300 bg-card border-border hover:-translate-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
               >
-                <CardContent className="p-6 text-center">
-                  <div className="relative mb-6">
-                    <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-background shadow-lg">
+                <Card className="group h-full hover:shadow-2xl transition-all duration-500 bg-card border-2 border-border hover:border-primary/50 hover:-translate-y-2">
+                  <CardContent className="p-8 text-center">
+                    <Avatar className="w-28 h-28 mx-auto mb-6 ring-4 ring-background shadow-xl group-hover:ring-primary/50 transition-all">
                       <AvatarImage
                         src={member.image}
                         alt={member.name}
                         className="object-cover"
                       />
-                      <AvatarFallback className="text-lg">
+                      <AvatarFallback className="text-xl">
                         {member.name
-                          .split('')
+                          .split(' ')
                           .map(n => n[0])
                           .join('')}
                       </AvatarFallback>
                     </Avatar>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-foreground">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {member.bio}
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full text-foreground"
-                  >
-                    Connect
-                  </Button>
-                </CardContent>
-              </Card>
+                    <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                      {member.name}
+                    </h3>
+                    <p className="text-primary font-semibold mb-4">
+                      {member.role}
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                      {member.bio}
+                    </p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Connect
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <Separator className="my-16" />
+        <Separator className="my-20" />
 
-        {/* TIMELINE SECTION */}
-        <section className="py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">
+        {/* TIMELINE SECTION - Enhanced */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 px-4 py-2" variant="outline">
+              <Calendar className="w-4 h-4 mr-2 inline" />
+              Our Story
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
               Our Journey
             </h2>
             <p className="text-xl text-muted-foreground">
@@ -807,107 +686,139 @@ export default function EnhancedTravelMateAbout() {
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary to-violet-400 hidden md:block"></div>
+            <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-accent to-primary hidden md:block rounded-full" />
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               {milestones.map((milestone, i) => (
-                <div key={i} className="relative flex items-start gap-8">
-                  {/* Timeline dot */}
-                  <div className="hidden md:flex w-16 h-16 bg-gradient-to-r from-primary to-violet-500 rounded-full items-center justify-center flex-shrink-0 shadow-lg">
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative flex items-start gap-8"
+                >
+                  <div className="hidden md:flex w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-full items-center justify-center flex-shrink-0 shadow-lg ring-4 ring-background">
                     <milestone.icon className="w-8 h-8 text-primary-foreground" />
                   </div>
 
-                  {/* Content */}
-                  <Card className="flex-1 bg-card border-border shadow-lg">
-                    <CardContent className="p-6">
+                  <Card className="flex-1 bg-card border-2 border-border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <CardContent className="p-8">
                       <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        <Badge variant="secondary" className="w-fit">
+                        <Badge className="w-fit bg-primary/10 text-primary border-primary/30">
                           {milestone.year}
                         </Badge>
                         <div className="flex-1">
-                          <h3 className="text-xl font-semibold mb-2 text-foreground">
+                          <h3 className="text-2xl font-bold mb-3 text-foreground">
                             {milestone.title}
                           </h3>
-                          <p className="text-muted-foreground">
+                          <p className="text-muted-foreground leading-relaxed">
                             {milestone.description}
                           </p>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA SECTION */}
-        <section className="py-16">
-          <Card className="border-0 bg-gradient-to-r from-primary via-violet-600 to-pink-600 text-primary-foreground shadow-2xl">
-            <CardContent className="p-12 text-center">
-              <h2 className="text-4xl font-bold mb-6">
-                Ready for Your Next Adventure?
-              </h2>
-              <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-                Join over 2.5 million travelers who trust TravelMate to make
-                every journey extraordinary
-              </p>
+        {/* CTA SECTION - Enhanced */}
+        <section className="py-20">
+          <Card className="border-0 bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-2xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00em0wLTEwYzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0IDEuNzkgNCA0IDQgNC0xLjc5IDQtNHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10" />
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-                <Button
-                  size="lg"
-                  className="bg-background text-foreground hover:bg-accent px-8"
-                >
-                  <Smartphone className="w-5 h-5 mr-2" />
-                  Download TravelMate
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="text-primary border-primary-foreground hover:bg-background/10 px-6"
-                >
-                  Start Planning Trip
-                </Button>
-              </div>
+            <CardContent className="p-12 md:p-16 text-center relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                  Ready for Your Next Adventure?
+                </h2>
+                <p className="text-xl text-primary-foreground/90 mb-10 max-w-3xl mx-auto leading-relaxed">
+                  Join over 2.5 million travelers who trust TravelMate to make
+                  every journey extraordinary. Download now and start exploring
+                  the world smarter.
+                </p>
 
-              <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-primary-foreground/70">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4" />
-                  Free Download
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+                  <Button
+                    size="lg"
+                    className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground px-10 py-6 text-lg font-semibold shadow-xl"
+                  >
+                    <Smartphone className="w-6 h-6 mr-2" />
+                    Download TravelMate
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 px-8 py-6 text-lg font-semibold"
+                  >
+                    Start Planning Trip
+                  </Button>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4" />
-                  No Credit Card Required
+
+                <div className="flex flex-wrap justify-center items-center gap-8 text-primary-foreground/80">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-medium">Free Download</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-medium">No Credit Card Required</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-medium">Available Worldwide</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4" />
-                  Available Worldwide
-                </div>
-              </div>
+              </motion.div>
             </CardContent>
           </Card>
         </section>
       </main>
 
-      <NewsLetterBox />
-
-      {/* Video Modal */}
+      {/* Video Modal - Enhanced */}
       {isVideoPlaying && (
-        <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
           onClick={() => setIsVideoPlaying(false)}
         >
-          <Card className="max-w-4xl w-full mx-4 bg-card border-border">
-            <CardContent className="p-0">
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">
-                  Demo video would play here
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            onClick={e => e.stopPropagation()}
+          >
+            <Card className=" bg-card border-2 border-border shadow-2xl">
+              <CardContent className="p-4">
+                <div className="aspect-video bg-muted rounded-xl flex items-center justify-center overflow-hidden">
+                  <iframe
+                    src="https://youtu.be/exI_hD_4jAM"
+                    className="w-full h-full"
+                    allow="autoplay"
+                    allowFullScreen
+                  />
+                </div>
+              </CardContent>
+            </Card>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full"
+              onClick={() => setIsVideoPlaying(false)}
+            >
+              <span className="text-2xl">×</span>
+            </Button>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

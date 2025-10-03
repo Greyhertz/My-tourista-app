@@ -1,5 +1,5 @@
 import { motion, useTransform } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ScrollButton()
@@ -10,7 +10,9 @@ export default function ScrollButton()
   // const scale1 = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  useEffect(() => {
+  useEffect(() =>
+  {
+    
     const controlHeader = () => {
       const currentScrollY = window.scrollY;
 
@@ -41,7 +43,7 @@ export default function ScrollButton()
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
     >
-      <ArrowUp className="h-5 w-5 text-secondary" />
+      <ChevronUp className="h-6 w-6 text-secondary" />
     </motion.button>
   );
 }
