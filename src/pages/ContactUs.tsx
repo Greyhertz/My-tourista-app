@@ -9,8 +9,10 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
-import { Mail, Phone, Clock } from 'lucide-react';
+import { Mail, Phone, Clock, CheckCircle } from 'lucide-react';
 import NewsLetterBox from '@/components/core/LetterBox';
+import { ScrollReveal } from './Homepage';
+import { Badge } from '@/components/ui/badge';
 
 export default function ContactUs() {
   return (
@@ -57,7 +59,7 @@ export default function ContactUs() {
         ].map((item, i) => (
           <Card
             key={i}
-            className="shadow-lg hover:shadow-xl transition border border-border bg-card"
+            className="shadow-lg hover:shadow-xl transition border-2 border-border bg-card"
           >
             <CardContent className="flex flex-col items-center p-6 space-y-2">
               <item.icon className="w-10 h-10 text-primary" />
@@ -93,7 +95,7 @@ export default function ContactUs() {
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6 bg-card p-8 rounded-xl shadow-2xl border border-border"
+            className="space-y-6 bg-card p-8 rounded-xl shadow-2xl border-2 border-border"
           >
             <div className="grid md:grid-cols-2 gap-6">
               <div
@@ -151,7 +153,61 @@ export default function ContactUs() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-6 bg-background">
+       <section className="py-20">
+          <div className="max-w-3xl mx-auto">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <Badge className="mb-4 px-4 py-2" variant="outline">
+                  <CheckCircle className="w-4 h-4 mr-2 inline" />
+                  FAQs
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Frequently Asked Questions
+                </h2>
+                <p className="text-xl text-muted-foreground">
+                  Everything you need to know about TravelMate
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card className="bg-card/50 backdrop-blur-sm border-2 border-border shadow-xl">
+                <CardContent className="p-8">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full space-y-4"
+                  >
+                    <AccordionItem
+                      value="item-1"
+                      className="border-b border-border"
+                    >
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                        How quickly do you respond?
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                         We aim to reply to all inquiries within 24 hours.
+                      </AccordionContent>
+                    </AccordionItem>
+
+                    <AccordionItem
+                      value="item-2"
+                      className="border-b border-border"
+                    >
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                        Can I visit your office in person?
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                       Yes! Our office is open Monday to Friday from 9am to 6pm.
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+          </div>
+        </section>
+      {/* <section className="py-20 px-6 bg-background">
         <h2 className="text-3xl font-bold text-center mb-10">FAQs</h2>
         <div className="max-w-2xl mx-auto">
           <Accordion type="single" collapsible>
@@ -171,7 +227,7 @@ export default function ContactUs() {
             </AccordionItem>
           </Accordion>
         </div>
-      </section>
+      </section> */}
 
       {/* Map Section */}
       <section className="px-6 pb-20">

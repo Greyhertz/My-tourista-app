@@ -69,7 +69,7 @@ const MenuSheet = () => {
         </SheetHeader>
 
         {/* Navigation Links */}
-        <nav className="flex flex-col space-y-1 mt-4 px-2">
+        <nav className="flex flex-col space-y-1 mt-4 px-2 gap-5">
           {navItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -103,7 +103,7 @@ const MenuSheet = () => {
         {/* Blog Widgets Section */}
         <div className="px-2 mt-6 flex-1">
           {/* Divider */}
-          <div className="border-t border-border/30 mx-2 mb-4" />
+          <div className=" mx-2 mb-4" />
 
           {/* Latest Stories Widget */}
           {/* <MenuSheetBlogWidget
@@ -133,10 +133,10 @@ const MenuSheet = () => {
         </div>
 
         {/* Footer Section */}
-        <div className="px-4 py-4 mt-auto space-y-4 border-t border-border/50">
+        <div className="px-4 py-4 mt-auto space-y-4 ">
           {/* Theme Toggle */}
           <div className="flex justify-center">
-            <ThemeToggle />
+           
           </div>
 
           {/* Sign Up Button */}

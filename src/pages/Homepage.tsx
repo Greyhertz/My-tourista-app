@@ -192,7 +192,7 @@ const Homepage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* <BackToTop /> */}
 
       {/* HERO SECTION - Large Image with Search */}
