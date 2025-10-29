@@ -22,13 +22,10 @@ export default function Footer() {
           {/* Brand + socials */}
           <div className="md:col-span-2 flex flex-col items-center text-center md:items-start md:text-left">
             <div className="flex items-center space-x-3 mb-6">
-              <div
-                className="w-12 h-12 bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600
-                rounded-xl flex items-center justify-center shadow-lg"
-              >
+              <div className="w-7 h-7 bg-gradient-to-br from-amber-400 via-rose-500 to-fuchsia-600 rounded-xl shadow-lg flex items-center justify-center">
                 <Compass className="h-6 w-6 text-white" />
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="text-3xl font-bold bg-gradient-to-r text-primary">
                 TravelMate
               </span>
             </div>

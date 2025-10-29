@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function BlogPostDetail() {
   const { state, actions } = useBlog();
@@ -226,55 +228,85 @@ export default function BlogPostDetail() {
                   {state.likedPosts[post.id] ? post.likes + 1 : post.likes}
                 </span>
 
-                <div className="relative">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setShowShareMenu(!showShareMenu)}
-                    className="hover:bg-primary/10"
-                  >
-                    <Share2 className="h-5 w-5 text-muted-foreground" />
-                  </Button>
+                {/* <div className="relative"> */}
 
-                  {showShareMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-card rounded-lg shadow-xl border z-50 p-2">
-                      <button
-                        onClick={() => handleShare('facebook')}
-                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
-                      >
-                        <Facebook className="h-4 w-4 text-blue-600" />
-                        <span className="text-sm">Facebook</span>
-                      </button>
-                      <button
-                        onClick={() => handleShare('twitter')}
-                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
-                      >
-                        <Twitter className="h-4 w-4 text-sky-500" />
-                        <span className="text-sm">Twitter</span>
-                      </button>
-                      <button
-                        onClick={() => handleShare('linkedin')}
-                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
-                      >
-                        <Linkedin className="h-4 w-4 text-blue-700" />
-                        <span className=" `text-sm">LinkedIn</span>
-                      </button>
-                      <button
-                        onClick={handleCopyLink}
-                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
-                      >
-                        {copied ? (
-                          <Check className="h-4 w-4 text-green-600" />
-                        ) : (
-                          <Copy className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        <span className="text-sm">
-                          {copied ? 'Copied!' : 'Copy Link'}
-                        </span>
-                      </button>
-                    </div>
-                  )}
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setShowShareMenu(!showShareMenu)}
+                      className="hover:bg-primary/10"
+                    >
+                      <Share2 className="h-5 w-5 text-muted-foreground" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    {showShareMenu && (
+                      <Card className="absolute right-0 mt-2 w-48 bg-card rounded-lg shadow-xl border  p-2">
+                        <button
+                          onClick={() => handleShare('facebook')}
+                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                        >
+                          <Facebook className="h-4 w-4 text-blue-600" />
+                          <span className="text-sm">Facebook</span>
+                        </button>
+                        <button
+                          onClick={() => handleShare('twitter')}
+                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                        >
+                          <Twitter className="h-4 w-4 text-sky-500" />
+                          <span className="text-sm">Twitter</span>
+                        </button>
+                        <button
+                          onClick={() => handleShare('linkedin')}
+                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                        >
+                          <Linkedin className="h-4 w-4 text-blue-700" />
+                          <span className=" `text-sm">LinkedIn</span>
+                        </button>
+                        <button
+                          onClick={handleCopyLink}
+                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                      > 
+                          {copied ? (
+                            <Check className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <Copy className="h-4 w-4 text-muted-foreground" />
+                          )}
+                          <span className="text-sm">
+                            {copied ? 'Copied!' : 'Copy Link'}
+                          </span>
+                        </button>
+                      </Card>
+                    )}
+                  </PopoverContent>
+                  {/* 
+                   // <Popover>
+    //   <PopoverTrigger asChild>
+    //     <Button
+    //       variant={'outline'}
+    //       className={cn(
+    //         'w-[240px] justify-start text-left font-normal',
+    //         !date && 'text-muted-foreground'
+    //       )}
+    //     >
+    //       <CalendarIcon />
+    //       {date ? format(date, 'PPP') : <span>Pick a date</span>}
+    //     </Button>
+    //   </PopoverTrigger>
+    //   <PopoverContent className="w-auto p-0  rounded-2xl" align="start">
+    //     <Calendar
+    //       mode="single"
+    //       selected={date}
+    //       onSelect={setDate}
+    //       
+    //       className='bg-secondary/50 rounded-2xl'
+    //     />
+    //   </PopoverContent>
+    // </Popover> */}
+                </Popover>
+                {/* </div> */}
 
                 <Button
                   variant="ghost"

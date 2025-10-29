@@ -24,6 +24,8 @@ import {
   TrendingUp,
   CheckCircle,
   Sparkles,
+  BookOpen,
+  Sparkle,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
@@ -200,10 +202,10 @@ export default function EnhancedTravelMateAbout() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Floating Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      {/* <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl" />
-      </div>
+      </div> */}
 
       {/* HERO SECTION - Enhanced */}
       <section className="relative min-h-[70vh] flex flex-col items-center justify-center overflow-hidden">
@@ -222,8 +224,8 @@ export default function EnhancedTravelMateAbout() {
             transition={{ duration: 0.5 }}
             className="mb-6"
           >
-            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4 mr-2 inline" />
+            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6 hover:bg-card">
+              <Sparkles className="w-4 h-4 mr-2 inline bg-" />
               About TravelMate
             </Badge>
           </motion.div>

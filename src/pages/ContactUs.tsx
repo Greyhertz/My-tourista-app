@@ -9,21 +9,75 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
-import { Mail, Phone, Clock, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Clock, CheckCircle, Sparkles } from 'lucide-react';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { ScrollReveal } from './Homepage';
 import { Badge } from '@/components/ui/badge';
 
 export default function ContactUs() {
   return (
+    /*  <section className="relative min-h-[70vh] flex flex-col items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5" />
+
+        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '1s' }}
+        />
+
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-6"
+          >
+            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4 mr-2 inline" />
+              About TravelMate
+            </Badge>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+          >
+            About Us
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          >
+            Discover our journey, mission, and the passionate people behind the
+            world's most innovative travel platform
+          </motion.p>
+        </div>
+      </section> */
+
     <div className="bg-background text-foreground font-sm">
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-primary via-fuchsia-500 to-accent p-6">
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center p-6 inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-6"
+        >
+          <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6 hover:bg-card hover:text-primary">
+            <Sparkles className="w-4 h-4 mr-2 inline" />
+            About TravelMate
+          </Badge>
+        </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-extrabold mb-6 text-primary-foreground"
+          className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
         >
           Get in Touch
         </motion.h1>
@@ -31,7 +85,7 @@ export default function ContactUs() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-lg max-w-2xl text-foreground/80"
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
           Our team is here to answer your questions and help you plan your next
           adventure.
@@ -95,54 +149,54 @@ export default function ContactUs() {
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6 bg-card p-8 rounded-xl shadow-2xl border-2 border-border"
+            className="space-y-6 bg-card p-8 rounded-xl shadow-2xl"
           >
             <div className="grid md:grid-cols-2 gap-6">
               <div
                 className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary"
               >
                 <Input
                   placeholder="Full Name"
                   required
-                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                  className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
                 />
               </div>
 
               <div
                 className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary/70"
               >
                 {' '}
                 <Input
                   placeholder="Email Address"
                   type="email"
                   required
-                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                  className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground/70"
                 />
               </div>
             </div>
             <div
               className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring/40 focus-within:border-primary/70"
             >
               {' '}
               <Input
                 placeholder="Subject"
                 required
-                className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
               />
             </div>
             <div
               className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary/70"
             >
               {' '}
               <Textarea
                 rows={5}
                 placeholder="Write your message..."
                 required
-                className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
               />
             </div>
             <Button className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90">
@@ -153,60 +207,60 @@ export default function ContactUs() {
       </section>
 
       {/* FAQ Section */}
-       <section className="py-20">
-          <div className="max-w-3xl mx-auto">
-            <ScrollReveal>
-              <div className="text-center mb-12">
-                <Badge className="mb-4 px-4 py-2" variant="outline">
-                  <CheckCircle className="w-4 h-4 mr-2 inline" />
-                  FAQs
-                </Badge>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                  Frequently Asked Questions
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  Everything you need to know about TravelMate
-                </p>
-              </div>
-            </ScrollReveal>
+      <section className="py-20">
+        <div className="max-w-3xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <Badge className="mb-4 px-4 py-2" variant="outline">
+                <CheckCircle className="w-4 h-4 mr-2 inline" />
+                FAQs
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Everything you need to know about TravelMate
+              </p>
+            </div>
+          </ScrollReveal>
 
-            <ScrollReveal>
-              <Card className="bg-card/50 backdrop-blur-sm border-2 border-border shadow-xl">
-                <CardContent className="p-8">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="w-full space-y-4"
+          <ScrollReveal>
+            <Card className="bg-card/50 backdrop-blur-sm border-2 border-border shadow-xl">
+              <CardContent className="p-8">
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full space-y-4"
+                >
+                  <AccordionItem
+                    value="item-1"
+                    className="border-b border-border"
                   >
-                    <AccordionItem
-                      value="item-1"
-                      className="border-b border-border"
-                    >
-                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
-                        How quickly do you respond?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
-                         We aim to reply to all inquiries within 24 hours.
-                      </AccordionContent>
-                    </AccordionItem>
+                    <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                      How quickly do you respond?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                      We aim to reply to all inquiries within 24 hours.
+                    </AccordionContent>
+                  </AccordionItem>
 
-                    <AccordionItem
-                      value="item-2"
-                      className="border-b border-border"
-                    >
-                      <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
-                        Can I visit your office in person?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
-                       Yes! Our office is open Monday to Friday from 9am to 6pm.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          </div>
-        </section>
+                  <AccordionItem
+                    value="item-2"
+                    className="border-b border-border"
+                  >
+                    <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">
+                      Can I visit your office in person?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2">
+                      Yes! Our office is open Monday to Friday from 9am to 6pm.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            </Card>
+          </ScrollReveal>
+        </div>
+      </section>
       {/* <section className="py-20 px-6 bg-background">
         <h2 className="text-3xl font-bold text-center mb-10">FAQs</h2>
         <div className="max-w-2xl mx-auto">

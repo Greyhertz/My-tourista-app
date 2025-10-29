@@ -290,7 +290,8 @@ const ReviewPage: React.FC = () => {
               // single-field editor
               <div className="space-y-3">
                 <Label className="capitalize">{editingField}</Label>
-                <Input
+                  <Input
+                    className='bg-input'
                   value={(tempValues as any)[editingField]}
                   onChange={e =>
                     setTempValues(prev => ({

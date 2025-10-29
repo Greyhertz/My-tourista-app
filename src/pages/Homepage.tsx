@@ -15,6 +15,12 @@ import {
   Shield,
   CreditCard,
   ChevronUp,
+  Plane,
+  Camera,
+  Compass,
+  Sun,
+  Cloud,
+  Mountain,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -51,32 +57,6 @@ const ScrollReveal = ({ children, delay = 0 }: ScrollRevealProps) => {
     </motion.div>
   );
 };
-
-// const BackToTop = () => {
-//   const [isVisible, setIsVisible] = useState(false);
-
-//   useEffect(() => {
-//     const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
-//     window.addEventListener('scroll', toggleVisibility);
-//     return () => window.removeEventListener('scroll', toggleVisibility);
-//   }, []);
-
-//   return (
-//     <AnimatePresence>
-//       {isVisible && (
-//         <motion.button
-//           initial={{ opacity: 0, scale: 0.5 }}
-//           animate={{ opacity: 1, scale: 1 }}
-//           exit={{ opacity: 0, scale: 0.5 }}
-//           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-//           className="fixed bottom-8 right-8 z-50 bg-primary text-primary-foreground p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-//         >
-//           <ChevronUp className="h-6 w-6" />
-//         </motion.button>
-//       )}
-//     </AnimatePresence>
-//   );
-// };
 
 interface FormErrors {
   destination?: string;
@@ -193,8 +173,6 @@ const Homepage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* <BackToTop /> */}
-
       {/* HERO SECTION - Large Image with Search */}
       <section className="relative h-screen">
         <div
@@ -323,8 +301,8 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* DESTINATIONS - Enhanced Beautiful Grid */}
-      <section className="py-24 px-6 relative">
+      {/* DESTINATIONS - Refined Realistic Cards */}
+      <section className="py-24 px-6 relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-muted/30 to-background pointer-events-none" />
 
@@ -345,89 +323,152 @@ const Homepage = () => {
             </div>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {destinations.map((destination, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative overflow-hidden rounded-3xl h-[600px] cursor-pointer shadow-xl hover:shadow-2xl"
+                  className="group relative overflow-hidden rounded-2xl h-[420px] cursor-pointer shadow-lg hover:shadow-2xl bg-card"
                 >
-                  {/* Image */}
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {/* Image Container with Overlay */}
+                  <div className="relative h-[240px] overflow-hidden">
+                    <motion.img
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                      src={destination.image}
+                      alt={destination.name}
+                      className="w-full h-full object-cover"
+                    />
 
-                  {/* Gradient Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-                  {/* Content */}
-                  <div className="absolute inset-0 flex flex-col justify-between p-8 text-white">
-                    {/* Top - Rating & Heart */}
-                    <div className="flex items-center justify-between">
-                      <Badge className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/30">
-                        <Star className="w-3 h-3 text-yellow-400 mr-1 fill-yellow-400" />
+                    {/* Cute floating badge on hover */}
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      whileHover={{ opacity: 1, y: 0 }}
+                      className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Camera className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-semibold text-foreground">
+                          View Photos
+                        </span>
+                      </div>
+                    </motion.div>
+
+                    {/* Rating Badge - Always visible */}
+                    <div className="absolute top-4 right-4">
+                      <Badge className="bg-white/95 backdrop-blur-sm border-0 text-foreground hover:bg-white shadow-lg">
+                        <Star className="w-3 h-3 text-amber-500 mr-1 fill-amber-500" />
                         {destination.rating}
                       </Badge>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all"
-                      >
-                        <Heart className="w-5 h-5" />
-                      </motion.button>
                     </div>
 
-                    {/* Bottom - Detailed Info */}
-                    <div className="space-y-5">
-                      {/* Location */}
-                      <div>
-                        <div className="flex items-center gap-2 mb-2 text-white/80 text-sm">
-                          <MapPin className="w-4 h-4" />
-                          {destination.country}
-                        </div>
-                        <h3 className="text-4xl font-bold mb-3 group-hover:text-white/95 transition-colors">
-                          {destination.name}
-                        </h3>
-                        <p className="text-white/90 text-base leading-relaxed mb-4">
-                          {destination.description}
-                        </p>
-                      </div>
+                    {/* Heart button */}
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all"
+                    >
+                      <Heart className="w-5 h-5 text-primary" />
+                    </motion.button>
 
-                      {/* Highlights */}
-                      <div className="flex flex-wrap gap-2">
-                        {destination.highlights.map((highlight, idx) => (
+                    {/* Sparkle effect on hover */}
+                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {[...Array(3)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{
+                            opacity: [0, 1, 0],
+                            scale: [0, 1.5, 0],
+                            x: [0, Math.random() * 40 - 20],
+                            y: [0, Math.random() * 40 - 20],
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            delay: i * 0.3,
+                          }}
+                          className="absolute"
+                          style={{
+                            top: `${30 + i * 20}%`,
+                            left: `${20 + i * 25}%`,
+                          }}
+                        >
+                          <Sparkles className="w-4 h-4 text-amber-300" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-6 space-y-3">
+                    {/* Location */}
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      {destination.country}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      {destination.name}
+                    </h3>
+
+                    {/* Description - truncated */}
+                    <p className="text-muted-foreground text-sm line-clamp-2">
+                      {destination.description}
+                    </p>
+
+                    {/* Highlights Tags */}
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {destination.highlights
+                        .slice(0, 2)
+                        .map((highlight, idx) => (
                           <Badge
                             key={idx}
-                            className="bg-white/15 backdrop-blur-sm border-white/20 text-white text-xs hover:bg-white/25 transition-colors"
+                            variant="secondary"
+                            className="text-xs font-medium"
                           >
                             {highlight}
                           </Badge>
                         ))}
-                      </div>
+                      {destination.highlights.length > 2 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{destination.highlights.length - 2}
+                        </Badge>
+                      )}
+                    </div>
 
-                      {/* Season & CTA */}
-                      <div className="flex items-center justify-between pt-4 border-t border-white/20">
-                        <div className="flex items-center gap-2 text-white/80 text-sm">
-                          <Calendar className="w-4 h-4" />
-                          {destination.season}
-                        </div>
-                        <Button
-                          size="sm"
-                          className="bg-white text-foreground hover:bg-white/90 group-hover:scale-105 transition-all shadow-lg"
-                        >
-                          Discover
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Button>
+                    {/* Bottom row - Season & Price */}
+                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                      <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                        <Calendar className="w-3 h-3" />
+                        {destination.season.replace('Best: ', '')}
                       </div>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-primary text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+                      >
+                        Explore
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.button>
                     </div>
                   </div>
 
-                  {/* Hover Border Effect */}
-                  <div className="absolute inset-0 border-4 border-white/0 group-hover:border-white/20 rounded-3xl transition-all duration-500 pointer-events-none" />
+                  {/* Cute shimmer effect on hover */}
+                  <motion.div
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: '100%' }}
+                    transition={{ duration: 0.6 }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+                  />
+
+                  {/* Border glow on hover */}
+                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-2xl transition-all duration-300 pointer-events-none" />
                 </motion.div>
               </ScrollReveal>
             ))}
@@ -458,15 +499,15 @@ const Homepage = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
                 <div className="p-12 text-white">
                   <Sparkles className="w-12 h-12 mb-4" />
-                  <h3 className="text-4xl font-bold mb-4">Adventure Awaits</h3>
+                  <h3 className="text-4xl font-bold mb-4 ">Adventure Awaits</h3>
                   <p className="text-xl text-white/90 mb-6">
                     Experience thrilling activities and create memories that
                     last a lifetime
                   </p>
                   <Button
                     size="lg"
-                    variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    variant="default"
+                    className="border-white text-white border-0 bg-primary"
                   >
                     Discover More
                   </Button>
@@ -492,8 +533,8 @@ const Homepage = () => {
                   </p>
                   <Button
                     size="lg"
-                    variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    variant="default"
+                    className="border-white text-white border-0 bg-primary  "
                   >
                     Explore Luxury
                   </Button>
@@ -564,7 +605,11 @@ const Homepage = () => {
               Start planning your next adventure with personalized
               recommendations
             </p>
-            <Button size="lg" className="text-lg px-12 py-6">
+            <Button
+              size="lg"
+              variant="default"
+              className=" text-lg px-12 py-6 border-white text-white border-0 bg-primary"
+            >
               <MapPin className="w-5 h-5 mr-2" />
               Start Planning
             </Button>

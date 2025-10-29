@@ -31,6 +31,7 @@ export default function Navbar() {
     { name: 'About Us', path: '/about-us' },
     { name: 'Blog', path: '/blog' },
     { name: 'Explore', path: '/explore-destination' },
+    { name: 'Find Destination', path: '/find-destination' },
     { name: 'Contact', path: '/contact-us' },
     { name: 'Settings', path: '/settings' },
   ];

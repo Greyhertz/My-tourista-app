@@ -38,13 +38,14 @@ const MenuSheet = () => {
     { name: 'Home', path: '/', icon: Home },
     { name: 'About Us', path: '/about-us', icon: Info },
     { name: 'Blog', path: '/blog', icon: BookOpen },
+    { name: 'Find Destination', path: '/find-destination', icon: User },
     { name: 'Explore Destination', path: '/explore-destination', icon: MapPin },
     { name: 'Contact', path: '/contact-us', icon: Mail },
     { name: 'Settings', path: '/settings', icon: Settings },
   ];
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={setOpen} >
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
           <Menu className="h-6 w-6" />

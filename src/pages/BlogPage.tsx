@@ -17,6 +17,9 @@ import {
   AlertCircle,
   RefreshCw,
   X,
+  Sparkles,
+  BookOpen,
+  Book,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -42,6 +45,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
+// import { interval } from 'date-fns';
 
 const TravelBlogPage = () => {
   const { state, actions } = useBlog();
@@ -55,12 +59,12 @@ const TravelBlogPage = () => {
     'Discover New Horizons',
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHeaderIndex(prev => (prev + 1) % headerTexts.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentHeaderIndex(prev => (prev + 1) % headerTexts.length);
+  //   }, 4000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const categories = [
     { id: 'all', name: 'All Posts', count: 0 },
@@ -73,7 +77,7 @@ const TravelBlogPage = () => {
     { id: 'photography', name: 'photography', displayName: 'Photography' },
   ];
 
-  const destinations = [
+  const destinations = [ 
     { id: 'all', name: 'All Destinations' },
     { id: 'europe', name: 'Europe' },
     { id: 'asia', name: 'Asia' },
@@ -633,7 +637,7 @@ const TravelBlogPage = () => {
             <Link to={`/blog/${post.slug}`}>{post.title}</Link>
           </h2>
 
-          <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
+          <p className="text-muted-foreground text-sm mb-4 line-clamp-2 leading-relaxed">
             {post.excerpt}
           </p>
 
@@ -673,15 +677,27 @@ const TravelBlogPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Classic Header */}
-      <section className="relative bg-card border-b border-border">
+
+      <section className="relative bg-card border-b border-border inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6 hover:bg-card">
+                <Sparkles className="w-4 h-4 mr-2 inline" />
+                Travel Blogs
+              </Badge>
+            </motion.div>
             <div className="relative overflow-hidden h-16 md:h-20 mb-4">
               <AnimatePresence mode="wait">
                 <motion.h1
@@ -690,17 +706,22 @@ const TravelBlogPage = () => {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -60, opacity: 0 }}
                   transition={{ duration: 0.6, ease: 'easeInOut' }}
-                  className="font-serif text-4xl md:text-6xl font-bold text-foreground absolute inset-0 flex items-center justify-center"
+                  className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
                 >
                   {headerTexts[currentHeaderIndex]}
                 </motion.h1>
               </AnimatePresence>
             </div>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+            >
               Discover amazing destinations, practical travel tips, and
               inspiring stories from fellow adventurers
-            </p>
+            </motion.p>
 
             {state.usingMockData && (
               <Alert className="max-w-2xl mx-auto mb-6">
@@ -731,14 +752,14 @@ const TravelBlogPage = () => {
               </div> */}
             <div className="max-w-2xl mx-auto">
               <div
-                className="relative flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                className="relative flex items-center bg-card border-2 border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring/40 focus-within:border-primary/70"
               >
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
                   placeholder="Search destinations, tips, guides..."
-                  className="pl-12 pr-4 py-6 text-base focus:border-primary  bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground"
+                  className="pl-12 pr-4 py-6 text-base bg-input focus:border-primary   border-0 outline-none text-foreground placeholder:text-muted-foreground"
                   value={state.searchTerm}
                   onChange={e => actions.setSearchTerm(e.target.value)}
                 />
@@ -820,8 +841,15 @@ const TravelBlogPage = () => {
         {featuredPosts.length > 0 &&
           state.selectedCategory === 'all' &&
           !state.searchTerm && (
-            <div className="mb-12">
-              <div className="flex items-center gap-3 mb-6">
+            <div className=" mb-12">
+              <div className="text-center">
+                <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
+                  <BookOpen className="w-4 h-4 mr-2 inline" />
+                  Featured Stories
+                </Badge>
+              </div>
+
+              <div className="flex items-center text-center gap-3 mb-6">
                 <h2 className="font-serif text-3xl font-bold text-foreground">
                   Featured Stories
                 </h2>
@@ -837,6 +865,12 @@ const TravelBlogPage = () => {
 
         {/* Results Count */}
         <div className="mb-6">
+          <div className="text-center">
+            <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
+              <Book className="w-4 h-4 mr-2 inline" />
+              Blog Posts
+            </Badge>
+          </div>
           <p className="text-muted-foreground text-sm">
             Showing {filteredPosts.slice(0, state.visibleCount).length} of{' '}
             {filteredPosts.length}{' '}
@@ -863,7 +897,7 @@ const TravelBlogPage = () => {
 
         {/* No Results */}
         {filteredPosts.length === 0 && !state.loading && (
-          <div className="text-center py-16 border-2 border-dashed border-border rounded-lg">
+          <div className="text-center py-16 border-2  border-none rounded-lg">
             <Search className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
             <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">
               No posts found

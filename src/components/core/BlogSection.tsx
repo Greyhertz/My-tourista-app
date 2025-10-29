@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { BlogCard } from "./BlogCards";
 import { Badge } from "../ui/badge";
 import { ScrollReveal } from "@/pages/Homepage";
+import { Button } from "../ui/button";
 
 interface BlogSectionProps {
   title?: string;
@@ -35,7 +36,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
   // Filter posts based on props
   const filteredPosts = React.useMemo(() => {
-    let posts = state.blogPosts;
+   let posts = state.blogPosts;
 
     if (category && category !== 'all') {
       posts = posts.filter(post => post.category === category);
@@ -139,12 +140,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
         {/* View All Button */}
         {showViewAll && (
           <div className="text-center mt-12">
-            <Link
+          
+             <Link
               to={viewAllLink}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              
             >
               View All Stories <ArrowRight className="h-4 w-4" />
-            </Link>
+            </Link> 
           </div>
         )}
       </div>

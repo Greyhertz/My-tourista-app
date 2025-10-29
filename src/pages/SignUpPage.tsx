@@ -18,6 +18,9 @@ import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/core/ThemeToggle';
 import { useNavigate } from 'react-router-dom';
 import { validateForm, validateField } from '@/utils/validateForm';
+import { DatePickerDemo } from '@/components/ui/datepicker';
+import {DayPicker} from 'react-day-picker';
+import { Popover } from '@radix-ui/react-popover';
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,6 +51,8 @@ export default function SignUpPage() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  
 
   // password strength helper
   function getPasswordStrength(password: string) {
@@ -90,7 +95,7 @@ export default function SignUpPage() {
         field: 'confirmPassword',
         matchWith: 'password',
         message: 'Passwords do not match',
-      },
+      }, 
     ],
     // custom: [
     //   {
@@ -129,7 +134,7 @@ export default function SignUpPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0)
-    {
+    { 
       setIsSubmitting(true);
       setTimeout(() =>
       {
@@ -195,7 +200,10 @@ export default function SignUpPage() {
               {/* Name */}
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
-                <div className="relative">
+                <div
+                  className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary/70"
+                >
                   <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="name"
@@ -203,18 +211,22 @@ export default function SignUpPage() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className={`pl-10 ${errors.name ? 'border-red-500' : ''}`}
+                    className="pl-10 bg-input border-0 outline-none flex-1  text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
                 {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name}</p>
+                  <p className="text-sm text-destructive">{errors.name}</p>
                 )}
               </div>
 
               {/* Email */}
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <div className="relative">
+                <div
+                  className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
+                >
                   <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="email"
@@ -223,18 +235,39 @@ export default function SignUpPage() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
+                    className="pl-10 bg-input border-0 outline-none flex-1  text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email}</p>
+                  <p className="text-sm text-destructive">{errors.email}</p>
                 )}
               </div>
+
+              {/* Age */}
+
+              {/* <div className="space-y-2">
+                <Label htmlFor="age">Age</Label>
+                <div
+                  className="relative flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
+                >
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <DatePickerDemo/>
+                </div>
+                <Popover />
+                <DayPicker />
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email}</p>
+                )}
+              </div> */}
 
               {/* Phone */}
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
-                <div className="relative">
+                <div
+                  className="relative  flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
+                >
                   <Phone className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="phone"
@@ -243,18 +276,21 @@ export default function SignUpPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+234 801 234 5678"
-                    className={`pl-10 ${errors.phone ? 'border-red-500' : ''}`}
+                    className="pl-10 bg-input border-0 outline-none flex-1  text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
                 {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone}</p>
+                  <p className="text-sm text-destructive">{errors.phone}</p>
                 )}
               </div>
 
               {/* Password */}
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <div className="relative">
+                <div
+                  className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
+                >
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="password"
@@ -263,14 +299,12 @@ export default function SignUpPage() {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className={`pl-10 pr-10 ${
-                      errors.password ? 'border-red-500' : ''
-                    }`}
+                    className="pl-10 pr-10 bg-input border-0 outline-none flex-1  text-foreground placeholder:text-muted-foreground"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    className="bg-transparent absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? (
                       <EyeOff className="h-5 w-5" />
@@ -280,7 +314,7 @@ export default function SignUpPage() {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password}</p>
+                  <p className="text-sm text-destructive">{errors.password}</p>
                 )}
                 {formData.password && (
                   <p
@@ -291,10 +325,23 @@ export default function SignUpPage() {
                 )}
               </div>
 
+              {/*   <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Input
+                  placeholder="Full Name"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div> */}
               {/* Confirm Password */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <div className="relative">
+                <div
+                  className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
+                >
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     id="confirmPassword"
@@ -303,9 +350,7 @@ export default function SignUpPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className={`pl-10 pr-10 ${
-                      errors.confirmPassword ? 'border-red-500' : ''
-                    }`}
+                    className="pl-10 pr-10  bg-input border-0 outline-none flex-1  text-foreground placeholder:text-muted-foreground"
                   />
                   <button
                     type="button"
@@ -320,7 +365,7 @@ export default function SignUpPage() {
                   </button>
                 </div>
                 {errors.confirmPassword && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-destructive">
                     {errors.confirmPassword}
                   </p>
                 )}
@@ -355,7 +400,7 @@ export default function SignUpPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full flex items-center justify-center gap-2"
+                  className="w-full flex  items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path

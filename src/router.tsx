@@ -20,7 +20,9 @@ import { Welcome } from './pages/Welcome';
 // import Cart  from './pages/Cart';
 import NotFound from './pages/NotFound';
 import Reviewpage from './pages/Reviewpage';
-import { MyForm } from './pages/form';
+import { MyForm } from './pages/Form';
+import PlanTripPage from './pages/PlanTripPage';
+import FindDestinationPage from './pages/FindDestinationPage';
 
 export const router = createBrowserRouter([
   {
@@ -43,8 +45,10 @@ export const router = createBrowserRouter([
           </div>
         ),
       },
-      { path: 'settings', element: <SettingsPage /> },
       { path: 'destination/:city', element: <DestinationDetails /> },
+      // { path="/destination/:city" element={< DestinationDetails />} 
+      { path: "/plan-trip/:city", element: < PlanTripPage />}, 
+{path:"/find-destination", element:<FindDestinationPage />},
       // { path: 'integration', element: <IntegrationsList /> },
       // { path: 'billing', element: <BillingPage /> },
 
@@ -54,10 +58,12 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: 'settings', element: <SettingsPage /> },
+
   { path: 'pricing', element: <PricingPage /> },
   // { path: '/cart', element: <Cart /> },
   { path: 'sign-up', element: <SignUpPage /> },
-  { path: 'review/:name', element: <Reviewpage/> },
+  { path: 'review/:name', element: <Reviewpage /> },
   { path: 'welcome', element: <Welcome /> },
-  {path: 'my-form', element: <MyForm/>}
+  { path: 'my-form', element: <MyForm /> },
 ]);
