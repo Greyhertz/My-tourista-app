@@ -51,7 +51,8 @@ import { useNotification } from '@/context/NotificationContext';
 import { useTravelPreferences } from '@/context/PreferenceContext';
 import { toast } from 'sonner';
 import { useLang } from '@/context/LangContext';
-
+import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/core/ThemeToggle';
 type PaymentMethod = {
   id: string;
   brand: string;
@@ -62,6 +63,7 @@ type PaymentMethod = {
 
 export default function TravelSettingsPage(): JSX.Element
 {
+  const {toast} = useToast();
   const { user } = useUser();
   const [profileName, setProfileName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
@@ -125,7 +127,13 @@ export default function TravelSettingsPage(): JSX.Element
     if (!f) return;
     const id = `doc-${Date.now()}`;
     setTravelDocs(s => [...s, { id, name: f.name }]);
-    toast.success(`Uploaded ${f.name}`);
+    toast({
+      title: 'Success!',
+      description: `Uploaded ${f.name}`,
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const { addNotification } = useNotification();
@@ -141,19 +149,37 @@ export default function TravelSettingsPage(): JSX.Element
   };
 
   function saveProfile() {
-    console.log('saveProfile', {profileName,  email, phone, bio });
-    toast.success('Profile saved');
+    console.log('saveProfile', {profileName,  email, phone, bio })
+    toast({
+      title: 'Success!',
+      description: 'Profile saved successfully',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const savePreferences = () => {
-    void toast.success('Preferences saved successfully!');
+    toast({
+      title: 'Success!',
+      description: 'Preferences saved successfully!',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   };
 
   function toggleIntegration(name: string) {
     if (name === 'amadeus') setAmadeusConnected(v => !v);
     if (name === 'geoapify') setGeoapifyConnected(v => !v);
     if (name === 'unsplash') setUnsplashConnected(v => !v);
-    void toast.info(`${name} toggled (mock)`);
+    toast({
+      title: 'Info!',
+      description: `${name} toggled (mock)`,
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function addPaymentMethod() {
@@ -168,21 +194,46 @@ export default function TravelSettingsPage(): JSX.Element
         default: false,
       },
     ]);
-    void toast.info('Payment method added (mock)');
+
+    toast({
+      title: 'Info!',
+      description: 'Payment method added (mock)',
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function removePaymentMethod(id: string) {
     setPaymentMethods(s => s.filter(m => m.id !== id));
-    void toast.success('Payment method removed');
+    toast({
+      title: 'Success!',
+      description: 'Payment method removed',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function cancelSubscription() {
     setPlan('Free');
-    void toast.error('Subscription cancelled — downgraded to Free (mock)');
+    toast({
+      title: 'error!',
+      description: 'Subscription cancelled — downgraded to Free (mock)',
+      className:
+        'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function downloadInvoice(id: string) {
-    void toast.info(`Downloading invoice ${id} (mock)`);
+    toast({
+      title: 'Info!',
+      description: `Downloading invoice ${id} (mock)`,
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const tabs = [
@@ -224,6 +275,7 @@ export default function TravelSettingsPage(): JSX.Element
                 </p>
               </div>
             </div>
+            <ThemeToggle />
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
@@ -231,7 +283,13 @@ export default function TravelSettingsPage(): JSX.Element
                 className="border-2"
                 onClick={() => {
                   navigator.clipboard?.writeText(window.location.href);
-                  void toast.success('Profile URL copied');
+                  toast({
+                    title: 'Success!',
+                    description: 'Profile URL copied successfully',
+                    className:
+                      'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                    duration: 4000,
+                  });
                 }}
               >
                 Copy Profile Link
@@ -415,7 +473,13 @@ export default function TravelSettingsPage(): JSX.Element
                             onClick={() => {
                               setProfileName('Prince Onuoha');
                               setEmail('prince@example.com');
-                              void toast.info('Reverted profile (mock)');
+                              toast({
+                                title: 'Info!',
+                                description: 'Profile URL copied successfully',
+                                className:
+                                  'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                duration: 4000,
+                              });
                             }}
                           >
                             <RotateCcw className="w-4 h-4 mr-2" />
@@ -426,6 +490,13 @@ export default function TravelSettingsPage(): JSX.Element
                             className="flex-1 bg-gradient-to-r from-primary to-accent"
                             onClick={() => {
                               saveProfile();
+                              toast({
+                                title: 'Info!',
+                                description: 'Profile Saved',
+                                className:
+                                  'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+                                duration: 4000,
+                              });
                             }}
                           >
                             <Save className="w-4 h-4 mr-2" />
@@ -1124,9 +1195,13 @@ export default function TravelSettingsPage(): JSX.Element
                                       size="sm"
                                       variant="ghost"
                                       onClick={() =>
-                                        void toast.info(
-                                          `Download ${d.name} (mock)`
-                                        )
+                                        toast({
+                                          title: 'Info!',
+                                          description: `Download ${d.name} (mock)`,
+                                          className:
+                                            'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                          duration: 4000,
+                                        })
                                       }
                                     >
                                       <Download className="w-4 h-4" />
@@ -1138,7 +1213,15 @@ export default function TravelSettingsPage(): JSX.Element
                                         setTravelDocs(s =>
                                           s.filter(x => x.id !== d.id)
                                         );
-                                        void toast.error('Document deleted');
+
+                                        toast({
+                                          title: 'Info!',
+                                          description: 'Document deleted',
+                                          className:
+                                            'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                          duration: 4000,
+                                        });
+
                                       }}
                                     >
                                       <X className="w-4 h-4" />
@@ -1239,7 +1322,13 @@ export default function TravelSettingsPage(): JSX.Element
                         size="lg"
                         className="flex-1 border-2"
                         onClick={() => {
-                          void toast.info('Signed out everywhere (mock)');
+                          toast({
+                            title: 'error!',
+                            description: 'Signed out everywhere (mock)',
+                            className:
+                              'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+                            duration: 4000,
+                          });
                         }}
                       >
                         Sign out everywhere
@@ -1249,7 +1338,13 @@ export default function TravelSettingsPage(): JSX.Element
                         size="lg"
                         className="flex-1"
                         onClick={() => {
-                           toast.error('Account deletion requested (mock)');
+                          toast({
+                            title: 'error!',
+                            description: 'Account deletion requested (mock)',
+                            className:
+                              'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+                            duration: 4000,
+                          });
                         }}
                       >
                         Delete account

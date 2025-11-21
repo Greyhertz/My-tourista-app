@@ -21,10 +21,18 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Card, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { useUser } from '@/context/UserContext';
 
 export default function BlogPostDetail() {
+  const { user } = useUser();
   const { state, actions } = useBlog();
   const { slug } = useParams();
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -34,6 +42,8 @@ export default function BlogPostDetail() {
   const [comments, setComments] = useState<
     Array<{ id: number; name: string; text: string; date: string }>
   >([]);
+  const { toast } = useToast();
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (state.blogPosts.length === 0) {
@@ -93,6 +103,26 @@ export default function BlogPostDetail() {
     }
   };
 
+  const handleSubscribe = () => {
+    if (!email.trim()) {
+      toast({
+        title: 'Email required',
+        description: 'Please enter a valid email to subscribe 📩',
+        className: 'bg-red-500 text-white border-none shadow-lg font-medium',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Subscription Successful!',
+      description: 'You’ll start receiving the latest travel stories soon ✈️',
+      className:
+        'bg-gradient-to-r from-blue-600 to-purple-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
+
+    setEmail('');
+  };
   // if (state.loading) {
   //   return (
   //     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -162,7 +192,7 @@ export default function BlogPostDetail() {
             <div className="flex flex-wrap items-center gap-4 text-primary-foreground/90 text-sm">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.publishedAt)}</span>
+                <span>{formatDate (post.publishedAt) }</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
@@ -234,20 +264,57 @@ export default function BlogPostDetail() {
                   <PopoverTrigger asChild>
                     <Button
                       variant="ghost"
-                      size="icon"
+                      // size="icon"
                       onClick={() => setShowShareMenu(!showShareMenu)}
                       className="hover:bg-primary/10"
                     >
                       <Share2 className="h-5 w-5 text-muted-foreground" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent>
-                    {showShareMenu && (
-                      <Card className="absolute right-0 mt-2 w-48 bg-card rounded-lg shadow-xl border  p-2">
+                  <PopoverContent className="w-full bg-card rounded-lg shadow-xl border  p-2 ">
+                    <div className=" right-0 mt-2 w-48  rounded-lg   p-2">
+                      <button
+                        onClick={() => handleShare('facebook')}
+                        className=" w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                      >
+                        <Facebook className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm">Facebook</span>
+                      </button>
+                      <button
+                        onClick={() => handleShare('twitter')}
+                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                      >
+                        <Twitter className="h-4 w-4 text-sky-500" />
+                        <span className="text-sm">Twitter</span>
+                      </button>
+                      <button
+                        onClick={() => handleShare('linkedin')}
+                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                      >
+                        <Linkedin className="h-4 w-4 text-blue-700" />
+                        <span className=" `text-sm">LinkedIn</span>
+                      </button>
+                      <button
+                        onClick={handleCopyLink}
+                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
+                      >
+                        {copied ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span className="text-sm">
+                          {copied ? 'Copied!' : 'Copy Link'}
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* {showShareMenu && (
+                      <div className="absolute right-0 mt-2 w-48 bg-card rounded-lg shadow-xl border  p-2">
                         <button
                           onClick={() => handleShare('facebook')}
                           className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-lg transition text-foreground"
-                        >
+                        > 
                           <Facebook className="h-4 w-4 text-blue-600" />
                           <span className="text-sm">Facebook</span>
                         </button>
@@ -278,33 +345,9 @@ export default function BlogPostDetail() {
                             {copied ? 'Copied!' : 'Copy Link'}
                           </span>
                         </button>
-                      </Card>
-                    )}
+                      </div>
+                    )} */}
                   </PopoverContent>
-                  {/* 
-                   // <Popover>
-    //   <PopoverTrigger asChild>
-    //     <Button
-    //       variant={'outline'}
-    //       className={cn(
-    //         'w-[240px] justify-start text-left font-normal',
-    //         !date && 'text-muted-foreground'
-    //       )}
-    //     >
-    //       <CalendarIcon />
-    //       {date ? format(date, 'PPP') : <span>Pick a date</span>}
-    //     </Button>
-    //   </PopoverTrigger>
-    //   <PopoverContent className="w-auto p-0  rounded-2xl" align="start">
-    //     <Calendar
-    //       mode="single"
-    //       selected={date}
-    //       onSelect={setDate}
-    //       
-    //       className='bg-secondary/50 rounded-2xl'
-    //     />
-    //   </PopoverContent>
-    // </Popover> */}
                 </Popover>
                 {/* </div> */}
 
@@ -428,10 +471,10 @@ export default function BlogPostDetail() {
                         to={`/blog/${recent.slug}`}
                         className="group block"
                       >
-                        <div className="flex gap-4 p-3 rounded-lg hover:bg-accent transition">
+                        <div className="flex gap-4 p-3 rounded-lg hover:bg-muted transition">
                           <img
                             src={recent.image}
-                            alt={recent.title}
+                            alt={recent.title} 
                             className="w-20 h-20 rounded-lg object-cover"
                             onError={e => {
                               const target = e.target as HTMLImageElement;
@@ -465,10 +508,15 @@ export default function BlogPostDetail() {
                   Get the latest travel stories delivered to your inbox.
                 </p>
                 <Input
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   className="mb-3 bg-primary-foreground/20 border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/70"
                 />
-                <Button className="w-full bg-background text-foreground hover:bg-background/90">
+                <Button
+                  onClick={handleSubscribe}
+                  className="w-full bg-background text-foreground hover:bg-background/90"
+                >
                   Subscribe
                 </Button>
               </div>

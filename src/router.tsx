@@ -23,6 +23,8 @@ import Reviewpage from './pages/Reviewpage';
 import { MyForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
+import { el } from 'date-fns/locale';
+import SavedTrips from './pages/SavedTrips';
 
 export const router = createBrowserRouter([
   {
@@ -46,7 +48,8 @@ export const router = createBrowserRouter([
         ),
       },
       { path: 'destination/:city', element: <DestinationDetails /> },
-      // { path="/destination/:city" element={< DestinationDetails />} 
+      // { path="/destination/:city" element={< DestinationDetails />}
+      {path:'/saved-trips', element:<SavedTrips/>},
       { path: "/plan-trip/:city", element: < PlanTripPage />}, 
 {path:"/find-destination", element:<FindDestinationPage />},
       // { path: 'integration', element: <IntegrationsList /> },

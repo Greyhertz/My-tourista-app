@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
-  Search,
   Globe,
   Calendar,
   Users,
@@ -10,33 +9,18 @@ import {
   MapPin,
   Heart,
   Sparkles,
-  Loader2,
   Check,
   Shield,
-  CreditCard,
   ChevronUp,
-  Plane,
-  Camera,
-  Compass,
-  Sun,
-  Cloud,
-  Mountain,
+  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { BlogSection } from '@/components/core/BlogSection';
 import { useBlog } from '@/context/BlogContex';
+import { fetchMultipleImages } from '../api/Unsplash';
 
 type ScrollRevealProps = {
   children: React.ReactNode;
@@ -58,252 +42,372 @@ const ScrollReveal = ({ children, delay = 0 }: ScrollRevealProps) => {
   );
 };
 
-interface FormErrors {
-  destination?: string;
-  checkin?: string;
-  checkout?: string;
-}
+const BackToTop = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 z-50 bg-primary text-primary-foreground p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
+        >
+          <ChevronUp className="h-6 w-6" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const Homepage = () => {
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { state, actions } = useBlog();
+  const [currentDestinationIndex, setCurrentDestinationIndex] = useState(0);
+  const [destinationImages, setDestinationImages] = useState<{
+    [key: string]: string[];
+  }>({});
 
   useEffect(() => {
     if (state.blogPosts.length === 0) actions.loadBlogs();
-  }, [state.blogPosts.length]);
+  }, [state.blogPosts.length, actions]);
 
-  const destinations = [
+  const rotatingDestinations = [
+    { name: 'Bali', country: 'Indonesia', rating: 4.9 },
+    { name: 'Tokyo', country: 'Japan', rating: 4.8 },
+    { name: 'Fuji', country: 'Japan', rating: 4.9 },
+    { name: 'London', country: 'United Kingdom', rating: 4.7 },
+    { name: 'Barcelona', country: 'Spain', rating: 4.8 },
+    { name: 'Paris', country: 'France', rating: 4.9 },
+    { name: 'Dubai', country: 'UAE', rating: 4.8 },
+    { name: 'Santorini', country: 'Greece', rating: 4.9 },
+  ];
+
+  const inspiringExperiences = [
     {
-      name: 'Santorini',
-      country: 'Greece',
+      title: 'Cultural Immersion',
+      subtitle: 'Live Like a Local',
       image:
-        'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=2069',
-      rating: 4.9,
+        'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070',
       description:
-        'Whitewashed villages perched on dramatic cliffs overlooking the deep blue Aegean Sea',
-      highlights: [
-        'Iconic Blue Domes',
-        'Volcanic Beaches',
-        'World-Class Sunsets',
+        'Immerse yourself in authentic traditions, local cuisines, and timeless customs that define each destination',
+      features: [
+        'Home-cooked Meals',
+        'Traditional Ceremonies',
+        'Local Markets',
+        'Artisan Workshops',
       ],
-      season: 'Best: Apr - Oct',
+      icon: '🎭',
     },
     {
-      name: 'Kyoto',
-      country: 'Japan',
+      title: 'Adventure & Thrills',
+      subtitle: 'Push Your Limits',
       image:
-        'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070',
-      rating: 4.8,
+        'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070',
       description:
-        'Ancient capital where thousands of temples meet serene bamboo groves and gardens',
-      highlights: ['Golden Pavilion', 'Geisha District', 'Cherry Blossoms'],
-      season: 'Best: Mar - May',
+        'From mountain peaks to ocean depths, embark on adrenaline-pumping activities that test your courage',
+      features: [
+        'Mountain Climbing',
+        'Scuba Diving',
+        'Skydiving',
+        'Safari Tours',
+      ],
+      icon: '⛰️',
     },
     {
-      name: 'Bali',
-      country: 'Indonesia',
+      title: 'Wellness Retreats',
+      subtitle: 'Rejuvenate Your Soul',
       image:
-        'https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=2070',
-      rating: 4.7,
+        'https://images.unsplash.com/photo-1545389336-cf090694435e?q=80&w=2064',
       description:
-        'Lush rice terraces, pristine beaches, and vibrant spiritual culture create island magic',
-      highlights: ['Rice Terraces', 'Beach Clubs', 'Sacred Temples'],
-      season: 'Best: Apr - Oct',
+        'Find inner peace through yoga, meditation, spa treatments, and holistic healing in serene sanctuaries',
+      features: [
+        'Yoga Sessions',
+        'Spa Treatments',
+        'Meditation',
+        'Healthy Cuisine',
+      ],
+      icon: '🧘',
     },
     {
-      name: 'Maldives',
-      country: 'Indian Ocean',
+      title: 'Culinary Journeys',
+      subtitle: 'Taste the World',
       image:
-        'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=2065',
-      rating: 4.9,
+        'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070',
       description:
-        'Turquoise lagoons and overwater villas define this tropical paradise of 1,000 islands',
-      highlights: ['Overwater Bungalows', 'Coral Reefs', 'Private Islands'],
-      season: 'Best: Nov - Apr',
+        'Savor exquisite flavors through cooking classes, wine tastings, and Michelin-starred dining experiences',
+      features: ['Cooking Classes', 'Wine Tours', 'Street Food', 'Fine Dining'],
+      icon: '🍷',
     },
     {
-      name: 'Iceland',
-      country: 'Nordic Island',
+      title: 'Photography Expeditions',
+      subtitle: 'Capture the Magic',
       image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1470',
-      rating: 4.8,
+        'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2074',
       description:
-        'Where fire meets ice in a land of glaciers, geysers, and dancing northern lights',
-      highlights: ['Northern Lights', 'Blue Lagoon', 'Waterfalls'],
-      season: 'Best: Jun - Aug',
+        'Chase golden hours, capture wildlife, and document stunning landscapes with expert photography guides',
+      features: [
+        'Wildlife Photography',
+        'Landscape Tours',
+        'Sunrise Shoots',
+        'Photo Workshops',
+      ],
+      icon: '📸',
     },
     {
-      name: 'Machu Picchu',
-      country: 'Peru',
+      title: 'Romantic Getaways',
+      subtitle: 'Love in Paradise',
       image:
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070',
-      rating: 4.9,
+        'https://images.unsplash.com/photo-1518733057094-95b53143d2a7?q=80&w=2065',
       description:
-        'Mystical Incan citadel hidden in the clouds atop the sacred Andean mountains',
-      highlights: ['Ancient Ruins', 'Inca Trail', 'Mountain Vistas'],
-      season: 'Best: May - Sep',
+        "Create unforgettable memories with your loved one in the world's most romantic destinations",
+      features: [
+        'Private Dinners',
+        'Couples Spa',
+        'Sunset Cruises',
+        'Beach Picnics',
+      ],
+      icon: '💑',
     },
   ];
 
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      destination: formData.get('destination') as string,
-      checkin: formData.get('checkin') as string,
-      checkout: formData.get('checkout') as string,
-      travelers: formData.get('travelers') as string,
+  // Fetch images for all destinations
+  useEffect(() => {
+    const fetchAllImages = async () => {
+      const imagePromises = rotatingDestinations.map(async dest => {
+        const images = await fetchMultipleImages(
+          `${dest.name} ${dest.country} travel`
+        );
+        return { name: dest.name, images };
+      });
+
+      const results = await Promise.all(imagePromises);
+      const imagesMap: { [key: string]: string[] } = {};
+      results.forEach(result => {
+        imagesMap[result.name] = result.images;
+      });
+      setDestinationImages(imagesMap);
     };
 
-    const newErrors: FormErrors = {};
-    if (!data.destination?.trim()) newErrors.destination = 'Required';
-    if (!data.checkin) newErrors.checkin = 'Required';
-    if (!data.checkout) newErrors.checkout = 'Required';
+    fetchAllImages();
+  }, []);
 
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
-        console.log('Searching:', data);
-      }, 2000);
-    }
-  };
+  // Rotate destinations every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDestinationIndex(
+        prev => (prev + 1) % rotatingDestinations.length
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentDestination = rotatingDestinations[currentDestinationIndex];
+  const currentImages = destinationImages[currentDestination.name] || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* HERO SECTION - Large Image with Search */}
-      <section className="relative h-screen">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2940)',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+    <div className="min-h-screen bg-background ">
+      <BackToTop />
 
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
-              Explore the World
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
-              Discover extraordinary places and create unforgettable memories
-            </p>
-          </motion.div>
+      {/* HERO SECTION - Enhanced Aesthetic Version */}
+      <section className="relative min-h-screen overflow-hidden bg-opacity-0 ">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentDestination.name}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.35, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.6 }}
+              className="absolute inset-0"
+              style={{
+                backgroundImage: currentImages[0]
+                  ? `url(${currentImages[0]})`
+                  : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.65) saturate(1.15)',
+              }}
+            />
+          </AnimatePresence>
 
-          {/* Featured Highlights */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-6"
-          >
-            {/* Live Travelers */}
-            <Card className="group bg-card/95 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-border hover:border-primary/50">
-              <CardContent className="p-6 text-center">
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full animate-pulse" />
-                  <div className="absolute inset-2 bg-card rounded-full flex items-center justify-center">
-                    <Users className="w-8 h-8 text-green-500" />
-                  </div>
-                </div>
-                <div className="text-4xl font-bold mb-1 bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
-                  2,547
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">
-                  Travelers Online Now
-                </p>
-              </CardContent>
-            </Card>
+          {/* Dark Glass Overlay */}
+          {/* <div
+            className="absolute inset-0 bg-gradient-to-b 
+      from-black/70 via-black/40 to-black/80"
+          /> */}
+        </div>
 
-            {/* Today's Bookings */}
-            <Card className="group bg-card/95 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-border hover:border-primary/50">
-              <CardContent className="p-6 text-center">
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-full" />
-                  <div className="absolute inset-2 bg-card rounded-full flex items-center justify-center">
-                    <Calendar className="w-8 h-8 text-primary" />
-                  </div>
-                </div>
-                <div className="text-4xl font-bold mb-1 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  1,234
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">
-                  Trips Booked Today
-                </p>
-              </CardContent>
-            </Card>
+        <div className="relative z-10 container mx-auto px-6 py-20 min-h-screen flex items-center">
+          <div className="grid lg:grid-cols-2 gap-14 items-center w-full">
+            {/* LEFT TEXT BLOCK */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className=" space-y-8"
+            >
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={currentDestination.name}
+                  initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
+                  transition={{ duration: 1 }}
+                  className="text-6xl md:text-8xl text-primary font-extrabold tracking-tight uppercase
+              drop-shadow-[0_5px_25px_rgba(0,0,0,0.9)]"
+                >
+                  {currentDestination.name}
+                </motion.h1>
+              </AnimatePresence>
 
-            {/* Average Savings */}
-            <Card className="group bg-card/95 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-border hover:border-primary/50">
-              <CardContent className="p-6 text-center">
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full" />
-                  <div className="absolute inset-2 bg-card rounded-full flex items-center justify-center">
-                    <Star className="w-8 h-8 text-amber-500" />
-                  </div>
-                </div>
-                <div className="text-4xl font-bold mb-1 bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-                  $420
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">
-                  Average Savings
-                </p>
-              </CardContent>
-            </Card>
+              {/* BEAUTIFUL NEW SUB-WRITEUP */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="text-lg md:text-xl text- max-w-xl leading-relaxed
+            drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]"
+              >
+                Escape to{' '}
+                <span className="font-semibold text-primary">
+                  {currentDestination.name}
+                </span>
+                , where breathtaking scenery meets rich culture. Discover hidden
+                gems, unforgettable experiences, and moments crafted to inspire
+                your next adventure.
+              </motion.p>
 
-            {/* Destinations */}
-            <Card className="group bg-card/95 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-border hover:border-primary/50">
-              <CardContent className="p-6 text-center">
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full" />
-                  <div className="absolute inset-2 bg-card rounded-full flex items-center justify-center">
-                    <Globe className="w-8 h-8 text-purple-500" />
-                  </div>
+              {/* NEW MINI FEATURE TAGS */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <div className="flex gap-3 flex-wrap">
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text- border border-white/20"
+                  >
+                    <Star className="inline w-4 h-4 mr-1 text-yellow-300" />
+                    Top Destination
+                  </span>
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text- border border-white/20"
+                  >
+                    🌍 Trending Worldwide
+                  </span>
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text border border-white/20"
+                  >
+                    ✈️ Perfect for Getaways
+                  </span>
+                  <br />
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text border border-white/20"
+                  >
+                    💥 AI-powered recommendations
+                  </span>
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text- border border-white/20"
+                  >
+                    🥙 Exotic Cuisines
+                  </span>
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text border border-white/20"
+                  >
+                    ✈️ Perfect for Getaways
+                  </span>
+                  <span
+                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
+              rounded-full text- border border-white/20"
+                  >
+                    ✈️ Perfect for Getaways
+                  </span>
                 </div>
-                <div className="text-4xl font-bold mb-1 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  150+
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">
-                  Countries Available
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </motion.div>
 
-          {/* Quick Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-8 mt-8 text-white/80"
-          >
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
-              <span className="text-sm font-medium">Secure Booking</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-green-400" />
-              <span className="text-sm font-medium">Best Price Guarantee</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Heart className="h-5 w-5" />
-              <span className="text-sm font-medium">24/7 Support</span>
-            </div>
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 
+              text-lg rounded-full shadow-xl shadow-black/40"
+                >
+                  Explore
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </motion.div>
+
+              {/* Progress Indicators */}
+              <div className="flex items-center gap-3 pt-8">
+                {rotatingDestinations.map((_, index) => (
+                  <motion.div
+                    key={index}
+                    animate={{
+                      width: index === currentDestinationIndex ? 30 : 12,
+                      opacity: index === currentDestinationIndex ? 1 : 0.4,
+                    }}
+                    transition={{ duration: 0.4 }}
+                    className="h-2 bg-white/90 rounded-full"
+                  />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* RIGHT SIDE IMAGES */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+              className="grid gap-4 sm:grid-cols-4 grid-cols-2 grid-rows-2 lg:grid-cols-2 xl:grid-cols-2"
+            >
+              <AnimatePresence mode="wait">
+                {currentImages.map((image, index) => (
+                  <motion.div
+                    key={`${currentDestination.name}-${index}`}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Card className="overflow-hidden shadow-2xl rounded-xl border-none">
+                      <div className="relative h-30 sm:h-40 md:h-60">
+                        <img
+                          src={image}
+                          alt=""
+                          className="w-full h-full object-cover transition-all
+                      duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60" />
+                      </div>
+                    </Card>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* DESTINATIONS - Refined Realistic Cards */}
-      <section className="py-24 px-6 relative overflow-hidden">
-        {/* Background gradient */}
+      {/* INSPIRING EXPERIENCES Section */}
+      <section className="py-24 px-6 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-muted/30 to-background pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -311,182 +415,112 @@ const Homepage = () => {
             <div className="text-center mb-16">
               <Badge className="mb-4 px-4 py-2" variant="outline">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Trending Now
+                Curated Experiences
               </Badge>
               <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Featured Destinations
+                Travel Your Way
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Handpicked places that promise extraordinary experiences and
-                memories that last forever
+                Choose from our handcrafted travel experiences designed to match
+                your unique style and interests
               </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {destinations.map((destination, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {inspiringExperiences.map((experience, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative overflow-hidden rounded-2xl h-[420px] cursor-pointer shadow-lg hover:shadow-2xl bg-card"
+                  className="group relative overflow-hidden rounded-3xl h-[550px] cursor-pointer shadow-lg hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 bg-card"
                 >
-                  {/* Image Container with Overlay */}
-                  <div className="relative h-[240px] overflow-hidden">
-                    <motion.img
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                      src={destination.image}
-                      alt={destination.name}
-                      className="w-full h-full object-cover"
+                  {/* Image */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={experience.image}
+                      alt={experience.title}
+                      className="w-full h-full object-cover scale-[1.02] brightness-[0.85] saturate-[1.15] transition-transform duration-700 group-hover:scale-110"
                     />
 
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    {/* Soft Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
-                    {/* Cute floating badge on hover */}
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      whileHover={{ opacity: 1, y: 0 }}
-                      className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Camera className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-semibold text-foreground">
-                          View Photos
-                        </span>
+                    {/* Icon Badge */}
+                    <div className="absolute top-4 left-4">
+                      <div className="w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-2xl shadow-lg">
+                        {experience.icon}
                       </div>
-                    </motion.div>
-
-                    {/* Rating Badge - Always visible */}
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-white/95 backdrop-blur-sm border-0 text-foreground hover:bg-white shadow-lg">
-                        <Star className="w-3 h-3 text-amber-500 mr-1 fill-amber-500" />
-                        {destination.rating}
-                      </Badge>
                     </div>
 
-                    {/* Heart button */}
+                    {/* Heart */}
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all"
+                      className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all"
                     >
-                      <Heart className="w-5 h-5 text-primary" />
+                      <Heart className="w-5 h-5 text-white" />
                     </motion.button>
-
-                    {/* Sparkle effect on hover */}
-                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {[...Array(3)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{
-                            opacity: [0, 1, 0],
-                            scale: [0, 1.5, 0],
-                            x: [0, Math.random() * 40 - 20],
-                            y: [0, Math.random() * 40 - 20],
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            delay: i * 0.3,
-                          }}
-                          className="absolute"
-                          style={{
-                            top: `${30 + i * 20}%`,
-                            left: `${20 + i * 25}%`,
-                          }}
-                        >
-                          <Sparkles className="w-4 h-4 text-amber-300" />
-                        </motion.div>
-                      ))}
-                    </div>
                   </div>
 
-                  {/* Content Section */}
-                  <div className="p-6 space-y-3">
-                    {/* Location */}
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <MapPin className="w-4 h-4 text-primary" />
-                      {destination.country}
+                  {/* Content */}
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <p className="text-sm text-primary font-semibold mb-1">
+                        {experience.subtitle}
+                      </p>
+                      <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                        {experience.title}
+                      </h3>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      {destination.name}
-                    </h3>
-
-                    {/* Description - truncated */}
-                    <p className="text-muted-foreground text-sm line-clamp-2">
-                      {destination.description}
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                      {experience.description}
                     </p>
 
-                    {/* Highlights Tags */}
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {destination.highlights
-                        .slice(0, 2)
-                        .map((highlight, idx) => (
-                          <Badge
-                            key={idx}
-                            variant="secondary"
-                            className="text-xs font-medium"
-                          >
-                            {highlight}
-                          </Badge>
-                        ))}
-                      {destination.highlights.length > 2 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{destination.highlights.length - 2}
-                        </Badge>
-                      )}
+                    <div className="grid grid-cols-2 gap-2 pt-2">
+                      {experience.features.slice(0, 4).map((feature, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 text-xs text-muted-foreground"
+                        >
+                          <Check className="w-3 h-3 text-primary flex-shrink-0" />
+                          <span className="truncate">{feature}</span>
+                        </div>
+                      ))}
                     </div>
 
-                    {/* Bottom row - Season & Price */}
-                    <div className="flex items-center justify-between pt-3 border-t border-border">
-                      <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                        <Calendar className="w-3 h-3" />
-                        {destination.season.replace('Best: ', '')}
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="text-primary text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+                    <div className="pt-4 border-t border-border">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-between group/btn hover:bg-primary/10"
                       >
-                        Explore
-                        <ArrowRight className="w-4 h-4" />
-                      </motion.button>
+                        <span>Learn More</span>
+                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
                     </div>
                   </div>
 
-                  {/* Cute shimmer effect on hover */}
-                  <motion.div
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
-                    transition={{ duration: 0.6 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
-                  />
-
-                  {/* Border glow on hover */}
-                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-2xl transition-all duration-300 pointer-events-none" />
+                  {/* Premium Hover Border */}
+                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/40 rounded-3xl transition-all duration-500" />
                 </motion.div>
               </ScrollReveal>
             ))}
           </div>
 
-          {/* View All Button */}
           <ScrollReveal delay={0.4}>
             <div className="text-center mt-12">
               <Button size="lg" variant="outline" className="px-8 border-2">
-                View All Destinations
-                <Globe className="w-5 h-5 ml-2" />
+                Explore All Experiences
+                <Sparkles className="w-5 h-5 ml-2" />
               </Button>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION - Split Image */}
+      {/* EXPERIENCE SECTION - Split Images */}
       <section className="py-24">
         <div className="grid md:grid-cols-2 gap-0">
           <ScrollReveal>
@@ -499,15 +533,15 @@ const Homepage = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
                 <div className="p-12 text-white">
                   <Sparkles className="w-12 h-12 mb-4" />
-                  <h3 className="text-4xl font-bold mb-4 ">Adventure Awaits</h3>
+                  <h3 className="text-4xl font-bold mb-4">Adventure Awaits</h3>
                   <p className="text-xl text-white/90 mb-6">
                     Experience thrilling activities and create memories that
                     last a lifetime
                   </p>
                   <Button
                     size="lg"
-                    variant="default"
-                    className="border-white text-white border-0 bg-primary"
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
                   >
                     Discover More
                   </Button>
@@ -533,8 +567,8 @@ const Homepage = () => {
                   </p>
                   <Button
                     size="lg"
-                    variant="default"
-                    className="border-white text-white border-0 bg-primary  "
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
                   >
                     Explore Luxury
                   </Button>
@@ -545,7 +579,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* STATS - Simple and Clean */}
+      {/* STATS */}
       <section className="py-24 px-6 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -585,7 +619,7 @@ const Homepage = () => {
       {/* Newsletter */}
       <NewsLetterBox />
 
-      {/* CTA - Full Width Image */}
+      {/* CTA */}
       <section className="relative h-[600px]">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -605,11 +639,7 @@ const Homepage = () => {
               Start planning your next adventure with personalized
               recommendations
             </p>
-            <Button
-              size="lg"
-              variant="default"
-              className=" text-lg px-12 py-6 border-white text-white border-0 bg-primary"
-            >
+            <Button size="lg" className="text-lg px-12 py-6">
               <MapPin className="w-5 h-5 mr-2" />
               Start Planning
             </Button>

@@ -19,6 +19,7 @@ import {
   Edit,
   Trash2,
   Plus,
+  Save,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -50,12 +51,28 @@ export default function PlanTripPage() {
               Please generate a trip plan from the destination page first.
             </CardDescription>
           </CardHeader>
+          <CardContent>
+            <Alert variant="destructive" className="mb-4">
+              <AlertDescription>
+                It seems you accessed this page directly without generating a
+                trip plan. Please go back to the destination page to create your
+                personalized itinerary.
+              </AlertDescription>
+            </Alert>
+            <Button
+              variant="link"
+              className="w-full"
+              onClick={() => navigate(`/destination/${city}`)}
+            >
+              Back to Destination Page
+            </Button>
+          </CardContent>
         </Card>
       </div>
     );
   }
 
-  const { itinerary, preferences, destination } = state as {
+  const { itinerary, preferences} = state as {
     itinerary: GeneratedItinerary;
     preferences: any;
     destination: any;
@@ -64,7 +81,7 @@ export default function PlanTripPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="border-b sticky top-0 bg-background/95 backdrop-blur z-10">
+      <div className="border-b top-0 mt-20 bg-background/95 backdrop-blur z-10">
         <div className="max-w-7xl mx-auto py-4 px-6">
           <div className="flex items-center justify-between">
             <Button
@@ -76,6 +93,10 @@ export default function PlanTripPage() {
             </Button>
 
             <div className="flex items-center gap-3">
+              <Button variant="outline" size="sm">
+                <Save className="w-4 h-4 mr-2" />
+                Save Trip
+              </Button>
               <Button variant="outline" size="sm">
                 <Edit className="w-4 h-4 mr-2" />
                 Edit
@@ -224,7 +245,8 @@ export default function PlanTripPage() {
                 </p>
 
                 <div className="space-y-4">
-                  {day.activities.map((activity, actIndex) => (
+                  { day.activities.map((activity, actIndex) => (
+                
                     <div key={activity.id} className="relative">
                       <div className="flex gap-4 p-4 rounded-lg border-2 hover:border-primary/50 transition-all bg-card group">
                         <div className="shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -240,7 +262,7 @@ export default function PlanTripPage() {
                             <Activity className="w-5 h-5 text-primary" />
                           )}
                         </div>
-
+                     
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-2">
                             <div>

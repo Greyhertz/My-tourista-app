@@ -752,14 +752,14 @@ const TravelBlogPage = () => {
               </div> */}
             <div className="max-w-2xl mx-auto">
               <div
-                className="relative flex items-center bg-card border-2 border-border rounded-xl shadow-md overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring/40 focus-within:border-primary/70"
+                className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
+                transition-all duration-300 focus-within:ring-2 focus-within:ring-ring/60 focus-within:border-primary/70"
               >
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
                   placeholder="Search destinations, tips, guides..."
-                  className="pl-12 pr-4 py-6 text-base bg-input focus:border-primary   border-0 outline-none text-foreground placeholder:text-muted-foreground"
+                  className="pl-12 pr-4 py-6 text-base  focus:border-primary   border-0 outline-none text-foreground placeholder:text-muted-foreground"
                   value={state.searchTerm}
                   onChange={e => actions.setSearchTerm(e.target.value)}
                 />

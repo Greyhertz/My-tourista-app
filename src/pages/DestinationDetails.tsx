@@ -1,7 +1,17 @@
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { useState, type JSXElementConstructor, type Key, type ReactElement, type ReactNode, type ReactPortal } from 'react';
+import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
+import {
+  useState,
+  type JSXElementConstructor,
+  type Key,
+  type ReactElement,
+  type ReactNode,
+  type ReactPortal,
+} from 'react';
 // import { generateItinerary, type GeneratedItinerary } from './trip-ai-engine';
-import { generateItinerary, type GeneratedItinerary } from '@/lib/trip-ai-engine';
+import {
+  generateItinerary,
+  type GeneratedItinerary,
+} from '@/lib/trip-ai-engine';
 import {
   MapPin,
   Globe,
@@ -94,10 +104,21 @@ export default function DestinationDetails() {
             <CardTitle className="text-2xl">Destination Not Found</CardTitle>
             <CardDescription>
               We couldn't find data for this destination. Try searching from the
-              home page.
+              <Button variant={'link'} onClick={() => navigate('/explore-destination')}>
+                Explore Destination
+              </Button>
             </CardDescription>
           </CardHeader>
-          <CardFooter className="flex gap-3">
+          <CardContent>
+            <Alert variant="destructive" className="mb-4">
+              <AlertDescription>
+                It seems you accessed this page directly without generating a
+                trip plan. Please go back to the explore page to create your
+                personalized itinerary.
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+          {/* <CardFooter className="flex gap-3">
             <Button
               onClick={() => window.history.back()}
               variant="outline"
@@ -111,7 +132,7 @@ export default function DestinationDetails() {
             >
               Find Destinations
             </Button>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
       </div>
     );
@@ -286,7 +307,7 @@ export default function DestinationDetails() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-10">
       {/* Hero Section */}
       <div className="border-b">
         <div className="max-w-7xl mx-auto py-12 px-6">
@@ -350,24 +371,26 @@ export default function DestinationDetails() {
               desc: 'Guest Reviews',
             },
           ].map((stat, i) => (
-            <Card
-              key={i}
-              className="border-2 hover:border-primary/50 transition-all"
-            >
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {stat.label} {stat.desc}
+            
+              <Card
+                key={i}
+                className="border-2 hover:border-primary/50 shadow-xl transition-all"
+              >
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <stat.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold">{stat.value}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {stat.label} {stat.desc}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+          
           ))}
         </div>
 
@@ -452,11 +475,44 @@ export default function DestinationDetails() {
                     <CardContent>
                       {properties.categories && (
                         <div className="flex flex-wrap gap-2">
-                          {properties.categories.slice(0, 3).map((cat: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, idx: Key | null | undefined) => (
-                            <Badge key={idx} variant="outline">
-                              {cat}
-                            </Badge>
-                          ))}
+                          {properties.categories
+                            .slice(0, 3)
+                            .map(
+                              (
+                                cat:
+                                  | string
+                                  | number
+                                  | bigint
+                                  | boolean
+                                  | ReactElement<
+                                      unknown,
+                                      string | JSXElementConstructor<any>
+                                    >
+                                  | Iterable<ReactNode>
+                                  | ReactPortal
+                                  | Promise<
+                                      | string
+                                      | number
+                                      | bigint
+                                      | boolean
+                                      | ReactPortal
+                                      | ReactElement<
+                                          unknown,
+                                          string | JSXElementConstructor<any>
+                                        >
+                                      | Iterable<ReactNode>
+                                      | null
+                                      | undefined
+                                    >
+                                  | null
+                                  | undefined,
+                                idx: Key | null | undefined
+                              ) => (
+                                <Badge key={idx} variant="outline">
+                                  {cat}
+                                </Badge>
+                              )
+                            )}
                         </div>
                       )}
                     </CardContent>
@@ -506,7 +562,7 @@ export default function DestinationDetails() {
 
       {/* Trip Planner Dialog */}
       <Dialog open={showTripPlanner} onOpenChange={setShowTripPlanner}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto scroll-m-0">
           <DialogHeader>
             <DialogTitle className="text-3xl flex items-center gap-2">
               <Sparkles className="w-8 h-8 text-primary" />

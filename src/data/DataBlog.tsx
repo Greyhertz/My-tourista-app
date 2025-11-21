@@ -191,7 +191,7 @@ export const mockPosts = [
     featured: false,
   },
   {
-    id: 8,
+    id: 8, 
     slug: 'how-to-travel-japan-on-a-shoestring-budget',
     title: 'How to Travel Japan on a Shoestring Budget',
     excerpt:

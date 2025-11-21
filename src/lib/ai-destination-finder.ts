@@ -36,6 +36,7 @@ export type DestinationRecommendation = {
   personalizedMessage: string;
 };
 
+
 // ============================================
 // DESTINATION DATABASE WITH EMOTIONAL PROFILES
 // ============================================

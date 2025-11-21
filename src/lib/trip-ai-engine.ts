@@ -446,6 +446,7 @@ export function generateItinerary(
 ): GeneratedItinerary {
   const numberOfDays =
     differenceInDays(preferences.endDate, preferences.startDate) + 1;
+ 
   const activitiesPerDay = getActivitiesPerDay(preferences.energyLevel);
 
   const days: ItineraryDay[] = [];

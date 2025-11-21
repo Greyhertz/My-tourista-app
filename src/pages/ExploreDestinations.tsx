@@ -217,18 +217,15 @@ export default function ExploreDestinations() {
             {/*   <div
                 className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
                 transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
-              >
+              > 
                 <Input
                   placeholder="Full Name"
                   required
                   className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
                 />
               </div> */}
-          
-            <div
-              className="relative flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-      transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary/70"
-            >
+
+            <div className="relative flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden   transition-all duration-300 focus-within:ring-2 focus-within:ring-ring/60 focus-within:border-primary/70">
               <div className="absolute left-5 pointer-events-none">
                 <Search className="text-muted-foreground" size={24} />
               </div>

@@ -10,55 +10,38 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 import { Mail, Phone, Clock, CheckCircle, Sparkles } from 'lucide-react';
+import { signUpSchema, type SignUpFormData } from '@/utils/validateForm';
+import { zodResolver } from '@hookform/resolvers/zod';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { ScrollReveal } from './Homepage';
 import { Badge } from '@/components/ui/badge';
+import { useForm } from 'react-hook-form';
 
-export default function ContactUs() {
+export default function ContactUs()
+{
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+  });
+
+  const onSubmit = (data: SignUpFormData) => {
+    // Simulate animation before routing
+    setTimeout(() => {
+    }, 1500);
+    console.log('✅ Submitted data:', data);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }
   return (
-    /*  <section className="relative min-h-[70vh] flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5" />
-
-        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: '1s' }}
-        />
-
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mb-6"
-          >
-            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4 mr-2 inline" />
-              About TravelMate
-            </Badge>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
-          >
-            About Us
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          >
-            Discover our journey, mission, and the passionate people behind the
-            world's most innovative travel platform
-          </motion.p>
-        </div>
-      </section> */
-
     <div className="bg-background text-foreground font-sm">
       {/* Hero Section */}
       <section className="relative h-[70vh] flex flex-col items-center justify-center text-center p-6 inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5">
@@ -126,7 +109,10 @@ export default function ContactUs() {
 
       {/* Contact Form */}
       <section className="bg-background">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+        >
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -157,11 +143,19 @@ export default function ContactUs() {
                 transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary"
               >
                 <Input
+                  {...register('name')}
                   placeholder="Full Name"
-                  required
+                  id="name"
+                  // value={formData.name}
+                  // onChange={handleChange}
                   className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
                 />
               </div>
+              {errors.name && (
+                <p className="text-sm text-destructive">
+                  {errors.name.message}
+                </p>
+              )}
 
               <div
                 className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
@@ -203,7 +197,7 @@ export default function ContactUs() {
               Send Message
             </Button>
           </motion.form>
-        </div>
+        </form>
       </section>
 
       {/* FAQ Section */}

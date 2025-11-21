@@ -12,6 +12,7 @@ import {
   Heart,
   Shield,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -21,20 +22,26 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
           {/* Brand + socials */}
           <div className="md:col-span-2 flex flex-col items-center text-center md:items-start md:text-left">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-7 h-7 bg-gradient-to-br from-amber-400 via-rose-500 to-fuchsia-600 rounded-xl shadow-lg flex items-center justify-center">
-                <Compass className="h-6 w-6 text-white" />
+            <Link to="/" className="flex items-center space-x-3 group">
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+                className="relative"
+              >
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg flex items-center justify-center">
+                  <Compass className="h-6 w-6 text-white" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
+              </motion.div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  TravelMate
+                </span>
+                <span className="text-xs text-muted-foreground -mt-1">
+                  Explore the World
+                </span>
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r text-primary">
-                TravelMate
-              </span>
-            </div>
-
-            <p className="text-base text-foreground text-clip- leading-relaxed mb-6 max-w-md">
-              Creating unforgettable travel experiences since 2010. Your
-              adventure starts here with AI-powered planning and world-class
-              service.
-            </p>
+            </Link>
 
             {/* socials */}
             <div className="flex space-x-4 justify-center md:justify-start">
@@ -116,9 +123,9 @@ export default function Footer() {
           ].map((col, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center md:items-start md:text-left"
+              className="flex flex-col  items-center text-center md:items-start md:text-left"
             >
-              <h3 className="font-semibold mb-6 flex items-center text-lg text-primary">
+              <h3 className="font-semibold mb-6 flex items-center text-lg text-secondary-foreground">
                 {col.icon}
                 {col.title}
               </h3>
@@ -128,7 +135,7 @@ export default function Footer() {
                     <motion.a
                       href="#"
                       whileHover={{ x: 4 }}
-                      className="text-[15px] font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center md:justify-start"
+                      className="text-[14px] font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center md:justify-start"
                     >
                       <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                       {item}
@@ -139,7 +146,10 @@ export default function Footer() {
             </div>
           ))}
         </div>
-
+        <p className="text-center text-sm">
+          Creating unforgettable travel experiences since 2010. Your adventure
+          starts here with AI-powered planning and world-class service.
+        </p>
         {/* Bottom bar */}
         <div className="border-t border-muted pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
