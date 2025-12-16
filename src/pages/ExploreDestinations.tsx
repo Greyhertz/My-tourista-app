@@ -32,7 +32,7 @@ export default function ExploreDestinations() {
   const [currentCitySet, setCurrentCitySet] = useState(0);
 
   const citySets = [
-    ['Paris', 'Bali', 'New York', 'Tokyo', 'Rome', 'Sydney', 'Cape Town'],
+    ['Paris', 'Bali', 'New York', 'Tokyo', 'Rome', 'Sydney', 'Cape Town', 'lagos'],
     [
       'Bangkok',
       'Madrid',
@@ -43,11 +43,11 @@ export default function ExploreDestinations() {
       'Dubai',
       'Singapore',
     ],
-    ['Barcelona', 'Amsterdam', 'Istanbul', 'Mumbai', 'Seoul', 'Prague'],
-    ['London', 'Berlin', 'Vienna', 'Budapest', 'Stockholm', 'Copenhagen'],
-    ['Miami', 'Las Vegas', 'San Francisco', 'Toronto', 'Vancouver', 'Montreal'],
+    ['Barcelona', 'Amsterdam', 'Istanbul', 'Mumbai', 'Seoul', 'Prague', 'Dublin', 'Accra'],
+    ['London', 'Berlin', 'Vienna', 'Budapest', 'Stockholm', 'Copenhagen', 'Madagascar', 'Kampala'],
+    ['Miami', 'Las Vegas', 'San Francisco', 'Toronto', 'Vancouver', 'Montreal', 'Havana', 'Nairobi'],
   ];
-
+ 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query.trim()) {

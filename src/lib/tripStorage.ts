@@ -3,6 +3,7 @@
 export type SavedTrip = {
   id: string;
   destinationName: string;
+  image: string,
   country: string;
   score: number;
   tagline: string;

@@ -700,44 +700,6 @@ import { cn } from '@/lib/utils';
 import { fetchMultipleImages } from '@/api/Unsplash';
 import { ScrollReveal } from './Homepage';
 
-// Destination images mapping
-// const DESTINATION_IMAGES: Record<string, string[]> = {
-//   'barcelona': [
-//     'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800',
-//     'https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=800',
-//     'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800',
-//   ],
-//   'bali': [
-//     'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
-//     'https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=800',
-//     'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800',
-//   ],
-//   'paris': [
-//     'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800',
-//     'https://images.unsplash.com/photo-1549144511-f099e773c147?w=800',
-//     'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800',
-//   ],
-//   'santorini': [
-//     'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
-//     'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800',
-//     'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800',
-//   ],
-//   'kyoto': [
-//     'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
-//     'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800',
-//     'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800',
-//   ],
-//   'rome': [
-//     'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800',
-//     'https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=800',
-//     'https://images.unsplash.com/photo-1529260830199-42c24126f198?w=800',
-//   ],
-//   'default': [
-//     'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800',
-//     'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800',
-//     'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800',
-//   ],
-// };
 
 export default function FindDestinationPage() {
   const navigate = useNavigate();

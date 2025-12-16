@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Globe,
-  Calendar,
   Users,
   Star,
   ArrowRight,
@@ -10,17 +9,33 @@ import {
   Heart,
   Sparkles,
   Check,
-  Shield,
   ChevronUp,
   Play,
+  Compass,
+  Award,
+  TrendingUp,
+  Utensils,
+  Camera,
+  Mountain,
+  Plane,
+  Sun,
+  Map,
+  Navigation,
+  Hotel,
+  MessageCircle,
+  Calendar,
+  CheckCircle2,
+  Wifi,
+  Battery,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Badge, badgeVariants } from '@/components/ui/badge';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { BlogSection } from '@/components/core/BlogSection';
 import { useBlog } from '@/context/BlogContex';
 import { fetchMultipleImages } from '../api/Unsplash';
+import { Link } from 'react-router-dom';
 
 type ScrollRevealProps = {
   children: React.ReactNode;
@@ -74,532 +89,572 @@ const Homepage = () => {
   const [destinationImages, setDestinationImages] = useState<{
     [key: string]: string[];
   }>({});
-
+  
   useEffect(() => {
     if (state.blogPosts.length === 0) actions.loadBlogs();
   }, [state.blogPosts.length, actions]);
 
-  const rotatingDestinations = [
-    { name: 'Bali', country: 'Indonesia', rating: 4.9 },
-    { name: 'Tokyo', country: 'Japan', rating: 4.8 },
-    { name: 'Fuji', country: 'Japan', rating: 4.9 },
-    { name: 'London', country: 'United Kingdom', rating: 4.7 },
-    { name: 'Barcelona', country: 'Spain', rating: 4.8 },
-    { name: 'Paris', country: 'France', rating: 4.9 },
-    { name: 'Dubai', country: 'UAE', rating: 4.8 },
-    { name: 'Santorini', country: 'Greece', rating: 4.9 },
-  ];
-
-  const inspiringExperiences = [
+  const destinations = [
     {
-      title: 'Cultural Immersion',
-      subtitle: 'Live Like a Local',
+      name: 'Paris',
+      country: 'France',
       image:
-        'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070',
-      description:
-        'Immerse yourself in authentic traditions, local cuisines, and timeless customs that define each destination',
-      features: [
-        'Home-cooked Meals',
-        'Traditional Ceremonies',
-        'Local Markets',
-        'Artisan Workshops',
-      ],
-      icon: '🎭',
+        'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2000',
     },
     {
-      title: 'Adventure & Thrills',
-      subtitle: 'Push Your Limits',
+      name: 'Tokyo',
+      country: 'Japan',
       image:
-        'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070',
-      description:
-        'From mountain peaks to ocean depths, embark on adrenaline-pumping activities that test your courage',
-      features: [
-        'Mountain Climbing',
-        'Scuba Diving',
-        'Skydiving',
-        'Safari Tours',
-      ],
-      icon: '⛰️',
+        'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=2000',
     },
     {
-      title: 'Wellness Retreats',
-      subtitle: 'Rejuvenate Your Soul',
+      name: 'Santorini',
+      country: 'Greece',
       image:
-        'https://images.unsplash.com/photo-1545389336-cf090694435e?q=80&w=2064',
-      description:
-        'Find inner peace through yoga, meditation, spa treatments, and holistic healing in serene sanctuaries',
-      features: [
-        'Yoga Sessions',
-        'Spa Treatments',
-        'Meditation',
-        'Healthy Cuisine',
-      ],
-      icon: '🧘',
+        'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=2000',
     },
     {
-      title: 'Culinary Journeys',
-      subtitle: 'Taste the World',
+      name: 'Bali',
+      country: 'Indonesia',
       image:
-        'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070',
-      description:
-        'Savor exquisite flavors through cooking classes, wine tastings, and Michelin-starred dining experiences',
-      features: ['Cooking Classes', 'Wine Tours', 'Street Food', 'Fine Dining'],
-      icon: '🍷',
-    },
-    {
-      title: 'Photography Expeditions',
-      subtitle: 'Capture the Magic',
-      image:
-        'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2074',
-      description:
-        'Chase golden hours, capture wildlife, and document stunning landscapes with expert photography guides',
-      features: [
-        'Wildlife Photography',
-        'Landscape Tours',
-        'Sunrise Shoots',
-        'Photo Workshops',
-      ],
-      icon: '📸',
-    },
-    {
-      title: 'Romantic Getaways',
-      subtitle: 'Love in Paradise',
-      image:
-        'https://images.unsplash.com/photo-1518733057094-95b53143d2a7?q=80&w=2065',
-      description:
-        "Create unforgettable memories with your loved one in the world's most romantic destinations",
-      features: [
-        'Private Dinners',
-        'Couples Spa',
-        'Sunset Cruises',
-        'Beach Picnics',
-      ],
-      icon: '💑',
+        'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2000',
     },
   ];
 
-  // Fetch images for all destinations
-  useEffect(() => {
-    const fetchAllImages = async () => {
-      const imagePromises = rotatingDestinations.map(async dest => {
-        const images = await fetchMultipleImages(
-          `${dest.name} ${dest.country} travel`
-        );
-        return { name: dest.name, images };
-      });
-
-      const results = await Promise.all(imagePromises);
-      const imagesMap: { [key: string]: string[] } = {};
-      results.forEach(result => {
-        imagesMap[result.name] = result.images;
-      });
-      setDestinationImages(imagesMap);
-    };
-
-    fetchAllImages();
-  }, []);
-
-  // Rotate destinations every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentDestinationIndex(
-        prev => (prev + 1) % rotatingDestinations.length
-      );
+      setCurrentDestinationIndex(prev => (prev + 1) % destinations.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  const currentDestination = rotatingDestinations[currentDestinationIndex];
-  const currentImages = destinationImages[currentDestination.name] || [];
+  const features = [
+    {
+      icon: MapPin,
+      title: 'Discover Destinations',
+      description:
+        'Explore curated travel destinations with detailed guides, local insights, and personalized recommendations.',
+      gradient: 'from-blue-500/10 to-cyan-500/10',
+      iconColor: 'text-blue-600',
+    },
+    {
+      icon: Calendar,
+      title: 'Easy Trip Planning',
+      description:
+        'Plan your entire journey with our smart itinerary builder. Book flights, hotels, and experiences all in one place.',
+      gradient: 'from-purple-500/10 to-pink-500/10',
+      iconColor: 'text-purple-600',
+    },
+    {
+      icon: Users,
+      title: 'Connect with Travelers',
+      description:
+        'Join a community of explorers. Share experiences, get recommendations, and find travel companions.',
+      gradient: 'from-green-500/10 to-emerald-500/10',
+      iconColor: 'text-green-600',
+    },
+  ];
+
+  const culinaryExperiences = [
+    {
+      title: 'Street Food Tours',
+      location: 'Bangkok, Thailand',
+      image:
+        'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2000',
+      description: 'Explore authentic flavors at bustling night markets',
+      icon: Utensils,
+    },
+    {
+      title: 'Wine Tasting',
+      location: 'Tuscany, Italy',
+      image:
+        'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2000',
+      description: 'Sample world-class wines in historic vineyards',
+      icon: Sun,
+    },
+    {
+      title: 'Cooking Classes',
+      location: 'Paris, France',
+      image:
+        'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2000',
+      description: 'Learn to create French cuisine with local chefs',
+      icon: Users,
+    },
+    {
+      title: 'Sushi Experience',
+      location: 'Tokyo, Japan',
+      image:
+        'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?q=80&w=2000',
+      description: 'Master the art of sushi making in authentic settings',
+      icon: Camera,
+    },
+    {
+      title: 'Tapas & Culture',
+      location: 'Barcelona, Spain',
+      image:
+        'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2000',
+      description: 'Discover Spanish culinary traditions and culture',
+      icon: Heart,
+    },
+    {
+      title: 'Seafood Markets',
+      location: 'Sydney, Australia',
+      image:
+        'https://images.unsplash.com/photo-1559181567-c3190ca9959b?q=80&w=2000',
+      description: 'Fresh catches and harbor-side dining experiences',
+      icon: Compass,
+    },
+  ];
+
+  const travelExperiences = [
+    {
+      title: 'Adventure Tours',
+      image:
+        'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=2000',
+      description: 'Thrilling experiences from mountains to oceans',
+    },
+    {
+      title: 'Cultural Immersion',
+      image:
+        'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000',
+      description: 'Connect with local traditions and communities',
+    },
+    {
+      title: 'Luxury Escapes',
+      image:
+        'https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2000',
+      description: 'Premium accommodations and exclusive services',
+    },
+    {
+      title: 'Nature & Wildlife',
+      image:
+        'https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2000',
+      description: 'Safari tours and eco-friendly adventures',
+    },
+  ];
+
+  const stats = [
+    { number: '500K+', label: 'Happy Travelers', icon: Users },
+    { number: '200+', label: 'Destinations', icon: Globe },
+    { number: '50K+', label: '5-Star Reviews', icon: Star },
+    { number: '10+', label: 'Years Experience', icon: Award },
+  ];
+
+  const currentDestination = destinations[currentDestinationIndex];
 
   return (
-    <div className="min-h-screen bg-background ">
+    <div className="min-h-screen bg-background">
       <BackToTop />
 
-      {/* HERO SECTION - Enhanced Aesthetic Version */}
-      <section className="relative min-h-screen overflow-hidden bg-opacity-0 ">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentDestination.name}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 0.35, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 1.6 }}
-              className="absolute inset-0"
-              style={{
-                backgroundImage: currentImages[0]
-                  ? `url(${currentImages[0]})`
-                  : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: 'brightness(0.65) saturate(1.15)',
-              }}
-            />
-          </AnimatePresence>
-
-          {/* Dark Glass Overlay */}
-          {/* <div
-            className="absolute inset-0 bg-gradient-to-b 
-      from-black/70 via-black/40 to-black/80"
-          /> */}
+      {/* HERO SECTION */}
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 container mx-auto px-6 py-20 min-h-screen flex items-center">
-          <div className="grid lg:grid-cols-2 gap-14 items-center w-full">
-            {/* LEFT TEXT BLOCK */}
+          <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+            {/* LEFT - Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className=" space-y-8"
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
             >
-              <AnimatePresence mode="wait">
-                <motion.h1
-                  key={currentDestination.name}
-                  initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
-                  transition={{ duration: 1 }}
-                  className="text-6xl md:text-8xl text-primary font-extrabold tracking-tight uppercase
-              drop-shadow-[0_5px_25px_rgba(0,0,0,0.9)]"
-                >
-                  {currentDestination.name}
-                </motion.h1>
-              </AnimatePresence>
+              <Badge variant="secondary" className="px-4 py-2 text-sm">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Your Ultimate Travel Companion
+              </Badge>
 
-              {/* BEAUTIFUL NEW SUB-WRITEUP */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-lg md:text-xl text- max-w-xl leading-relaxed
-            drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]"
-              >
-                Escape to{' '}
-                <span className="font-semibold text-primary">
-                  {currentDestination.name}
-                </span>
-                , where breathtaking scenery meets rich culture. Discover hidden
-                gems, unforgettable experiences, and moments crafted to inspire
-                your next adventure.
-              </motion.p>
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+                  Explore the World
+                  <span className="text-primary block mt-2">Your Way</span>
+                </h1>
 
-              {/* NEW MINI FEATURE TAGS */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <div className="flex gap-3 flex-wrap">
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text- border border-white/20"
-                  >
-                    <Star className="inline w-4 h-4 mr-1 text-yellow-300" />
-                    Top Destination
-                  </span>
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text- border border-white/20"
-                  >
-                    🌍 Trending Worldwide
-                  </span>
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text border border-white/20"
-                  >
-                    ✈️ Perfect for Getaways
-                  </span>
-                  <br />
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text border border-white/20"
-                  >
-                    💥 AI-powered recommendations
-                  </span>
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text- border border-white/20"
-                  >
-                    🥙 Exotic Cuisines
-                  </span>
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text border border-white/20"
-                  >
-                    ✈️ Perfect for Getaways
-                  </span>
-                  <span
-                    className="px-4 py-2 text-sm bg-white/10 backdrop-blur-md 
-              rounded-full text- border border-white/20"
-                  >
-                    ✈️ Perfect for Getaways
-                  </span>
-                </div>
-              </motion.div>
+                <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                  Discover unforgettable destinations, book authentic
+                  experiences, and connect with local cultures. Your next
+                  adventure is just a tap away.
+                </p>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-              >
+              <div className="flex flex-col sm:flex-row gap-4">
+             
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 
-              text-lg rounded-full shadow-xl shadow-black/40"
+                  className="px-8 py-6 text-lg rounded-full shadow-lg"
                 >
-                  Explore
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </motion.div>
+               Start Exploring
 
-              {/* Progress Indicators */}
-              <div className="flex items-center gap-3 pt-8">
-                {rotatingDestinations.map((_, index) => (
-                  <motion.div
-                    key={index}
-                    animate={{
-                      width: index === currentDestinationIndex ? 30 : 12,
-                      opacity: index === currentDestinationIndex ? 1 : 0.4,
-                    }}
-                    transition={{ duration: 0.4 }}
-                    className="h-2 bg-white/90 rounded-full"
-                  />
-                ))}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+               
+                {/* <Link to=""  className={badgeVariants({ variant: "outline"})} >Badge</Link> */}
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-lg rounded-full"
+                >
+                  <Play className="mr-2 w-5 h-5" />
+                  Watch Video
+                </Button>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="flex flex-wrap gap-6 pt-4">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <span className="text-sm text-muted-foreground">
+                    Verified Guides
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <span className="text-sm text-muted-foreground">
+                    Best Price Guarantee
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <span className="text-sm text-muted-foreground">
+                    24/7 Support
+                  </span>
+                </div>
               </div>
             </motion.div>
 
-            {/* RIGHT SIDE IMAGES */}
+            {/* RIGHT - Phone Mockup */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
-              className="grid gap-4 sm:grid-cols-4 grid-cols-2 grid-rows-2 lg:grid-cols-2 xl:grid-cols-2"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative flex justify-center lg:justify-end"
             >
-              <AnimatePresence mode="wait">
-                {currentImages.map((image, index) => (
-                  <motion.div
-                    key={`${currentDestination.name}-${index}`}
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.85 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Card className="overflow-hidden shadow-2xl rounded-xl border-none">
-                      <div className="relative h-30 sm:h-40 md:h-60">
-                        <img
-                          src={image}
-                          alt=""
-                          className="w-full h-full object-cover transition-all
-                      duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60" />
+              <div className="relative">
+                {/* Glow */}
+                <div className="absolute inset-0 bg-background blur-3xl rounded-full scale-150" />
+
+                {/* Phone Frame */}
+                <div className="relative w-[380px] h-[700px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-[3rem] p-4 shadow-2xl">
+                  <div className="w-full h-full bg-background rounded-[2.4rem] overflow-hidden relative">
+                    {/* ===== STATUS BAR ===== */}
+                    <div className="flex justify-between items-center px-6 py-3 bg-background">
+                      <span className="text-sm  font-semibold">9:41</span>
+
+                      <div className="flex items-center gap-2">
+                        {/* Signal */}
+                        <div className="w-4 h-4 border border-gray-800 rounded-[3px]"></div>
+
+                        {/* WiFi */}
+                        <Wifi className="w-4 h-4 " />
+
+                        {/* Battery */}
+                        {/* <div className="flex items-center gap-1">
+                          <div className="w-5 h-3 border border-gray-800 rounded-sm relative">
+                            <div className="absolute inset-0  rounded-sm scale-x-[0.7]" />
+                          </div>
+                          <div className="w-1 h-2 bg-gray-800 rounded-sm" />
+                        </div> */}
+                        <Battery />
                       </div>
-                    </Card>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                    </div>
+
+                    {/* ===== DESTINATION HEADER ===== */}
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentDestination.name}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1 }}
+                        className="relative h-[300px]"
+                      >
+                        <img
+                          src={currentDestination.image}
+                          alt={currentDestination.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+                        <div className="absolute bottom-6 left-6 text-white">
+                          <h3 className="text-3xl font-bold">
+                            {currentDestination.name}
+                          </h3>
+                          <p className="text-sm opacity-90">
+                            {currentDestination.country}
+                          </p>
+                        </div>
+
+                        <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                          <Heart className="w-5 h-5 text-white" />
+                        </button>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* ===== QUICK ACTIONS ===== */}
+                    <div className="px-6 py-6 space-y-5 bg-background">
+                      <div className="flex gap-3">
+                        <div className="flex-1 bg-primary/10 rounded-2xl p-4 text-center">
+                          <Plane className="w-6 h-6 text-primary mx-auto mb-2" />
+                          <p className="text-xs text-primary font-semibold">
+                            Flights
+                          </p>
+                        </div>
+
+                        <div className="flex-1 bg-primary/10 rounded-2xl p-4 text-center">
+                          <Hotel className="w-6 h-6 text-primary mx-auto mb-2" />
+                          <p className="text-xs text-primary font-semibold">
+                            Hotels
+                          </p>
+                        </div>
+
+                        <div className="flex-1 bg-primary/10 rounded-2xl p-4 text-center">
+                          <Camera className="w-6 h-6 text-primary mx-auto mb-2" />
+                          <p className="text-xs text-primary font-semibold">
+                            Tours
+                          </p>
+                        </div>
+                      </div>
+
+                      <Card className="p-4 bg-card border-none shadow-sm">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                            <Utensils className="w-6 h-6 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-sm">Food Tour</p>
+                            <p className="text-xs text-muted-foreground">
+                              Starting at $49
+                            </p>
+                          </div>
+                          <Button size="sm" className="rounded-full">
+                            Book
+                          </Button>
+                        </div>
+                      </Card>
+                    </div>
+
+                    {/* ===== BOTTOM NAV ===== */}
+                    <div className="absolute left-0 right-0 bottom-0 bg-background backdrop-blur-xl py-4 border-t">
+                      <div className="flex justify-around">
+                        <div className="flex flex-col items-center gap-1">
+                          <Compass className="w-5 h-5 text-primary" />
+                          <span className="text-xs text-primary">Explore</span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                          <Map className="w-5 h-5 text-gray-500" />
+                          <span className="text-xs text-gray-500">Trips</span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                          <MessageCircle className="w-5 h-5 text-gray-500" />
+                          <span className="text-xs text-gray-500">Chat</span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                          <Users className="w-5 h-5 text-gray-500" />
+                          <span className="text-xs text-gray-500">Profile</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* iPhone Speaker Area */}
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-5 bg-gray-900 rounded-full" />
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* INSPIRING EXPERIENCES Section */}
-      <section className="py-24 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 to-background pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* FEATURES SECTION */}
+      <section className="py-24 px-6 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
               <Badge className="mb-4 px-4 py-2" variant="outline">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Curated Experiences
+                Why Choose Us
               </Badge>
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Travel Your Way
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Travel Made Simple
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Choose from our handcrafted travel experiences designed to match
-                your unique style and interests
+                Everything you need to plan, book, and enjoy your perfect trip
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <ScrollReveal key={index} delay={index * 0.1}>
+                  <Card className="relative overflow-hidden border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${feature.gradient}`}
+                    />
+                    <CardContent className="relative p-8 space-y-4">
+                      <div className="w-14 h-14 rounded-2xl bg-background flex items-center justify-center shadow-lg">
+                        <IconComponent
+                          className={`w-7 h-7 ${feature.iconColor}`}
+                        />
+                      </div>
+                      <h3 className="text-2xl font-bold">{feature.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* CULINARY EXPERIENCES SECTION */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <Badge className="mb-4 px-4 py-2" variant="outline">
+                <Utensils className="w-4 h-4 mr-2" />
+                Culinary Adventures
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Taste the World
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Discover authentic flavors and culinary traditions from around
+                the globe
               </p>
             </div>
           </ScrollReveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {inspiringExperiences.map((experience, index) => (
-              <ScrollReveal key={index} delay={index * 0.1}>
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  transition={{ duration: 0.3 }}
-                  className="group relative overflow-hidden rounded-3xl h-[550px] cursor-pointer shadow-lg hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 bg-card"
-                >
-                  {/* Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={experience.image}
-                      alt={experience.title}
-                      className="w-full h-full object-cover scale-[1.02] brightness-[0.85] saturate-[1.15] transition-transform duration-700 group-hover:scale-110"
-                    />
+            {culinaryExperiences.map((experience, index) => {
+              const IconComponent = experience.icon;
+              return (
+                <ScrollReveal key={index} delay={index * 0.1}>
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+                  >
+                    <div className="relative h-80">
+                      <img
+                        src={experience.image}
+                        alt={experience.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-                    {/* Soft Vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+                      <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all">
+                        <Heart className="w-5 h-5 text-white" />
+                      </button>
 
-                    {/* Icon Badge */}
-                    <div className="absolute top-4 left-4">
-                      <div className="w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-2xl shadow-lg">
-                        {experience.icon}
+                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <div className="flex items-center gap-2 mb-2">
+                          <IconComponent className="w-5 h-5" />
+                          <span className="text-sm opacity-90">
+                            {experience.location}
+                          </span>
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2">
+                          {experience.title}
+                        </h3>
+                        <p className="text-sm opacity-90">
+                          {experience.description}
+                        </p>
+
+                        <Button
+                          size="sm"
+                          className="mt-4 rounded-full"
+                          variant="secondary"
+                        >
+                          View Details
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
                       </div>
                     </div>
+                  </motion.div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-                    {/* Heart */}
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all"
-                    >
-                      <Heart className="w-5 h-5 text-white" />
-                    </motion.button>
-                  </div>
+      {/* TRAVEL EXPERIENCES GRID */}
+      <section className="py-24 px-6 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <Badge className="mb-4 px-4 py-2" variant="outline">
+                <Mountain className="w-4 h-4 mr-2" />
+                Featured Experiences
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Unforgettable Adventures
+              </h2>
+            </div>
+          </ScrollReveal>
 
-                  {/* Content */}
-                  <div className="p-6 space-y-4">
-                    <div>
-                      <p className="text-sm text-primary font-semibold mb-1">
-                        {experience.subtitle}
-                      </p>
-                      <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                        {experience.title}
-                      </h3>
-                    </div>
-
-                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+          <div className="grid md:grid-cols-2 gap-6">
+            {travelExperiences.map((experience, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-xl"
+                >
+                  <img
+                    src={experience.image}
+                    alt={experience.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <h3 className="text-3xl font-bold mb-2">
+                      {experience.title}
+                    </h3>
+                    <p className="text-lg opacity-90 mb-4">
                       {experience.description}
                     </p>
-
-                    <div className="grid grid-cols-2 gap-2 pt-2">
-                      {experience.features.slice(0, 4).map((feature, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-2 text-xs text-muted-foreground"
-                        >
-                          <Check className="w-3 h-3 text-primary flex-shrink-0" />
-                          <span className="truncate">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="pt-4 border-t border-border">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-between group/btn hover:bg-primary/10"
-                      >
-                        <span>Learn More</span>
-                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                      </Button>
-                    </div>
+                    <Button variant="secondary" className="rounded-full">
+                      Explore More
+                      <Navigation className="w-4 h-4 ml-2" />
+                    </Button>
                   </div>
-
-                  {/* Premium Hover Border */}
-                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/40 rounded-3xl transition-all duration-500" />
                 </motion.div>
               </ScrollReveal>
             ))}
           </div>
-
-          <ScrollReveal delay={0.4}>
-            <div className="text-center mt-12">
-              <Button size="lg" variant="outline" className="px-8 border-2">
-                Explore All Experiences
-                <Sparkles className="w-5 h-5 ml-2" />
-              </Button>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION - Split Images */}
-      <section className="py-24">
-        <div className="grid md:grid-cols-2 gap-0">
-          <ScrollReveal>
-            <div className="relative h-[600px]">
-              <img
-                src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021"
-                alt="Adventure"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
-                <div className="p-12 text-white">
-                  <Sparkles className="w-12 h-12 mb-4" />
-                  <h3 className="text-4xl font-bold mb-4">Adventure Awaits</h3>
-                  <p className="text-xl text-white/90 mb-6">
-                    Experience thrilling activities and create memories that
-                    last a lifetime
-                  </p>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-white text-white hover:bg-white/10"
-                  >
-                    Discover More
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <div className="relative h-[600px]">
-              <img
-                src="https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070"
-                alt="Luxury"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-black/60 to-transparent flex items-center justify-end">
-                <div className="p-12 text-white text-right">
-                  <Heart className="w-12 h-12 mb-4 ml-auto" />
-                  <h3 className="text-4xl font-bold mb-4">Luxury Escapes</h3>
-                  <p className="text-xl text-white/90 mb-6">
-                    Indulge in world-class accommodations and exceptional
-                    service
-                  </p>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-white text-white hover:bg-white/10"
-                  >
-                    Explore Luxury
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="py-24 px-6 bg-muted/30">
+      {/* STATS SECTION */}
+      <section className="py-24 px-6 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: '2.5M+', label: 'Travelers' },
-              { number: '150+', label: 'Countries' },
-              { number: '50K+', label: 'Reviews' },
-              { number: '15+', label: 'Years' },
-            ].map((stat, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="text-center">
-                  <div className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
-                    {stat.number}
+            {stats.map((stat, i) => {
+              const IconComponent = stat.icon;
+              return (
+                <ScrollReveal key={i} delay={i * 0.1}>
+                  <div className="text-center space-y-3">
+                    <IconComponent className="w-8 h-8 mx-auto opacity-90" />
+                    <div className="text-5xl font-bold">{stat.number}</div>
+                    <div className="text-primary-foreground/90 font-medium">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-muted-foreground font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
+                </ScrollReveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -619,30 +674,34 @@ const Homepage = () => {
       {/* Newsletter */}
       <NewsLetterBox />
 
-      {/* CTA */}
-      <section className="relative h-[600px]">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070)',
-          }}
-        />
-        <div className="absolute inset-0 bg-black/50" />
-
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
+      {/* CTA SECTION */}
+      <section className="py-24 px-6 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+        <div className="max-w-4xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              Ready to Explore?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl">
-              Start planning your next adventure with personalized
-              recommendations
-            </p>
-            <Button size="lg" className="text-lg px-12 py-6">
-              <MapPin className="w-5 h-5 mr-2" />
-              Start Planning
-            </Button>
+            <div className="space-y-8">
+              <Compass className="w-16 h-16 text-primary mx-auto" />
+              <h2 className="text-4xl md:text-6xl font-bold">
+                Ready for Your Next Adventure?
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Join thousands of travelers discovering the world with
+                confidence. Start planning your dream trip today.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Button size="lg" className="px-8 py-6 text-lg rounded-full">
+                  <Globe className="w-5 h-5 mr-2" />
+                  Start Exploring
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-lg rounded-full"
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Contact Us
+                </Button>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
       </section>

@@ -21,7 +21,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type SignUpFormData } from '@/utils/validateForm';
 // import { validateForm, validateField } from '@/utils/validateForm';
 import { AnimatePresence, motion } from 'framer-motion';
-
+// import { email } from 'zod';
+// import { signInWithCustomToken } from 'firebase/auth';
 export default function SignUpPage()
 {
   
@@ -38,12 +39,57 @@ export default function SignUpPage()
 
   const navigate = useNavigate();
 
-  const handleData = () =>
-  {
-    navigate(`/review/${formData.name}`, {
-      state: { ...formData },
-    });
-  };
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+  
+  async function handleSignup() {
+    try {
+      const res = await fetch('http://localhost:3000/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Signup failed');
+        return;
+      }
+
+      // Step 1: Get custom token from backend
+      const customToken = data.token;
+
+      // Step 2: Firebase login using custom token
+      await signInWithCustomToken(auth, customToken);
+
+      alert('Account created successfully!');
+    } catch (err) {
+      console.log(err);
+      alert('An error occurred!');
+    }
+  }
+  
+
+  // const handleData = () =>
+  // {
+  //   navigate(`/review/${formData.name}`, {
+  //     state: { ...formData },
+  //   });
+  // };
 
   const {
     register,
@@ -58,7 +104,8 @@ export default function SignUpPage()
   {
     // Simulate animation before routing
       setTimeout(() => {
-        handleData();
+        // handleData();
+        handleSignup();
       }, 1500);
       console.log('✅ Submitted data:', data);
   
@@ -72,13 +119,7 @@ export default function SignUpPage()
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-  });
+ 
 
   // const [errors, setErrors] = useState<Partial<typeof formData>>({});
 
@@ -446,7 +487,7 @@ export default function SignUpPage()
             <CardFooter className="text-center text-sm text-muted-foreground">
               Already have an account?{' '}
               <a
-                href="/login"
+                href="/log-in"
                 className="ml-1 font-medium text-primary hover:underline"
               >
                 Log in

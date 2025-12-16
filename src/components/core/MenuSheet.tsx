@@ -22,9 +22,9 @@ import {
   Compass,
   Sparkle,
   Sparkles,
+  LogIn,
 } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
-import { MenuSheetBlogWidget } from './BlogWidget';
+
 import { Separator } from '@/components/ui/separator';
  // Import the widget
 
@@ -149,21 +149,26 @@ const MenuSheet = () => {
             className="border-t border-border/20 pt-4"
           /> */}
         </div>
-            <Separator />
-        
-        {/* Footer Section */}
-        <div className="px-4 py-4 mt-auto space-y-4 ">
-          {/* Theme Toggle */}
-          <div className="flex justify-center"></div>
+        <Separator />
 
-          {/* Sign Up Button */}
+        {/* Footer Section */}
+        <div className="pt-4 border-t border-border space-y-3">
           <Button
+            variant="outline"
+            className="w-full justify-center rounded-full"
             asChild
-            size="sm"
-            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white text-center font-semibold shadow-lg hover:shadow-xl transition-all"
           >
-            <Link to="/sign-up" className="flex items-center gap-2">
-              <User className="w-4 h-4" />
+            <Link to="/login">
+              <LogIn className="w-4 h-4 mr-2" />
+              Log in
+            </Link>
+          </Button>
+          <Button
+            className="w-full justify-center rounded-full shadow-lg"
+            asChild
+          >
+            <Link to="/signup">
+              <User className="w-4 h-4 mr-2" />
               Get Started
             </Link>
           </Button>

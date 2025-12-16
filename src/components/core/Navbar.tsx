@@ -160,9 +160,9 @@ export default function Navbar() {
 
             <div className="hidden lg:flex items-center space-x-2 border-l border-border/50 pl-4 ml-2">
               <Button asChild variant="ghost" size="sm" className="font-medium">
-                <Link to="/sign-in" className="flex items-center gap-2">
+                <Link to="/log-in" className="flex items-center gap-2">
                   <LogIn className="w-4 h-4" />
-                  Sign In
+                  Log in
                 </Link>
               </Button>
 

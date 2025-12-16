@@ -250,6 +250,7 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   color: hsla(0, 64%, 52%, 0.989);
+  color:hsl(208, 98%, 51%)
 }
 
 .close-button {
@@ -290,186 +291,157 @@
 
 @layer base {
   :root {
-    /* Light Theme – Sunset Glow 🌅 */
-    --background: 35 100% 97%;
-    --foreground: 340 20% 12%;
-
+    /* 🌅 Light Theme – Lavender & Coral-Red */
+    --background: 320 30% 98%;       /* very light lavender */
+    --foreground: 320 20% 12%;       /* text color */
+    
     --card: 0 0% 100%;
-    --card-foreground: 340 20% 12%;
-
+    --card-foreground: 320 20% 12%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 340 20% 12%;
-
-    --primary: 340 85% 55%; /* fuchsia */
+    --popover-foreground: 320 20% 12%;
+    
+    --primary: 320 75% 65%;           /* soft lavender */
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 35 95% 85%; /* soft amber-pink */
-    --secondary-foreground: 340 20% 12%;
-
-    --muted: 20 40% 92%;
-    --muted-foreground: 340 15% 40%;
-
-    --accent: 20 90% 60%; /* amber */
+    
+    --secondary: 355 85% 60%;         /* near-red/coral-red */
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 320 30% 92%;
+    --muted-foreground: 320 20% 40%;
+    
+    --accent: 355 85% 60%;
     --accent-foreground: 0 0% 100%;
-
+    
     --destructive: 0 64% 52%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 20 30% 85%;
-    --input: 20 30% 85%;
-    --ring: 340 85% 55%;
-
-    /* 🌈 Sidebar */
-    --sidebar: 35 40% 94%;
-    --sidebar-foreground: 340 20% 12%;
-    --sidebar-primary: 340 85% 55%;
+    
+    --border: 320 25% 85%;
+    --input: 320 25% 85%;
+    --ring: 320 75% 65%;
+    
+    --sidebar: 320 25% 94%;
+    --sidebar-foreground: 320 20% 12%;
+    --sidebar-primary: 320 75% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 20 90% 60%;
+    --sidebar-accent: 355 85% 60%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 20 30% 85%;
-    --sidebar-ring: 340 85% 55%;
-
+    --sidebar-border: 320 25% 85%;
+    --sidebar-ring: 320 75% 65%;
+    
     --radius: 0.75rem;
   }
 
-  /* ✨ Twilight Mode – Dimmed Sunset 🌇 */
   .dark {
+    /* 🌌 Dark Theme – Deep Purple + Magenta + Red Accents */
     --background: 214 89% 4%; /* deep navy black */
-    --foreground: 0 0% 98%;
-
-    --card: 214 89% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 214 89% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 340 70% 60%; /* fuchsia */
+      --foreground: 0 0% 98%;
+    
+    
+    --card: 214 89% 4%;              /* richer dark purple card */
+    --card-foreground: 0 0% 96%;
+    
+    --popover: 275 40% 15%;
+    --popover-foreground: 0 0% 96%;
+    
+    --primary: 275 75% 60%;           /* vibrant purple */
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 220 10% 20%; /* neutral dark gray */
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 220 10% 15%;
-    --muted-foreground: 220 5% 60%;
-
-    --accent: 30 90% 55%; /* amber glow */
+    
+    --secondary: 340 80% 55%;         /* magenta accent */
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent: 355 85% 55%;            /* near-red accent */
     --accent-foreground: 0 0% 100%;
-
-    --destructive: 10 95% 57%;
+    
+    --muted: 275 30% 15%;
+    --muted-foreground: 275 20% 65%;
+    
+    --destructive: 0 85% 50%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 214 89% 10%;
-    --input: 220 10% 18%;
-    --ring: 340 70% 60%; /* fuchsia ring */
-
-    /* 🌑 Sidebar – Twilight */
-    --sidebar: 214 89% 3%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 340 70% 60%;
+    
+    --border: 275 40% 18%;
+    --input: 275 40% 20%;
+    --ring: 275 70% 60%;
+    
+    --sidebar: 275 40% 12%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 275 70% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 30 90% 55%; /* amber */
+    --sidebar-accent: 355 80% 55%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 10% 20%;
-    --sidebar-ring: 340 70% 60%;
-
+    --sidebar-border: 275 30% 18%;
+    --sidebar-ring: 275 70% 60%;
+    
     --radius: 0.75rem;
   }
-  
- 
-  
-  /* ✨ BONUS: Custom utility classes for travel-specific needs */
-  .travel-gradient-sunset {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+
+  /* 🌈 Gradients for hero sections, buttons, cards */
+  .travel-gradient-purple-red {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--secondary)) 80%
+    );
   }
-  
-  .travel-gradient-ocean {
-    background: linear-gradient(180deg, hsl(var(--accent)) 0%, hsl(195 85% 40%) 100%);
+
+  .travel-gradient-red-purple {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--secondary)) 0%,
+      hsl(var(--primary)) 90%
+    );
   }
-  
+
+  /* ✨ Card hover effect */
   .travel-card-hover {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
+
   .travel-card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
   }
-  
+
+  /* ✨ Shimmer effect for loading states */
   .travel-shimmer {
     background: linear-gradient(
       90deg,
-      transparent 0%,
-      hsl(var(--primary) / 0.1) 50%,
-      transparent 100%
+      hsl(var(--primary)/0.05) 0%,
+      hsl(var(--primary)/0.15) 50%,
+      hsl(var(--primary)/0.05) 100%
     );
-    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
   }
-  
+
   @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
-  /* Tailwind plugin or global CSS */
-.rdp {
-  @apply bg-white rounded-xl shadow-md p-4;
-}
-
-.rdp-day {
-  @apply w-10 h-10 text-center rounded-lg hover:bg-emerald-100;
-}
-
-.rdp-day_selected {
-  @apply bg-emerald-400 text-white font-bold;
-}
-
-.rdp-day_today {
-  @apply border border-emerald-500 font-semibold;
-}
-
-  
-  
-  
-  
-
-  /* Custom Ocean Theme */
-  .theme-ocean {
-    --background: 210 100% 97%;
-    --foreground: 210 100% 6%;
-    --card: 210 50% 95%;
-    --card-foreground: 210 100% 6%;
-    --primary: 210 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 60% 90%;
-    --secondary-foreground: 210 100% 15%;
-    --muted: 210 40% 92%;
-    --muted-foreground: 210 50% 35%;
-    --accent: 210 80% 85%;
-    --accent-foreground: 210 100% 15%;
-    --border: 210 40% 85%;
-    --input: 210 40% 85%;
-    --ring: 210 100% 50%;
+  /* 🏝 Calendar and travel picker styles */
+  .rdp {
+    @apply bg-white dark:bg-[hsl(var(--card))] rounded-xl shadow-md p-4;
   }
 
-  /* Custom Sunset Theme */
-  .theme-sunset {
-    --background: 20 100% 97%;
-    --foreground: 20 100% 6%;
-    --card: 20 50% 95%;
-    --card-foreground: 20 100% 6%;
-    --primary: 15 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 25 60% 90%;
-    --secondary-foreground: 20 100% 15%;
-    --muted: 20 40% 92%;
-    --muted-foreground: 20 50% 35%;
-    --accent: 30 80% 85%;
-    --accent-foreground: 20 100% 15%;
-    --border: 20 40% 85%;
-    --input: 20 40% 85%;
-    --ring: 15 100% 60%;
+  .rdp-day {
+    @apply w-10 h-10 text-center rounded-lg hover:bg-[hsl(var(--accent)/0.2)];
+  }
+
+  .rdp-day_selected {
+    @apply bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] font-bold;
+  }
+
+  .rdp-day_today {
+    @apply border border-[hsl(var(--primary))] font-semibold;
+  }
+
+  .rdp-day:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
   }
 }
+
 
 @layer base {
   * {

@@ -25,6 +25,8 @@ import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import { el } from 'date-fns/locale';
 import SavedTrips from './pages/SavedTrips';
+import LoginPage from './pages/LoginPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 export const router = createBrowserRouter([
   {
@@ -49,9 +51,9 @@ export const router = createBrowserRouter([
       },
       { path: 'destination/:city', element: <DestinationDetails /> },
       // { path="/destination/:city" element={< DestinationDetails />}
-      {path:'/saved-trips', element:<SavedTrips/>},
-      { path: "/plan-trip/:city", element: < PlanTripPage />}, 
-{path:"/find-destination", element:<FindDestinationPage />},
+      { path: '/saved-trips', element: <SavedTrips /> },
+      { path: '/plan-trip/:city', element: <PlanTripPage /> },
+      { path: '/find-destination', element: <FindDestinationPage /> },
       // { path: 'integration', element: <IntegrationsList /> },
       // { path: 'billing', element: <BillingPage /> },
 
@@ -66,6 +68,8 @@ export const router = createBrowserRouter([
   { path: 'pricing', element: <PricingPage /> },
   // { path: '/cart', element: <Cart /> },
   { path: 'sign-up', element: <SignUpPage /> },
+  { path: 'log-in', element: <LoginPage /> },
+  {path: '/admin', element: <AdminDashboard />},
   { path: 'review/:name', element: <Reviewpage /> },
   { path: 'welcome', element: <Welcome /> },
   { path: 'my-form', element: <MyForm /> },

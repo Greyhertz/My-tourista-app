@@ -124,7 +124,7 @@ export default function SavedTrips() {
     });
   };
 
-  if (savedTrips.length === 0) {
+  if (!savedTrips.length || savedTrips.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <Card className="max-w-md w-full text-center">

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,13 +9,14 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
-import { Mail, Phone, Clock, CheckCircle, Sparkles } from 'lucide-react';
+import { Mail, Phone, Clock, CheckCircle, Sparkles, ArrowRight, Battery, Camera, CheckCircle2, Compass, Heart, Hotel, MessageCircle, Plane, Play, Users, Utensils, Wifi, Map } from 'lucide-react';
 import { signUpSchema, type SignUpFormData } from '@/utils/validateForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import NewsLetterBox from '@/components/core/LetterBox';
 import { ScrollReveal } from './Homepage';
 import { Badge } from '@/components/ui/badge';
 import { useForm } from 'react-hook-form';
+import SocialMediaPhone from '@/components/core/SocialMediaphone';
 
 export default function ContactUs()
 {
@@ -76,7 +77,7 @@ export default function ContactUs()
       </section>
 
       {/* Quick Contact Stats */}
-      <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
           {
             icon: Mail,
@@ -105,10 +106,115 @@ export default function ContactUs()
             </CardContent>
           </Card>
         ))}
+      </section> */}
+
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 py-20 min-h-screen flex items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+            {/* LEFT - Text Content */}
+            <motion.form
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6 bg-card p-8 rounded-xl shadow-2xl"
+            >
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="space-y-6"
+              >
+                <h2 className="text-4xl font-bold">
+                  We’d Love to Hear from You
+                </h2>
+                <p className="text-muted-foreground text-base">
+                  Whether you’re planning your next trip, have questions about
+                  our services, or just want to say hello—drop us a message.
+                </p>
+              
+              </motion.div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary"
+                >
+                  <Input
+                    {...register('name')}
+                    placeholder="Full Name"
+                    id="name"
+                    // value={formData.name}
+                    // onChange={handleChange}
+                    className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+                {errors.name && (
+                  <p className="text-sm text-destructive">
+                    {errors.name.message}
+                  </p>
+                )}
+
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary/70"
+                >
+                  {' '}
+                  <Input
+                    placeholder="Email Address"
+                    type="email"
+                    required
+                    className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground/70"
+                  />
+                </div>
+              </div>
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring/40 focus-within:border-primary/70"
+              >
+                {' '}
+                <Input
+                  placeholder="Subject"
+                  required
+                  className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-ring focus-within:border-primary/70"
+              >
+                {' '}
+                <Textarea
+                  rows={5}
+                  placeholder="Write your message..."
+                  required
+                  className="bg-input border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+              <Button className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90">
+                Send Message
+              </Button>
+            </motion.form>
+
+            {/* RIGHT - Phone Mockup */}
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative flex justify-center lg:justify-end"
+            >
+              <SocialMediaPhone />
+            </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* Contact Form */}
-      <section className="bg-background">
+      {/* <section className="bg-background">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
@@ -198,7 +304,7 @@ export default function ContactUs()
             </Button>
           </motion.form>
         </form>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section className="py-20">
@@ -219,7 +325,7 @@ export default function ContactUs()
           </ScrollReveal>
 
           <ScrollReveal>
-            <Card className="bg-card/50 backdrop-blur-sm border-2 border-border shadow-xl">
+            <Card className="bg-card/50 backdrop-blur-sm border-none shadow-xl">
               <CardContent className="p-8">
                 <Accordion
                   type="single"
@@ -290,13 +396,13 @@ export default function ContactUs()
       </section>
 
       {/* Final CTA */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         <NewsLetterBox />
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }
