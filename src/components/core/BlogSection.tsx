@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { BlogCard } from "./BlogCards";
 import { Badge } from "../ui/badge";
-import { ScrollReveal } from "@/pages/Homepage";
+import { ScrollReveal } from "../../pages/AboutUs";
 import { Button } from "../ui/button";
 
 interface BlogSectionProps {

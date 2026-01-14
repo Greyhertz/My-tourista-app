@@ -698,7 +698,7 @@ import {
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { fetchMultipleImages } from '@/api/Unsplash';
-import { ScrollReveal } from './Homepage';
+import { ScrollReveal } from './AboutUs';
 
 
 export default function FindDestinationPage() {

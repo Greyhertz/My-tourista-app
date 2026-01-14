@@ -20,6 +20,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { AnimatePresence, motion } from 'framer-motion';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
+import { toast } from 'sonner';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+
+const googleProvider = new GoogleAuthProvider();
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -48,38 +55,180 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const signInWithGoogle = async () => {
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
+      console.log('🔵 Starting Google sign-in...');
+
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      console.log('✅ Google authentication successful');
+
+      const idToken = await user.getIdToken();
+      localStorage.setItem('userId', user.uid); // Fixed typo: userid → userId
+      localStorage.setItem('authToken', idToken); // Fixed typo: authTOken → authToken
+      localStorage.setItem('userEmail', user.email || '');
+
+      console.log('📝 Stored Google auth data');
+      console.log('🔍 Checking if user exists in Firestore...');
+
+      // Check if user exists in Firestore, if not create them
+      const res = await fetch('http://localhost:3000/user/profile', {
+        // Fixed: https → http
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
         },
-        body: JSON.stringify(data),
       });
 
-      const result = await res.json();
+      if (res.ok) {
+        // User exists in Firestore
+        const userData = await res.json();
+        console.log('✅ User found in Firestore:', userData);
 
-      if (!res.ok) {
-        alert(result.error || 'Login failed');
-        return;
+        localStorage.setItem('userRole', userData.role);
+        localStorage.setItem('userName', userData.name);
+        localStorage.setItem(
+          'userAvatar',
+          userData.avatar || user.photoURL || ''
+        );
+
+       
+
+        if (userData.role === 'admin') {
+          toast('Google sign-in successful!');
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+      } else if (res.status === 404) {
+        // User doesn't exist in Firestore - create them
+        console.log('⚠️ User not found in Firestore, creating...');
+
+        const createRes = await fetch(
+          'http://localhost:3000/auth/google-signin',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${idToken}`,
+            },
+            body: JSON.stringify({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName,
+              avatar: user.photoURL,
+            }),
+          }
+        );
+
+        if (createRes.ok) {
+          const newUserData = await createRes.json();
+          console.log('✅ User created in Firestore:', newUserData);
+
+          localStorage.setItem('userRole', newUserData.role || 'user');
+          localStorage.setItem('userName', newUserData.name);
+          localStorage.setItem('userAvatar', newUserData.avatar || '');
+
+          toast.success('Welcome! Your account has been created.');
+          navigate('/dashboard'); // New users go to user dashboard
+        } else {
+          throw new Error('Failed to create user in Firestore');
+        }
+      } else {
+        throw new Error(`Profile fetch failed with status: ${res.status}`);
       }
+    } catch (error: any) {
+      console.error('❌ Google sign-in error:', error);
 
-      // 1. Save JWT token for backend
-      localStorage.setItem('token', result.token);
-
-      // 2. Sign in to Firebase using custom token
-      await signInWithCustomToken(auth, result.token);
-
-      alert('Login successful!');
-
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Login error:', err);
-      alert('An error occurred. Please try again.');
+      // Better error messages
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error('Sign-in cancelled');
+      } else if (error.code === 'auth/popup-blocked') {
+        toast.error('Popup blocked. Please allow popups for this site.');
+      } else if (error.message?.includes('Failed to fetch')) {
+        toast.error('Cannot connect to server. Is the backend running?');
+      } else {
+        toast.error(error.message || 'Google sign-in failed');
+      }
     }
   };
   
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      console.log('🔐 Starting login process...');
+
+      // STEP 1: Authenticate with Firebase directly (this validates password!)
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      console.log('✅ Firebase authentication successful');
+
+      // STEP 2: Get Firebase ID token (the real auth token)
+      const idToken = await userCredential.user.getIdToken();
+
+      // STEP 3: Store ID token for API requests
+      localStorage.setItem('authToken', idToken);
+
+      // Store user ID for current user identification
+      localStorage.setItem('userId', userCredential.user.uid);
+      localStorage.setItem('userEmail', userCredential.user.email || '');
+
+      console.log('📝 Stored auth data in localStorage');
+      console.log('🔍 Fetching user profile...');
+
+      // STEP 4: Fetch user profile to get role and other info
+      try {
+        const res = await fetch('http://localhost:3000/user/profile', {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        if (res.ok) {
+          const userData = await res.json();
+
+          // Store user data in localStorage
+          localStorage.setItem('userRole', userData.role);
+          localStorage.setItem('userName', userData.name);
+          localStorage.setItem('userAvatar', userData.avatar || '');
+
+          toast.success('Login successful!');
+
+          // CRITICAL: Route based on user role
+          if (userData.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard'); // Regular user dashboard
+          }
+        } else {
+          // Profile fetch failed but login succeeded
+          toast.success('Login successful!');
+          navigate('/dashboard'); // Default to user dashboard
+        }
+      } catch (err) {
+        console.error('Failed to fetch user profile:', err);
+        toast.success('Login successful!');
+        navigate('/dashboard'); // Default to user dashboard on error
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+
+      // Handle specific Firebase errors
+      if (
+        err.code === 'auth/wrong-password' ||
+        err.code === 'auth/user-not-found'
+      ) {
+        toast.error('Invalid email or password');
+      } else if (err.code === 'auth/too-many-requests') {
+        toast.error('Too many failed attempts. Please try again later.');
+      } else {
+        toast.error('An unexpected error occurred. Please try again.');
+      }
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -92,7 +241,6 @@ export default function LoginPage() {
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
       {/* Left Animated Section */}
       <div className="relative hidden lg:block">
-        {/* Crossfade images */}
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">
             <motion.div
@@ -109,16 +257,13 @@ export default function LoginPage() {
           </AnimatePresence>
         </div>
 
-        {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-        {/* Top text */}
         <div className="absolute top-1/4 left-10 text-white space-y-4 drop-shadow-lg">
           <h2 className="text-4xl font-bold tracking-tight">Welcome Back!</h2>
           <p className="text-lg opacity-90">Continue your journey with us.</p>
         </div>
 
-        {/* Bottom text box */}
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -160,7 +305,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative flex items-center bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-ring/60 focus-within:border-primary/70">
-                  <Mail className="absolute left-3 top-3 h-5  w-5 text-muted-foreground" />
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <Input
                     {...register('email')}
                     placeholder="you@example.com"
@@ -241,10 +386,10 @@ export default function LoginPage() {
 
               {/* Social Logins */}
               <div className="flex flex-col space-y-3">
-                {/* Google */}
                 <Button
                   type="button"
                   variant="outline"
+                  onClick={signInWithGoogle}
                   className="w-full flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -268,14 +413,13 @@ export default function LoginPage() {
                   Continue with Google
                 </Button>
 
-                {/* Apple */}
                 <Button
                   type="button"
                   variant="outline"
                   className="w-full flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M19.67 16.27c-.35.82-.52 1.19-.98 1.91-.64 1.01-1.54 2.27-2.65 2.29-1 .02-1.25-.67-2.59-.67s-1.62.65-2.64.69c-1.08.04-1.9-1.09-2.55-2.1-1.39-2.11-2.45-5.97-1.02-8.59.71-1.27 1.99-2.07 3.38-2.09 1.05-.02 2.04.71 2.59.71.55 0 1.82-.87 3.07-.74.52.02 1.98.21 2.92 1.58-2.52 1.39-2.11 5.02.47 6.01zM15.71 4.4c.53-.64.93-1.54.83-2.43-.8.03-1.76.53-2.33 1.17-.51.58-.96 1.5-.84 2.37.88.07 1.78-.45 2.34-1.11z" />
+                    <path d="M19.67 16.27c-.35.82-.52 1.19-.98 1.91-.64 1.01-1.54 2.27-2.65 2.29-1 .02-1.25-.67-2.59-.67s-1.62.65-2.64.69c-1.08.04-1.9-1.09-2.55-2.10-1.39-2.11-2.45-5.97-1.02-8.59.71-1.27 1.99-2.07 3.38-2.09 1.05-.02 2.04.71 2.59.71.55 0 1.82-.87 3.07-.74.52.02 1.98.21 2.92 1.58-2.52 1.39-2.11 5.02.47 6.01zM15.71 4.4c.53-.64.93-1.54.83-2.43-.8.03-1.76.53-2.33 1.17-.51.58-.96 1.5-.84 2.37.88.07 1.78-.45 2.34-1.11z" />
                   </svg>
                   Continue with Apple
                 </Button>

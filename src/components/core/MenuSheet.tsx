@@ -158,7 +158,7 @@ const MenuSheet = () => {
             className="w-full justify-center rounded-full"
             asChild
           >
-            <Link to="/login">
+            <Link to="/log-in">
               <LogIn className="w-4 h-4 mr-2" />
               Log in
             </Link>
@@ -167,7 +167,7 @@ const MenuSheet = () => {
             className="w-full justify-center rounded-full shadow-lg"
             asChild
           >
-            <Link to="/signup">
+            <Link to="/sign-up">
               <User className="w-4 h-4 mr-2" />
               Get Started
             </Link>

@@ -11,10 +11,27 @@ import userRoutes from './routes/users.ts';
 import adminRoutes from './routes/admin.ts';
 import { logger } from './middleware/logger.ts';
 import { requireAuth, requireAdmin } from './middleware/auth.ts';
-
+import { cors } from 'hono/cors';
 
 const app = new Hono();
+
 const PORT = Number(process.env.PORT || 3000);
+
+app.use(
+  '/*',
+  cors({
+    origin: ['http://localhost:5173', 'http://localhost:5174'], // Frontend URLs
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
+// In your Express/Node backend
+app.use(cors({
+  origin: 'http://localhost:5173', // Your React dev server
+  credentials: true
+}));
 
 // CORS + preflight
 app.use('*', async (c, next) => {

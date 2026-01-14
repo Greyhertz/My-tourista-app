@@ -60,7 +60,7 @@ type PaymentMethod = {
   exp: string;
   default?: boolean;
 };
-
+import { Toast } from '@/components/ui/toast';
 export default function TravelSettingsPage(): JSX.Element
 {
   const {toast} = useToast();
