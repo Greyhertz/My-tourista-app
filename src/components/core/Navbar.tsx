@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Compass } from 'lucide-react';
+import { Compass, Menu } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import { Button } from '../ui/button';
 import { ThemeToggle } from './ThemeToggle';
@@ -111,56 +111,62 @@ export default function Navbar() {
     </>
   );
 }
+<nav className="fixed top-0 w-full bg-white/95 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
+  <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-4">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+          <Compass className="w-6 h-6 text-white" />
+        </div>
+        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Wanderlust
+        </span>
+      </div>
 
+      <div className="hidden md:flex items-center gap-8 text-[15px] font-medium">
+        <a
+          href="#destinations"
+          className="text-gray-900 hover:text-blue-600 transition-colors"
+        >
+          Destinations
+        </a>
+        <a
+          href="#tours"
+          className="text-gray-600 hover:text-blue-600 transition-colors"
+        >
+          Tours
+        </a>
+        <a
+          href="#experiences"
+          className="text-gray-600 hover:text-blue-600 transition-colors"
+        >
+          Experiences
+        </a>
+        <a
+          href="#blog"
+          className="text-gray-600 hover:text-blue-600 transition-colors"
+        >
+          Blog
+        </a>
+        <a
+          href="#contact"
+          className="text-gray-600 hover:text-blue-600 transition-colors"
+        >
+          Contact
+        </a>
+      </div>
 
-// <motion.nav
-//   initial={{ y: -100 }}
-//   animate={{ y: isHeaderVisible ? 0 : -100 }}
-//   transition={{ duration: 0.3 }}
-//   className="fixed top-0 left-0 right-0 z-50
-//              bg-background/80 backdrop-blur-lg
-//              border-b border-border"
-// >
-//   <div className="max-w-7xl mx-auto px-8 lg:px-16">
-//     <div className="flex items-center justify-between h-16">
-//       {/* Logo */}
-//       <div className="text-xl font-bold text-primary">TravelApp</div>
-
-//       {/* Nav items */}
-//       <div className="flex items-center gap-6">
-//         <a
-//           href="#"
-//           className="text-sm font-medium hover:text-primary transition-colors"
-//         >
-//           Home
-//         </a>
-//         <a
-//           href="#"
-//           className="text-sm font-medium hover:text-primary transition-colors"
-//         >
-//           Destinations
-//         </a>
-//         <a
-//           href="#"
-//           className="text-sm font-medium hover:text-primary transition-colors"
-//         >
-//           About
-//         </a>
-//         <a
-//           href="#"
-//           className="text-sm font-medium hover:text-primary transition-colors"
-//         >
-//           Contact
-//         </a>
-//       </div>
-
-//       {/* Right side: Theme + Sign up */}
-//       <div className="flex items-center gap-4 pl-6 ml-6 border-l border-border">
-//         <ThemeToggle />
-//         <Button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-lg shadow hover:opacity-90 transition">
-//           Sign Up
-//         </Button>
-//       </div>
-//     </div>
-//   </div>
-// </motion.nav>;
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" className="hidden md:flex">
+          <ThemeToggle />
+        </Button>
+        <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full px-6 shadow-lg hover:shadow-xl transition-all">
+          <Link to="/sign-up">Get Started</Link>
+        </Button>
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <Menu className="w-6 h-6" />
+        </Button>
+      </div>
+    </div>
+  </div>
+</nav>
