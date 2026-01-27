@@ -33,7 +33,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     if (post.url) {
       window.open(post.url, '_blank');
     }
-    else
+    else 
     {
      navigate(`/blog/${post.slug}: ${post.id}`);
     }

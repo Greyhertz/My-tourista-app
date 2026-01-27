@@ -217,3 +217,15 @@ export default function Home() {
 // },
 
  
+
+// - packages/*
+
+// ignoredBuiltDependencies:
+//   - '@medusajs/telemetry'
+//   - msgpackr-extract
+//   - protobufjs
+//   - sharp
+//   - unrs-resolver
+
+// onlyBuiltDependencies:
+//   - esbuild

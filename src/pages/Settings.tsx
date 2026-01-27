@@ -51,7 +51,8 @@ import { useNotification } from '@/context/NotificationContext';
 import { useTravelPreferences } from '@/context/PreferenceContext';
 import { toast } from 'sonner';
 import { useLang } from '@/context/LangContext';
-
+import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/core/ThemeToggle';
 type PaymentMethod = {
   id: string;
   brand: string;
@@ -59,36 +60,35 @@ type PaymentMethod = {
   exp: string;
   default?: boolean;
 };
-
-export default function TravelSettingsPage(): JSX.Element {
-  const [profileName, setProfileName] = useState('Prince Onuoha');
-  const [email, setEmail] = useState('prince@example.com');
-  const [phone, setPhone] = useState('+234 800 000 0000');
+import { Toast } from '@/components/ui/toast';
+export default function TravelSettingsPage(): JSX.Element
+{
+  const {toast} = useToast();
+  const { user } = useUser();
+  const [profileName, setProfileName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
+  const [phone, setPhone] = useState(user?.phone);
   const [bio, setBio] = useState('Traveler • Photographer • Food lover');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const { user } = useUser();
 
-  // if (!user) return <p>No user data found. Go back and sign up first.</p>;
-
+  
   if (!user) {
     return (
       <div className="max-w-5xl m-60 mx-auto p-6 text-center">
         <h1 className="text-2xl font-bold text-destructive mb-4">
           No Data Available
         </h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           It looks like you navigated here directly. Please sign up first.
         </p>
-        <Button
-          // onClick={() => window.history.back()}
-          className="mt-4 px-4 py-2 bg-blue-600  text-white rounded-lg hover:bg-blue-700"
-        >
+        <Button className="mt-4 px-4 py-2">
           <Link to="/sign-up">Sign Up</Link>
         </Button>
       </div>
     );
   }
+
   function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (!f) return;
@@ -127,7 +127,13 @@ export default function TravelSettingsPage(): JSX.Element {
     if (!f) return;
     const id = `doc-${Date.now()}`;
     setTravelDocs(s => [...s, { id, name: f.name }]);
-    void toast.success(`Uploaded ${f.name}`);
+    toast({
+      title: 'Success!',
+      description: `Uploaded ${f.name}`,
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const { addNotification } = useNotification();
@@ -143,19 +149,37 @@ export default function TravelSettingsPage(): JSX.Element {
   };
 
   function saveProfile() {
-    console.log('saveProfile', { profileName, email, phone, bio });
-    toast.success('Profile saved');
+    console.log('saveProfile', {profileName,  email, phone, bio })
+    toast({
+      title: 'Success!',
+      description: 'Profile saved successfully',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const savePreferences = () => {
-    void toast.success('Preferences saved successfully!');
+    toast({
+      title: 'Success!',
+      description: 'Preferences saved successfully!',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   };
 
   function toggleIntegration(name: string) {
     if (name === 'amadeus') setAmadeusConnected(v => !v);
     if (name === 'geoapify') setGeoapifyConnected(v => !v);
     if (name === 'unsplash') setUnsplashConnected(v => !v);
-    void toast.info(`${name} toggled (mock)`);
+    toast({
+      title: 'Info!',
+      description: `${name} toggled (mock)`,
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function addPaymentMethod() {
@@ -170,21 +194,46 @@ export default function TravelSettingsPage(): JSX.Element {
         default: false,
       },
     ]);
-    void toast.info('Payment method added (mock)');
+
+    toast({
+      title: 'Info!',
+      description: 'Payment method added (mock)',
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function removePaymentMethod(id: string) {
     setPaymentMethods(s => s.filter(m => m.id !== id));
-    void toast.dismiss('Payment method removed');
+    toast({
+      title: 'Success!',
+      description: 'Payment method removed',
+      className:
+        'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function cancelSubscription() {
     setPlan('Free');
-    void toast.dismiss('Subscription cancelled — downgraded to Free (mock)');
+    toast({
+      title: 'error!',
+      description: 'Subscription cancelled — downgraded to Free (mock)',
+      className:
+        'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   function downloadInvoice(id: string) {
-    void toast.loading(`Downloading invoice ${id} (mock)`);
+    toast({
+      title: 'Info!',
+      description: `Downloading invoice ${id} (mock)`,
+      className:
+        'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+      duration: 4000,
+    });
   }
 
   const tabs = [
@@ -197,35 +246,36 @@ export default function TravelSettingsPage(): JSX.Element {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10">
       {/* Header */}
-      <Card className="border-b rounded-none text-primary bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl mt-40 top-0 z-50 shadow-xl">
+      <Card className="border-b rounded-none text-primary bg-card/80 backdrop-blur-xl fixed right-0 left-0 top-0 mb-10 z-50 shadow-xl">
         <CardContent className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div className="relative">
-                <Avatar className="h-20 w-20 border-4 border-white dark:border-slate-800 shadow-xl">
+                <Avatar className="h-20 w-20 border-4 border-card shadow-xl">
                   {avatarUrl ? (
                     <AvatarImage src={avatarUrl} alt="avatar" />
                   ) : (
-                    <AvatarFallback className="text-3xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
+                    <AvatarFallback className="text-3xl bg-gradient-to-br from-primary to-accent text-primary-foreground">
                       {user.name.charAt(0)}
                     </AvatarFallback>
                   )}
                 </Avatar>
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-4 border-white dark:border-slate-900"></div>
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-4 border-card"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                   {user.name}
                 </h1>
-                <p className="text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-2">
+                <p className="text-muted-foreground mt-1 flex items-center gap-2">
                   <span>{user.email}</span>
-                  <span className="text-slate-400">•</span>
+                  <span className="text-muted-foreground">•</span>
                   <span>{user.phone}</span>
                 </p>
               </div>
             </div>
+            <ThemeToggle />
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
@@ -233,7 +283,13 @@ export default function TravelSettingsPage(): JSX.Element {
                 className="border-2"
                 onClick={() => {
                   navigator.clipboard?.writeText(window.location.href);
-                  void toast.success('Profile URL copied');
+                  toast({
+                    title: 'Success!',
+                    description: 'Profile URL copied successfully',
+                    className:
+                      'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                    duration: 4000,
+                  });
                 }}
               >
                 Copy Profile Link
@@ -241,7 +297,7 @@ export default function TravelSettingsPage(): JSX.Element {
               <Button
                 size="lg"
                 onClick={saveProfile}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-xl transition-all"
+                className="bg-gradient-to-r from-primary to-accent hover:shadow-xl transition-all"
               >
                 <Save className="w-4 h-4 mr-2" />
                 Save Changes
@@ -252,11 +308,11 @@ export default function TravelSettingsPage(): JSX.Element {
       </Card>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="flex gap-8">
+      <div className="max-w-7xl mt-10 mx-auto px-6 py-12">
+        <div className="flex gap-8 mt-20">
           {/* Sidebar Navigation */}
           <div className="w-72 shrink-0">
-            <Card className="sticky top-32 shadow-xl text-foreground border border-slate-200 dark:border-slate-800">
+            <Card className="sticky top-32 shadow-xl text-foreground border">
               <CardContent className="p-4">
                 <nav className="space-y-2">
                   {tabs.map(tab => {
@@ -268,8 +324,8 @@ export default function TravelSettingsPage(): JSX.Element {
                         variant="ghost"
                         className={`w-full justify-start gap-4 px-5 py-6 transition-all group ${
                           activeTab === tab.id
-                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg hover:from-blue-600 hover:to-indigo-600'
-                            : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                            ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-lg hover:from-primary hover:to-accent'
+                            : 'hover:bg-muted'
                         }`}
                       >
                         <Icon className="w-5 h-5" />
@@ -299,7 +355,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">Profile Settings</CardTitle>
                     <CardDescription className="text-base">
@@ -309,24 +365,24 @@ export default function TravelSettingsPage(): JSX.Element {
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
-                        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 border-2">
+                        <Card className="bg-gradient-to-br from-secondary to-accent/20 border-2">
                           <CardContent className="p-6">
                             <div className="flex items-center gap-6">
                               <div className="relative">
-                                <Avatar className="h-24 w-24 border-4 border-white dark:border-slate-700 shadow-lg">
+                                <Avatar className="h-24 w-24 border-4 border-card shadow-lg">
                                   {avatarUrl ? (
                                     <AvatarImage src={avatarUrl} alt="avatar" />
                                   ) : (
-                                    <AvatarFallback className="text-4xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
+                                    <AvatarFallback className="text-4xl bg-gradient-to-br from-primary to-accent text-primary-foreground">
                                       {user.name.charAt(0)}
                                     </AvatarFallback>
                                   )}
                                 </Avatar>
                                 <Label
                                   htmlFor="avatar-upload"
-                                  className="absolute -bottom-2 -right-2 w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                                  className="absolute -bottom-2 -right-2 w-10 h-10 bg-card rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform"
                                 >
-                                  <Camera className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                  <Camera className="w-5 h-5 text-primary" />
                                   <Input
                                     id="avatar-upload"
                                     type="file"
@@ -417,7 +473,13 @@ export default function TravelSettingsPage(): JSX.Element {
                             onClick={() => {
                               setProfileName('Prince Onuoha');
                               setEmail('prince@example.com');
-                              void toast.info('Reverted profile (mock)');
+                              toast({
+                                title: 'Info!',
+                                description: 'Profile URL copied successfully',
+                                className:
+                                  'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                duration: 4000,
+                              });
                             }}
                           >
                             <RotateCcw className="w-4 h-4 mr-2" />
@@ -425,9 +487,16 @@ export default function TravelSettingsPage(): JSX.Element {
                           </Button>
                           <Button
                             size="lg"
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600"
+                            className="flex-1 bg-gradient-to-r from-primary to-accent"
                             onClick={() => {
                               saveProfile();
+                              toast({
+                                title: 'Info!',
+                                description: 'Profile Saved',
+                                className:
+                                  'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-none shadow-xl font-medium',
+                                duration: 4000,
+                              });
                             }}
                           >
                             <Save className="w-4 h-4 mr-2" />
@@ -449,7 +518,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">
                       Travel Preferences
@@ -595,11 +664,11 @@ export default function TravelSettingsPage(): JSX.Element {
                           </Select>
                         </div>
 
-                        <Card className="bg-gradient-to-br text-foreground from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 border-2">
+                        <Card className="bg-gradient-to-br text-foreground from-secondary to-accent/20 border-2">
                           <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <CalendarCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                <CalendarCheck className="w-6 h-6 text-primary" />
                                 <div>
                                   <Label className="font-semibold text-base text-foreground">
                                     Sync Itineraries
@@ -631,7 +700,7 @@ export default function TravelSettingsPage(): JSX.Element {
                           </Button>
                           <Button
                             size="lg"
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600"
+                            className="flex-1 bg-gradient-to-r from-primary to-accent"
                             onClick={savePreferences}
                           >
                             <Save className="w-4 h-4 mr-2" />
@@ -652,7 +721,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">Integrations</CardTitle>
                     <CardDescription className="text-base">
@@ -660,11 +729,11 @@ export default function TravelSettingsPage(): JSX.Element {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <Card className="border-2 hover:border-blue-500 transition-all">
+                    <Card className="border-2 hover:border-primary transition-all">
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
                               <Globe className="w-6 h-6 text-white" />
                             </div>
                             <div>
@@ -695,11 +764,11 @@ export default function TravelSettingsPage(): JSX.Element {
                       </CardContent>
                     </Card>
 
-                    <Card className="border-2 hover:border-blue-500 transition-all">
+                    <Card className="border-2 hover:border-primary transition-all">
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-gradient-to-br from-accent to-destructive rounded-xl flex items-center justify-center">
                               <MapPin className="w-6 h-6 text-white" />
                             </div>
                             <div>
@@ -730,11 +799,11 @@ export default function TravelSettingsPage(): JSX.Element {
                       </CardContent>
                     </Card>
 
-                    <Card className="border-2 hover:border-blue-500 transition-all">
+                    <Card className="border-2 hover:border-primary transition-all">
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-gradient-to-br from-destructive to-accent rounded-xl flex items-center justify-center">
                               <Camera className="w-6 h-6 text-white" />
                             </div>
                             <div>
@@ -767,13 +836,13 @@ export default function TravelSettingsPage(): JSX.Element {
                   </CardContent>
                 </Card>
 
-                <Card className="shadow-xl border border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border border-border">
                   <CardHeader>
                     <CardTitle className="text-xl">API Usage</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 border-0">
+                      <Card className="bg-gradient-to-r from-secondary to-accent/20 border-0">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
                             <Label className="font-medium">
@@ -783,7 +852,7 @@ export default function TravelSettingsPage(): JSX.Element {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-800 border-0">
+                      <Card className="bg-gradient-to-r from-muted to-secondary border-0">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
                             <Label className="font-medium">
@@ -806,7 +875,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6 "
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">
                       Billing & Subscription
@@ -818,7 +887,7 @@ export default function TravelSettingsPage(): JSX.Element {
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
-                        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 border-2">
+                        <Card className="bg-gradient-to-br from-secondary to-accent/20 border-2">
                           <CardContent className="p-6">
                             <div className="flex items-center justify-between mb-4">
                               <div>
@@ -848,7 +917,7 @@ export default function TravelSettingsPage(): JSX.Element {
                             <Button
                               onClick={addPaymentMethod}
                               size="sm"
-                              className="bg-gradient-to-r text-foreground from-blue-600 to-indigo-600"
+                              className="bg-gradient-to-r from-primary to-accent"
                             >
                               <Plus className="w-4 h-4 mr-2" />
                               Add Card
@@ -858,13 +927,13 @@ export default function TravelSettingsPage(): JSX.Element {
                             {paymentMethods.map(pm => (
                               <Card
                                 key={pm.id}
-                                className="border-2 text-foreground hover:border-blue-500 transition-all"
+                                className="border-2 text-foreground hover:border-primary transition-all"
                               >
                                 <CardContent className="p-5">
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
-                                      <div className="w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-900 dark:from-slate-600 dark:to-slate-800 rounded-xl flex items-center justify-center">
-                                        <CreditCard className="w-6 h-6 text-white" />
+                                      <div className="w-12 h-12 bg-gradient-to-br from-foreground/80 to-foreground rounded-xl flex items-center justify-center">
+                                        <CreditCard className="w-6 h-6 text-background" />
                                       </div>
                                       <div>
                                         <p className="font-bold">
@@ -933,7 +1002,7 @@ export default function TravelSettingsPage(): JSX.Element {
                             ].map(inv => (
                               <Card
                                 key={inv.id}
-                                className="border-2 text-foreground hover:border-blue-500 transition-all"
+                                className="border-2 text-foreground hover:border-primary transition-all"
                               >
                                 <CardContent className="p-5">
                                   <div className="flex items-center justify-between">
@@ -984,7 +1053,7 @@ export default function TravelSettingsPage(): JSX.Element {
                       </div>
 
                       <div className="space-y-6">
-                        <Card className="border-2 text-foreground hover:border-blue-500 transition-all">
+                        <Card className="border-2 text-foreground hover:border-primary transition-all">
                           <CardHeader>
                             <CardTitle className="text-xl">
                               Billing Summary
@@ -1022,7 +1091,7 @@ export default function TravelSettingsPage(): JSX.Element {
                           </CardContent>
                         </Card>
 
-                        <Card className="bg-gradient-to-br text-foreground from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-700">
+                        <Card className="bg-gradient-to-br text-foreground from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-500/30">
                           <CardHeader>
                             <CardTitle className="text-xl">
                               Travel Credits
@@ -1054,7 +1123,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">Travel Documents</CardTitle>
                     <CardDescription className="text-base">
@@ -1065,11 +1134,11 @@ export default function TravelSettingsPage(): JSX.Element {
                     <div>
                       <Label
                         htmlFor="doc-upload"
-                        className="block w-full p-12 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl hover:border-blue-500 transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800"
+                        className="block w-full p-12 border-2 border-dashed border-border rounded-2xl hover:border-primary transition-all cursor-pointer bg-gradient-to-br from-secondary to-accent/20"
                       >
                         <div className="flex flex-col items-center gap-4">
-                          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center">
-                            <FileText className="w-8 h-8 text-white" />
+                          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
+                            <FileText className="w-8 h-8 text-primary-foreground" />
                           </div>
                           <div className="text-center">
                             <p className="font-semibold text-lg">
@@ -1104,13 +1173,13 @@ export default function TravelSettingsPage(): JSX.Element {
                           {travelDocs.map(d => (
                             <Card
                               key={d.id}
-                              className="border-2 hover:border-blue-500 transition-all"
+                              className="border-2 hover:border-primary transition-all"
                             >
                               <CardContent className="p-5">
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                                      <FileText className="w-6 h-6 text-white" />
+                                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
+                                      <FileText className="w-6 h-6 text-primary-foreground" />
                                     </div>
                                     <div>
                                       <span className="font-bold">
@@ -1126,9 +1195,13 @@ export default function TravelSettingsPage(): JSX.Element {
                                       size="sm"
                                       variant="ghost"
                                       onClick={() =>
-                                        void toast.loading(
-                                          `Download ${d.name} (mock)`
-                                        )
+                                        toast({
+                                          title: 'Info!',
+                                          description: `Download ${d.name} (mock)`,
+                                          className:
+                                            'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                          duration: 4000,
+                                        })
                                       }
                                     >
                                       <Download className="w-4 h-4" />
@@ -1140,7 +1213,15 @@ export default function TravelSettingsPage(): JSX.Element {
                                         setTravelDocs(s =>
                                           s.filter(x => x.id !== d.id)
                                         );
-                                        void toast.error('Document deleted');
+
+                                        toast({
+                                          title: 'Info!',
+                                          description: 'Document deleted',
+                                          className:
+                                            'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white border-none shadow-xl font-medium',
+                                          duration: 4000,
+                                        });
+
                                       }}
                                     >
                                       <X className="w-4 h-4" />
@@ -1164,7 +1245,7 @@ export default function TravelSettingsPage(): JSX.Element {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="shadow-xl border text-foreground border-slate-200 dark:border-slate-800">
+                <Card className="shadow-xl border text-foreground">
                   <CardHeader className="pb-8">
                     <CardTitle className="text-2xl">
                       Security Settings
@@ -1174,7 +1255,7 @@ export default function TravelSettingsPage(): JSX.Element {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <Card className="border-2 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-slate-800 dark:to-slate-800">
+                    <Card className="border-2 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
@@ -1206,12 +1287,12 @@ export default function TravelSettingsPage(): JSX.Element {
                         {activeSessions.map((s, i) => (
                           <Card
                             key={i}
-                            className="border-2 text-foreground hover:border-blue-500 transition-all"
+                            className="border-2 text-foreground hover:border-primary transition-all"
                           >
                             <CardContent className="p-5">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center">
                                     <Globe className="w-6 h-6 text-white" />
                                   </div>
                                   <div>
@@ -1241,7 +1322,13 @@ export default function TravelSettingsPage(): JSX.Element {
                         size="lg"
                         className="flex-1 border-2"
                         onClick={() => {
-                          void toast.error('Signed out everywhere (mock)');
+                          toast({
+                            title: 'error!',
+                            description: 'Signed out everywhere (mock)',
+                            className:
+                              'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+                            duration: 4000,
+                          });
                         }}
                       >
                         Sign out everywhere
@@ -1251,9 +1338,13 @@ export default function TravelSettingsPage(): JSX.Element {
                         size="lg"
                         className="flex-1"
                         onClick={() => {
-                          void toast.dismiss(
-                            'Account deletion requested (mock)'
-                          );
+                          toast({
+                            title: 'error!',
+                            description: 'Account deletion requested (mock)',
+                            className:
+                              'bg-gradient-to-r from-red-600 to-red-800 text-white border-none shadow-xl font-medium',
+                            duration: 4000,
+                          });
                         }}
                       >
                         Delete account

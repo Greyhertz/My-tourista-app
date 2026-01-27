@@ -24,8 +24,6 @@ export async function getGeoCoordinates(
 }
 
 // src/api/Geoapify.ts (extend existing file)
- 
-
 
 export async function reverseGeocode(lat: number, lon: number) {
   const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${GEOAPIFY_API_KEY}`;
@@ -42,8 +40,7 @@ export async function reverseGeocode(lat: number, lon: number) {
   }
 
   return null;
-}
-
+} 
 
 // Get hotels nearby given coordinates
 export async function fetchNearbyHotels(lat: number, lon: number) {
@@ -87,3 +84,5 @@ export async function fetchNearbyHotels(lat: number, lon: number) {
 
 //   return data.features || [];
 // } 
+
+// export async function fetchDestinationWithWifi

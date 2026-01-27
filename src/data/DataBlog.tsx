@@ -191,7 +191,7 @@ export const mockPosts = [
     featured: false,
   },
   {
-    id: 8,
+    id: 8, 
     slug: 'how-to-travel-japan-on-a-shoestring-budget',
     title: 'How to Travel Japan on a Shoestring Budget',
     excerpt:
@@ -356,7 +356,7 @@ export const mockPosts = [
       'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?q=80&w=2070&auto=format&fit=crop',
     category: 'photography',
     categoryName: 'Photography',
-    destination: 'nordic',
+    destination: 'europe',
     destinationName: 'Nordic Countries',
     author: 'Lars Andersen',
     publishedAt: '2024-12-08',

@@ -268,7 +268,7 @@ const ReviewPage: React.FC = () => {
                 </div>
 
                 <Label>Confirm password</Label>
-                <div className="relative">
+                <div className="relative focus-within:ring-ring/60 focus-within:border-primary/70">
                   <Input
                     type={showTempPassword ? 'text' : 'password'}
                     value={tempValues.confirmPassword}
@@ -291,6 +291,7 @@ const ReviewPage: React.FC = () => {
               <div className="space-y-3">
                 <Label className="capitalize">{editingField}</Label>
                 <Input
+                  className="bg-input"
                   value={(tempValues as any)[editingField]}
                   onChange={e =>
                     setTempValues(prev => ({
