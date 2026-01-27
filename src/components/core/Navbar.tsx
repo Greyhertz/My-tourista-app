@@ -206,7 +206,7 @@ export default function Navbar() {
     </motion.nav>
   );
 }
-<nav className="fixed top-0 w-full bg-white/95 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
+<nav className=" w-full bg-white/95 backdrop-blur-xl z-40 border-b border-gray-100 shadow-sm">
   <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-4">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -265,3 +265,61 @@ export default function Navbar() {
     </div>
   </div>
 </nav>
+
+export const MainNav = () => {
+  return(
+  <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-xl z-50 border-b border-gray-100 shadow-sm">
+    <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Compass className="w-6 h-6 text-white" />
+          </div>
+          <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Wanderlust
+          </span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-8 text-[15px] font-medium">
+          <a
+            href="#destinations"
+            className="text-gray-900 hover:text-blue-600 transition-colors"
+          >
+            Destinations
+          </a>
+          <a
+            href="#tours"
+            className="text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            Tours
+          </a>
+          <a
+            href="#experiences"
+            className="text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            Experiences
+          </a>
+          <a
+            href="#blog"
+            className="text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            Blog
+          </a>
+          <a
+            href="#contact"
+            className="text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            Contact
+          </a>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" className="hidden md:flex">
+            <ThemeToggle />
+          </Button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  )
+}

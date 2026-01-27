@@ -1,1 +1,29 @@
 src/firebase-service-account.json
+# Dependencies
+node_modules/
+
+# Environment variables (NEVER commit this!)
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Firebase service account (NEVER commit this!)
+firebase-service-account.json

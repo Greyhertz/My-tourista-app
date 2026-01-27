@@ -2,7 +2,7 @@
 import type { ReactNode } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Navbar from '../components/core/Navbar';
+import Navbar, { MainNav } from '../components/core/Navbar';
 import ScrollButton from '@/components/core/Scroll';
 import Footer from '@/components/core/Footer';
 import { Toaster } from 'sonner';
@@ -205,6 +205,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         // Normal layout with navbar and footer
         <div className="min-h-screen bg-background text-foreground animate-fade-in">
           {/* Navbar */}
+          <MainNav />
           <Navbar />
 
           {/* Main Content */}

@@ -116,12 +116,12 @@ import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
 import NotFound from './pages/NotFound';
 import Reviewpage from './pages/Reviewpage';
-import { MyForm } from './pages/Form';
+import { MyForm, UseQueryForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
+import SignUpPage from './pages/Signup-Page'; 
 import AdminDashboard from './pages/Dashboard';
 // import UserDashboard from './pages/UserDashboard'; // Fixed typo
 import ProtectedRoute from './pages/protectedRoute';
@@ -185,4 +185,5 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+  {path: '/form', element: <UseQueryForm />},
 ]);

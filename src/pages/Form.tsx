@@ -280,3 +280,36 @@ export function MyForm() {
     </div>
   );
 }
+
+import { useQuery } from '@tanstack/react-query';
+import { toast, Toaster } from 'sonner';
+import { useState } from 'react';
+
+export function UseQueryForm() {
+  const [id, setId] = useState(1);
+  const getTodos = async (id: number) => {
+    await new Promise(resolve => setTimeout(resolve, 1000)); // simulate delay
+    const response = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
+    return response.json()
+  }
+
+  const {data,isPending, isLoading, refetch, error} = useQuery({
+  queryKey: ['todos'],
+  queryFn: () => getTodos(id),
+  enabled: true,
+  
+  });
+
+  // if (isLoading) return <div>Loading...</div>
+  if (error) toast.error('Error fetching data');
+
+  return (
+    <div>
+      <Toaster />
+      {isPending ? 
+      <div className=' border-2 w-10 h-10 rounded-full text-red-500 animate-spin'></div> : JSON.stringify(data.slice(0, 10))}
+    {/* <Button onClick={() => refetch()}>Refetch</Button> */}
+    <Button onClick={() => setId(prev => prev + 1)}>Increment</Button>
+    </div>
+  )
+}
