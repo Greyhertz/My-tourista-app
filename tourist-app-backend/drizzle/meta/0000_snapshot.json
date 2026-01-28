@@ -1,0 +1,348 @@
+{
+  "id": "a0033a68-6438-4fef-953a-bec621630ec1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.accounts": {
+      "name": "accounts",
+      "schema": "",
+      "columns": {
+        "uid": {
+          "name": "uid",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "loyalty_points": {
+          "name": "loyalty_points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "total_bookings": {
+          "name": "total_bookings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "last_login_at": {
+          "name": "last_login_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "accounts_uid_profiles_uid_fk": {
+          "name": "accounts_uid_profiles_uid_fk",
+          "tableFrom": "accounts",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "uid"
+          ],
+          "columnsTo": [
+            "uid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.admin_permissions": {
+      "name": "admin_permissions",
+      "schema": "",
+      "columns": {
+        "uid": {
+          "name": "uid",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "admin_role": {
+          "name": "admin_role",
+          "type": "admin_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "granted_by": {
+          "name": "granted_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "granted_at": {
+          "name": "granted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "admin_permissions_uid_profiles_uid_fk": {
+          "name": "admin_permissions_uid_profiles_uid_fk",
+          "tableFrom": "admin_permissions",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "uid"
+          ],
+          "columnsTo": [
+            "uid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.audit_logs": {
+      "name": "audit_logs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "actor_uid": {
+          "name": "actor_uid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actor_role": {
+          "name": "actor_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "action": {
+          "name": "action",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_uid": {
+          "name": "target_uid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target_resource": {
+          "name": "target_resource",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "timestamp": {
+          "name": "timestamp",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "uid": {
+          "name": "uid",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'guest'"
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.token_revocations": {
+      "name": "token_revocations",
+      "schema": "",
+      "columns": {
+        "uid": {
+          "name": "uid",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "revoked_at": {
+          "name": "revoked_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "token_revocations_uid_profiles_uid_fk": {
+          "name": "token_revocations_uid_profiles_uid_fk",
+          "tableFrom": "token_revocations",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "uid"
+          ],
+          "columnsTo": [
+            "uid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.admin_role": {
+      "name": "admin_role",
+      "schema": "public",
+      "values": [
+        "super",
+        "support"
+      ]
+    },
+    "public.role": {
+      "name": "role",
+      "schema": "public",
+      "values": [
+        "guest",
+        "user",
+        "verified_user",
+        "suspended"
+      ]
+    },
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "active",
+        "suspended",
+        "deleted"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
