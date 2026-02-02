@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "tourist-app-backend/firebase", "tourist-app-backend/src/firebase.ts"]
+  "include": ["src", "tourist-app-backend/firebase", "tourist-app-backend/src/firebase.ts", "tourist-app-backend/src/test-schema.ts"]
 }
