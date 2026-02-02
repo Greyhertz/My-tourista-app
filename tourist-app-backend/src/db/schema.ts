@@ -54,3 +54,33 @@ export const tokenRevocations = pgTable('token_revocations', {
   revokedAt: timestamp('revoked_at').notNull().defaultNow(),
   reason: text('reason'),
 });
+
+// Add to existing schema.ts (after other tables)
+
+export const bookings = pgTable('bookings', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => profiles.uid),
+  hotelId: text('hotel_id').notNull(),
+  hotelName: text('hotel_name').notNull(),
+  checkIn: timestamp('check_in').notNull(),
+  checkOut: timestamp('check_out').notNull(),
+  guests: integer('guests').notNull(),
+  totalPrice: integer('total_price').notNull(), // in cents
+  status: text('status').notNull().default('confirmed'), // confirmed, cancelled
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+// Add to existing schema.ts (after bookings table)
+
+export const reviews = pgTable('reviews', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => profiles.uid),
+  propertyId: text('property_id').notNull(),
+  propertyName: text('property_name').notNull(),
+  rating: integer('rating').notNull(), // 1-5
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
