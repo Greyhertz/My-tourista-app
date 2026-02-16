@@ -14,14 +14,10 @@ import {
   Play,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
-  BookOpen,
-  Smile,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BlogSection } from '@/components/core/BlogSection';
-import { ScrollReveal } from './AboutUs';
-import { Badge } from '@/components/ui/badge';
+import { ScrollReveal } from './Homepage';
 
 export default function ExploreDestinations() {
   const navigate = useNavigate();
@@ -32,7 +28,7 @@ export default function ExploreDestinations() {
   const [currentCitySet, setCurrentCitySet] = useState(0);
 
   const citySets = [
-    ['Paris', 'Bali', 'New York', 'Tokyo', 'Rome', 'Sydney', 'Cape Town', 'lagos'],
+    ['Paris', 'Bali', 'New York', 'Tokyo', 'Rome', 'Sydney', 'Cape Town'],
     [
       'Bangkok',
       'Madrid',
@@ -43,11 +39,11 @@ export default function ExploreDestinations() {
       'Dubai',
       'Singapore',
     ],
-    ['Barcelona', 'Amsterdam', 'Istanbul', 'Mumbai', 'Seoul', 'Prague', 'Dublin', 'Accra'],
-    ['London', 'Berlin', 'Vienna', 'Budapest', 'Stockholm', 'Copenhagen', 'Madagascar', 'Kampala'],
-    ['Miami', 'Las Vegas', 'San Francisco', 'Toronto', 'Vancouver', 'Montreal', 'Havana', 'Nairobi'],
+    ['Barcelona', 'Amsterdam', 'Istanbul', 'Mumbai', 'Seoul', 'Prague'],
+    ['London', 'Berlin', 'Vienna', 'Budapest', 'Stockholm', 'Copenhagen'],
+    ['Miami', 'Las Vegas', 'San Francisco', 'Toronto', 'Vancouver', 'Montreal'],
   ];
- 
+
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query.trim()) {
@@ -159,21 +155,7 @@ export default function ExploreDestinations() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Hero Section with Enhanced Design */}
-
       <section className="relative min-h-[75vh] flex flex-col items-center justify-center overflow-hidden">
-        {/* <div className="text-center mb-16">
-          <Badge className="mb-4 px-4 py-2" variant="outline">
-            <Sparkles className="w-4 h-4 mr-2 inline" />
-            Our Features
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            Revolutionary Travel Features
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cutting-edge technology meets intuitive design to create the
-            ultimate travel companion
-          </p>
-        </div> */}
         {/* Animated Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-secondary/20" />
 
@@ -188,11 +170,6 @@ export default function ExploreDestinations() {
             transition={{ duration: 0.8 }}
             className="mb-8"
           >
-            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6 hover:bg-card">
-              <Sparkles className="w-4 h-4 mr-2 inline" />
-              Explore
-            </Badge>
-
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Discover Your Next Adventure
             </h1>
@@ -214,18 +191,7 @@ export default function ExploreDestinations() {
             onSubmit={handleSearch}
             className="relative max-w-3xl mx-auto mb-8"
           >
-            {/*   <div
-                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
-                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
-              > 
-                <Input
-                  placeholder="Full Name"
-                  required
-                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
-                />
-              </div> */}
-
-            <div className="relative flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden   transition-all duration-300 focus-within:ring-2 focus-within:ring-ring/60 focus-within:border-primary/70">
+            <div className="relative flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 ">
               <div className="absolute left-5 pointer-events-none">
                 <Search className="text-muted-foreground" size={24} />
               </div>
@@ -234,7 +200,7 @@ export default function ExploreDestinations() {
                 placeholder="Search cities, attractions, hotels..."
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                className="flex-1 pl-14 pr-4 py-5 text-lg bg-transparent text-foreground placeholder-muted-foreground focus:outline-none"
+                className="flex-1 pl-14 pr-4 py-5 text-lg bg-transparent text-foreground placeholder-muted-foreground focus:outline-none focus:text-foreground"
               />
               <button
                 type="submit"
@@ -260,7 +226,7 @@ export default function ExploreDestinations() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="  text-destructive px-6 py-3 rounded-xl max-w-md mx-auto"
+              className="bg-destructive/10 -destructive/30 text-destructive px-6 py-3 rounded-xl max-w-md mx-auto"
             >
               {error}
             </motion.div>
@@ -401,12 +367,6 @@ export default function ExploreDestinations() {
       {/* Video Showcase - Enhanced */}
       <div className="max-w-7xl mx-auto px-6 py-20 scroll-section">
         <div className="text-center mb-12">
-          <div className="text-center">
-            <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
-              <Play className="w-4 h-4 mr-2 inline" />
-              Travel Moments
-            </Badge>
-          </div>
           <h2 className="text-4xl font-bold mb-4 text-foreground flex items-center justify-center gap-3">
             <Play className="text-accent" size={36} />
             Cinematic Travel Moments
@@ -450,12 +410,6 @@ export default function ExploreDestinations() {
 
       {/* Hotels Section - Enhanced */}
       <div className="max-w-7xl mx-auto px-6 py-20 scroll-section">
-        <div className="text-center">
-          <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
-            <Smile className="w-4 h-4 mr-2 inline" />
-            Travel Experiences
-          </Badge>
-        </div>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <ScrollReveal>
             <div className="space-y-6">
@@ -542,37 +496,26 @@ export default function ExploreDestinations() {
 
       {/* Map Section - Enhanced */}
       <div className="max-w-7xl mx-auto px-6 py-20 scroll-section">
-        <ScrollReveal>
-          <div className="text-center mb-12">
-            <div className="text-center">
-              <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
-                <MapPin className="w-4 h-4 mr-2 inline" />
-                Locate Us
-              </Badge>
-            </div>
-            <h2 className="text-4xl font-bold mb-4 text-foreground flex items-center justify-center gap-3">
-              <MapPin className="text-primary" size={36} />
-              Find Us Anywhere
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              We're here to help you plan your perfect adventure
-            </p>
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal>
-          <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-border">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509373!2d144.9556513153178!3d-37.8173279797517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1f3aab3%3A0xf577d5e79a2393b1!2sTravel+Agency!5e0!3m2!1sen!2sau!4v1611816302287!5m2!1sen!2sau"
-              width="100%"
-              height="500"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        </ScrollReveal>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 text-foreground flex items-center justify-center gap-3">
+            <MapPin className="text-primary" size={36} />
+            Find Us Anywhere
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            We're here to help you plan your perfect adventure
+          </p>
+        </div>
+        <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-border">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509373!2d144.9556513153178!3d-37.8173279797517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1f3aab3%3A0xf577d5e79a2393b1!2sTravel+Agency!5e0!3m2!1sen!2sau!4v1611816302287!5m2!1sen!2sau"
+            width="100%"
+            height="500"
+            style={{ border: 0 }}
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </div>
 
       <style>{`

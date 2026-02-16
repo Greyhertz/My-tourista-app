@@ -11,156 +11,162 @@ import {
   ArrowRight,
   Heart,
   Shield,
-  Linkedin,
-  Mail,
-  MapPinIcon,
-  Phone,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black text-white pt-20 pb-10">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Brand Column */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                <Compass className="w-7 h-7 text-white" />
+    <footer className="pb-10 pt-2 px-6 bg-card text-card-foreground border-muted backdrop-blur-sm">
+      <div className="container mx-auto">
+        {/* Top grid */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
+          {/* Brand + socials */}
+          <div className="md:col-span-2 flex flex-col items-center text-center md:items-start md:text-left">
+            <div className="flex items-center space-x-3 mb-6">
+              <div
+                className="w-12 h-12 bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600
+                rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <Compass className="h-6 w-6 text-white" />
               </div>
-              <span className="text-3xl font-bold text-white">Wanderlust</span>
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                TravelMate
+              </span>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed max-w-md">
-              Your trusted travel companion for discovering the world's most
-              extraordinary destinations. Experience travel reimagined with our
-              curated tours and personalized service.
+
+            <p className="text-base text-foreground text-clip- leading-relaxed mb-6 max-w-md">
+              Creating unforgettable travel experiences since 2010. Your
+              adventure starts here with AI-powered planning and world-class
+              service.
             </p>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-indigo-600 rounded-xl flex items-center justify-center transition-all duration-300 group"
-              >
-                <Facebook className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-indigo-600 rounded-xl flex items-center justify-center transition-all duration-300 group"
-              >
-                <Twitter className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-indigo-600 rounded-xl flex items-center justify-center transition-all duration-300 group"
-              >
-                <Instagram className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-indigo-600 rounded-xl flex items-center justify-center transition-all duration-300 group"
-              >
-                <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-              </a>
+
+            {/* socials */}
+            <div className="flex space-x-4 justify-center md:justify-start">
+              {[
+                {
+                  icon: Facebook,
+                  label: 'Facebook',
+                  color: 'hover:bg-blue-600 hover:text-white',
+                },
+                {
+                  icon: Twitter,
+                  label: 'Twitter',
+                  color: 'hover:bg-black hover:text-white',
+                },
+                {
+                  icon: Instagram,
+                  label: 'Instagram',
+                  color:
+                    'hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:text-white',
+                },
+                {
+                  icon: Youtube,
+                  label: 'YouTube',
+                  color: 'hover:bg-red-600 hover:text-white',
+                },
+              ].map(({ icon: Icon, label, color }) => (
+                <motion.a
+                  key={label}
+                  href="#"
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`p-1.5 rounded-full  transition-colors duration-300 bg-muted ${color} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+                  aria-label={label}
+                >
+                  <Icon className={`${color} text-foreground`} />
+                </motion.a>
+              ))}
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h4 className="font-bold text-lg mb-6 text-white">Company</h4>
-            <ul className="space-y-4">
-              {['About Us', 'Our Team', 'Careers', 'Press', 'Partnerships'].map(
-                item => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h4 className="font-bold text-lg mb-6 text-white">Support</h4>
-            <ul className="space-y-4">
-              {[
+          {/* Link columns */}
+          {[
+            {
+              title: 'Destinations',
+              icon: <Globe className="w-4 h-4 mr-2" />,
+              items: [
+                'Europe',
+                'Asia',
+                'Americas',
+                'Africa',
+                'Oceania',
+                'Popular Cities',
+              ],
+            },
+            {
+              title: 'Services',
+              icon: <Plane className="w-4 h-4 mr-2" />,
+              items: [
+                'Flight Booking',
+                'Hotels',
+                'Car Rental',
+                'Tours',
+                'Travel Insurance',
+                'Visa Assistance',
+              ],
+            },
+            {
+              title: 'Support',
+              icon: <Headphones className="w-4 h-4 mr-2" />,
+              items: [
                 'Help Center',
-                'Safety Info',
-                'Cancellation',
                 'Contact Us',
-                'Trust & Safety',
-              ].map(item => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="font-bold text-lg mb-6 text-white">Get in Touch</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-gray-400">
-                <Mail className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <span>hello@wanderlust.travel</span>
-              </li>
-              <li className="flex items-start gap-3 text-gray-400">
-                <Phone className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <span>+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-start gap-3 text-gray-400">
-                <MapPinIcon className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <span>
-                  123 Travel Street
-                  <br />
-                  New York, NY 10001
-                </span>
-              </li>
-            </ul>
-          </div>
+                'Travel Guide',
+                'Blog',
+                'Reviews',
+                'Mobile App',
+              ],
+            },
+          ].map((col, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center md:items-start md:text-left"
+            >
+              <h3 className="font-semibold mb-6 flex items-center text-lg text-primary">
+                {col.icon}
+                {col.title}
+              </h3>
+              <ul className="flex flex-wrap justify-center gap-4    md:flex-col md:justify-start md:gap-0 md:space-y-4">
+                {col.items.map(item => (
+                  <li key={item}>
+                    <motion.a
+                      href="#"
+                      whileHover={{ x: 4 }}
+                      className="text-[15px] font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center md:justify-start"
+                    >
+                      <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                      {item}
+                    </motion.a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom Footer */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-gray-500 text-sm">
-            © 2026 Wanderlust Travel. All rights reserved.
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 text-sm">
-            <a
-              href="#"
-              className="text-gray-500 hover:text-blue-400 transition-colors"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-blue-400 transition-colors"
-            >
-              Terms of Service
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-blue-400 transition-colors"
-            >
-              Cookie Policy
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-blue-400 transition-colors"
-            >
-              Sitemap
-            </a>
+        {/* Bottom bar */}
+        <div className="border-t border-muted pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <p className="text-sm text-muted-foreground flex items-center justify-center md:justify-start">
+              <Heart className="w-4 h-4 mr-2 text-destructive" fill="red" />©{' '}
+              {new Date().getFullYear()} TravelMate. All rights reserved. Made
+              with love for travelers worldwide.
+            </p>
+
+            <div className="flex flex-col sm:flex-row sm:space-x-6 gap-3 text-sm text-center">
+              {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(
+                link => (
+                  <motion.a
+                    key={link}
+                    href="#"
+                    whileHover={{ y: -2 }}
+                    className="flex items-center justify-center text-green-700 dark:text-green-500 hover:text-foreground transition-colors"
+                  >
+                    <Shield className="w-3 h-3 mr-1" />
+                    {link}
+                  </motion.a>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>

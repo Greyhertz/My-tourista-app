@@ -17,9 +17,6 @@ import {
   AlertCircle,
   RefreshCw,
   X,
-  Sparkles,
-  BookOpen,
-  Book,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -44,28 +41,12 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { motion, AnimatePresence } from 'framer-motion';
-// import { interval } from 'date-fns';
+import { motion } from 'framer-motion';
 
 const TravelBlogPage = () => {
   const { state, actions } = useBlog();
-  const [currentHeaderIndex, setCurrentHeaderIndex] = useState(0);
 
-  const headerTexts = [
-    'Travel Stories & Guides',
-    'Explore the World',
-    'Adventure Awaits',
-    'Journey of a Lifetime',
-    'Discover New Horizons',
-  ];
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentHeaderIndex(prev => (prev + 1) % headerTexts.length);
-  //   }, 4000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
+  // Categories for filtering
   const categories = [
     { id: 'all', name: 'All Posts', count: 0 },
     { id: 'travel', name: 'Travel', count: 0 },
@@ -77,7 +58,7 @@ const TravelBlogPage = () => {
     { id: 'photography', name: 'photography', displayName: 'Photography' },
   ];
 
-  const destinations = [ 
+  const destinations = [
     { id: 'all', name: 'All Destinations' },
     { id: 'europe', name: 'Europe' },
     { id: 'asia', name: 'Asia' },
@@ -86,10 +67,12 @@ const TravelBlogPage = () => {
     { id: 'oceania', name: 'Oceania' },
   ];
 
+  // Load blogs on component mount
   useEffect(() => {
     actions.loadBlogs();
   }, []);
 
+  // Update categories with actual counts
   const categoriesWithCounts = useMemo(() => {
     const counts = state.blogPosts.reduce(
       (acc: Record<string, number>, post) => {
@@ -106,6 +89,7 @@ const TravelBlogPage = () => {
     }));
   }, [state.blogPosts]);
 
+  // Filtered posts based on search and filters
   const filteredPosts = useMemo(() => {
     return state.blogPosts.filter(post => {
       const matchesSearch =
@@ -137,16 +121,42 @@ const TravelBlogPage = () => {
       year: 'numeric',
     });
   };
-
   const navigate = useNavigate();
   const handleReadMore = (post: BlogPost) => {
     if (post.url) {
+      // If it's from API, open the original dev.to article
       window.open(post.url, '_blank');
     } else {
       navigate(`/blog/${post.slug}`);
     }
   };
 
+  // Categories and destinations for the form
+  // const formCategories = [
+  //   { id: 'travel', name: 'Travel', displayName: 'Travel' },
+  //   {
+  //     id: 'destinations',
+  //     name: 'destinations',
+  //     displayName: 'Destination Guides',
+  //   },
+  //   { id: 'tips', name: 'tips', displayName: 'Travel Tips' },
+  //   { id: 'food', name: 'food', displayName: 'Food & Culture' },
+  //   { id: 'budget', name: 'budget', displayName: 'Budget Travel' },
+  //   { id: 'itineraries', name: 'itineraries', displayName: 'Itineraries' },
+  //   { id: 'photography', name: 'photography', displayName: 'Photography' },
+  // ];
+
+  // const formDestinations = [
+  //   { id: 'all', name: 'Global', displayName: 'Global' },
+  //   { id: 'europe', name: 'Europe', displayName: 'Europe' },
+  //   { id: 'asia', name: 'Asia', displayName: 'Asia' },
+  //   { id: 'africa', name: 'Africa', displayName: 'Africa' },
+  //   { id: 'americas', name: 'Americas', displayName: 'Americas' },
+  //   { id: 'oceania', name: 'Oceania', displayName: 'Oceania' },
+  //   { id: 'middle-east', name: 'Middle East', displayName: 'Middle East' },
+  // ];
+
+  // New Post Form Component
   const NewPostForm = () => {
     const [formData, setFormData] = useState({
       title: '',
@@ -241,6 +251,7 @@ const TravelBlogPage = () => {
 
       actions.addNewPost(newPost);
 
+      // Reset form
       setFormData({
         title: '',
         category: '',
@@ -255,6 +266,7 @@ const TravelBlogPage = () => {
 
     const handleInputChange = (field: string, value: string | number) => {
       setFormData(prev => ({ ...prev, [field]: value }));
+      // Clear error when user starts typing
       if (errors[field]) {
         setErrors(prev => ({ ...prev, [field]: '' }));
       }
@@ -263,6 +275,7 @@ const TravelBlogPage = () => {
     return (
       <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <Card className="text-foreground rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-lg border">
+          {/* Header */}
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
@@ -288,24 +301,40 @@ const TravelBlogPage = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
+            {/* Title */}
             <div className="space-y-2">
+              {/* <div
+                className="flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                <Input
+                  placeholder="Full Name"
+                  required
+                  className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                />
+              </div> */}
               <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                 <User className="h-4 w-4" />
                 Post Title *
               </Label>
-              <div className="flex items-center bg-card border border-border rounded-xl shadow-sm overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+              <div
+                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                {' '}
                 <Input
                   type="text"
                   placeholder="e.g., My Amazing Journey Through Tokyo"
                   value={formData.title}
                   onChange={e => handleInputChange('title', e.target.value)}
-                  className={`bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                  className={`bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground${
                     errors.title
                       ? 'border-red-500 bg-red-50'
                       : 'border-input bg-background'
                   }`}
                 />
               </div>
+
               {errors.title && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -314,21 +343,26 @@ const TravelBlogPage = () => {
               )}
             </div>
 
+            {/* Category and Destination Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Category */}
               <div className="space-y-2">
                 <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                   <Filter className="h-4 w-4" />
                   Category *
                 </Label>
-                <div className="flex items-center bg-card border border-border rounded-xl shadow-sm overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
+                  {' '}
                   <Select
                     value={formData.category}
                     onValueChange={val => handleInputChange('category', val)}
                   >
                     <SelectTrigger
-                      className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
-                        errors.category ? 'border-red-500 bg-red-50' : ''
-                      }`}
+                      className={` border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground
+               ${errors.category ? 'border-red-500 bg-red-50' : ''}`}
                     >
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
@@ -341,6 +375,7 @@ const TravelBlogPage = () => {
                     </SelectContent>
                   </Select>
                 </div>
+
                 {errors.category && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -349,12 +384,17 @@ const TravelBlogPage = () => {
                 )}
               </div>
 
+              {/* Destination */}
               <div className="space-y-2">
                 <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                   <MapPin className="h-4 w-4" />
                   Destination *
                 </Label>
-                <div className="flex items-center bg-card border border-border rounded-xl shadow-sm overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
+                  {' '}
                   <Select
                     value={formData.destination}
                     onValueChange={val => handleInputChange('destination', val)}
@@ -380,6 +420,7 @@ const TravelBlogPage = () => {
                     </SelectContent>
                   </Select>
                 </div>
+
                 {errors.destination && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -389,12 +430,16 @@ const TravelBlogPage = () => {
               </div>
             </div>
 
+            {/* Description */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                 <Calendar className="h-4 w-4" />
                 Story Description *
               </Label>
-              <div className="flex items-center bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+              <div
+                className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
                 <Textarea
                   placeholder="Share the highlights of your travel experience, what made it special, and any tips for fellow travelers..."
                   value={formData.excerpt}
@@ -407,6 +452,7 @@ const TravelBlogPage = () => {
                   rows={4}
                 />
               </div>
+
               {errors.excerpt && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -418,13 +464,19 @@ const TravelBlogPage = () => {
               </p>
             </div>
 
+            {/* Author and Read Time Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Author */}
               <div className="space-y-2">
                 <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                   <User className="h-4 w-4" />
                   Your Name *
                 </Label>
-                <div className="flex items-center bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
+                  {' '}
                   <Input
                     type="text"
                     placeholder="e.g., John Doe"
@@ -437,6 +489,7 @@ const TravelBlogPage = () => {
                     }`}
                   />
                 </div>
+
                 {errors.author && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -445,12 +498,16 @@ const TravelBlogPage = () => {
                 )}
               </div>
 
+              {/* Read Time */}
               <div className="space-y-2">
                 <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                   <Clock className="h-4 w-4" />
                   Read Time (minutes)
                 </Label>
-                <div className="flex items-center bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+                <div
+                  className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                   transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+                >
                   <Input
                     type="number"
                     min={1}
@@ -470,6 +527,7 @@ const TravelBlogPage = () => {
                     }`}
                   />
                 </div>
+
                 {errors.readTime && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
@@ -479,24 +537,30 @@ const TravelBlogPage = () => {
               </div>
             </div>
 
+            {/* Image URL */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
                 <Eye className="h-4 w-4" />
                 Cover Image URL (optional)
               </Label>
-              <div className="flex items-center bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+              <div
+                className="flex items-center bg-card border border-border rounded-xl  overflow-hidden 
+                   transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+              >
+                {' '}
                 <Input
                   type="url"
                   placeholder="https://example.com/your-image.jpg"
                   value={formData.image}
                   onChange={e => handleInputChange('image', e.target.value)}
-                  className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground ${
+                  className={`border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground${
                     errors.image
                       ? 'border-red-500 bg-red-50'
                       : 'border-input bg-background'
                   }`}
                 />
               </div>
+
               {errors.image && (
                 <p className="text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
@@ -508,6 +572,7 @@ const TravelBlogPage = () => {
               </p>
             </div>
 
+            {/* Form Preview */}
             {formData.title && formData.excerpt && (
               <div className="mt-6 p-4 bg-muted/50 rounded-lg border">
                 <div className="flex items-center gap-2 mb-2">
@@ -552,6 +617,7 @@ const TravelBlogPage = () => {
               </div>
             )}
 
+            {/* Action Buttons */}
             <div className="flex gap-3 pt-4">
               <Button
                 onClick={handleSubmit}
@@ -582,19 +648,26 @@ const TravelBlogPage = () => {
     );
   };
 
+  // Post Card Component
   interface PostCardProps {
     post: BlogPost;
     featured?: boolean;
   }
 
   const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) => (
-    <article className={`group ${featured ? 'md:col-span-2' : ''}`}>
-      <Card className="bg-card border h-full hover:shadow-lg transition-shadow duration-300">
-        <div className="relative overflow-hidden">
+    <article
+      className={`group overflow-hidden bg-card shadow-lg border-border/50 group cursor-pointer hover:shadow-xl transition-all duration-30 ${
+        featured ? 'md:col-span-2' : ''
+      }`}
+    >
+      <Card className=" bg-card shadow-lg border-border/50 group cursor-pointer hover:shadow-xl transition-all duration-30">
+        <div className="relative">
           <img
             src={post.image}
             alt={post.title}
-            className={`w-full object-cover ${featured ? 'h-80' : 'h-56'}`}
+            className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+              featured ? 'h-64' : 'h-48'
+            }`}
             onError={e => {
               const target = e.target as HTMLImageElement;
               target.src =
@@ -602,51 +675,58 @@ const TravelBlogPage = () => {
             }}
           />
           <div className="absolute top-4 left-4">
-            <Badge
-              variant="secondary"
-              className="bg-background/90 backdrop-blur-sm"
-            >
+            <Badge className="px-3 py-1 text-xs font-bold">
               {post.categoryName}
             </Badge>
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => actions.toggleLike(post.id)}
+            className="absolute top-4 right-4 rounded-full bg-background/90 p-2 text-muted-foreground backdrop-blur-sm transition-colors hover:bg-background"
+          >
+            <Heart
+              className={`h-4 w-4 ${
+                state.likedPosts[post.id]
+                  ? 'fill-red-500 text-red-500'
+                  : 'text-muted-foreground'
+              }`}
+            />
+          </Button>
         </div>
 
         <CardContent className="p-6">
-          <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3 border-b border-border pb-3">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
             <div className="flex items-center gap-1">
-              <MapPin className="h-3.5 w-3.5" />
+              <MapPin className="h-4 w-4" />
               <span>{post.destinationName}</span>
             </div>
-            <span>•</span>
             <div className="flex items-center gap-1">
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-4 w-4" />
               <span>{formatDate(post.publishedAt)}</span>
             </div>
-            <span>•</span>
             <div className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" />
-              <span>{post.readTime} min</span>
+              <Clock className="h-4 w-4" />
+              <span>{post.readTime} min read</span>
             </div>
           </div>
 
           <h2
-            className={`font-serif font-bold mb-3 text-foreground group-hover:text-primary transition-colors ${
-              featured ? 'text-2xl' : 'text-xl'
+            className={`text-lg font-bold mb-3 group-hover:text text-foreground transition-colors ${
+              featured ? 'text-xl' : 'text-lg'
             }`}
           >
             <Link to={`/blog/${post.slug}`}>{post.title}</Link>
           </h2>
 
-          <p className="text-muted-foreground text-sm mb-4 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
             {post.excerpt}
           </p>
 
-          <div className="flex items-center justify-between pt-4 border-t border-border">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                <User className="h-4 w-4 text-muted-foreground" />
-              </div>
-              <span className="text-sm text-foreground font-medium">
+              <User className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">
                 {post.author}
               </span>
             </div>
@@ -656,158 +736,174 @@ const TravelBlogPage = () => {
                 <Eye className="h-4 w-4" />
                 <span>{post.views.toLocaleString()}</span>
               </div>
-              <button
-                onClick={() => actions.toggleLike(post.id)}
-                className="flex items-center gap-1 hover:text-primary transition-colors"
-              >
-                <Heart
-                  className={`h-4 w-4 ${
-                    state.likedPosts[post.id] ? 'fill-primary text-primary' : ''
-                  }`}
-                />
+              <div className="flex items-center gap-1">
+                <Heart className="h-4 w-4" />
                 <span>
                   {state.likedPosts[post.id] ? post.likes + 1 : post.likes}
                 </span>
-              </button>
+              </div>
             </div>
+          </div>
+
+          <div className="mt-4 pt-4 ">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="group-hover:bg-primary group-hover:text-primary-foreground transition-all"
+              onClick={() => handleReadMore(post)}
+            >
+              Read More <ArrowRight className="w-3 h-3 ml-1" />
+            </Button>
           </div>
         </CardContent>
       </Card>
     </article>
   );
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Classic Header */}
+  // Loading state
+  // if (state.loading) {
+  //   return (
+  //     <div className="min-h-screen bg-background flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+  //         <p className="text-muted-foreground">Loading travel blogs...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-      <section className="relative bg-card border-b border-border inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
-          <motion.div
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header Section */}
+
+      <section className="relative h-[70vh] flex flex-col items-center justify-center text-center bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white p-6">
+        <div className="text-center">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl text-secondary font-extrabold mb-6"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="mb-6"
-            >
-              <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 text-sm font-medium mb-6 hover:bg-card">
-                <Sparkles className="w-4 h-4 mr-2 inline" />
-                Travel Blogs
-              </Badge>
-            </motion.div>
-            <div className="relative overflow-hidden h-16 md:h-20 mb-4">
-              <AnimatePresence mode="wait">
-                <motion.h1
-                  key={currentHeaderIndex}
-                  initial={{ y: 60, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -60, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: 'easeInOut' }}
-                  className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
-                >
-                  {headerTexts[currentHeaderIndex]}
-                </motion.h1>
-              </AnimatePresence>
-            </div>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-            >
-              Discover amazing destinations, practical travel tips, and
-              inspiring stories from fellow adventurers
-            </motion.p>
+            Travel Stories & Guides
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg max-w-2xl text-secondary text-center mx-auto mb-8 md:mb-12"
+          >
+            Discover amazing destinations, practical travel tips, and inspiring
+            stories from fellow adventurers
+          </motion.p>
+          {state.usingMockData && (
+            <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50 ">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-yellow-800">
+                ⚠️ Currently showing sample data. Live feed temporarily
+                unavailable.
+              </AlertDescription>
+            </Alert>
+          )}
+          {state.error && (
+            <Alert className="max-w-2xl mx-auto mb-6 border-yellow-200 bg-yellow-50">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-yellow-800">
+                {state.error}
+              </AlertDescription>
+            </Alert>
+          )}
 
-            {state.usingMockData && (
-              <Alert className="max-w-2xl mx-auto mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Currently showing sample data. Live feed temporarily
-                  unavailable.
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {state.error && (
-              <Alert className="max-w-2xl mx-auto mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{state.error}</AlertDescription>
-              </Alert>
-            )}
-
-            {/*    <div
-                className="flex items-center bg-card border border-border rounded-xl shadow-2xl overflow-hidden 
+          {/* <div
+                className="flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
                 transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
               >
                 <Input
                   placeholder="Full Name"
                   required
                   className="bg-transparent border-0 outline-none flex-1 px-4 py-3 text-foreground placeholder:text-muted-foreground"
-                />
-              </div> */}
-            <div className="max-w-2xl mx-auto">
-              <div
-                className="relative flex items-center bg-card border border-border rounded-xl shadow-md overflow-hidden 
-                transition-all duration-300 focus-within:ring-2 focus-within:ring-ring/60 focus-within:border-primary/70"
-              >
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search destinations, tips, guides..."
-                  className="pl-12 pr-4 py-6 text-base  focus:border-primary   border-0 outline-none text-foreground placeholder:text-muted-foreground"
-                  value={state.searchTerm}
-                  onChange={e => actions.setSearchTerm(e.target.value)}
-                />
-              </div>
+                /> */}
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto relative">
+            <div
+              className="relative flex items-center bg-card border-2 border-border rounded-2xl shadow-2xl overflow-hidden 
+                transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/40 focus-within:border-primary"
+            >
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search destinations, tips, guides..."
+                className="w-full bg-white pl-12 pr-4 py-4 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-primary/50 "
+                value={state.searchTerm}
+                onChange={e => actions.setSearchTerm(e.target.value)}
+              />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Filters */}
-        <div className="mb-10">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
+        {/* Filters Section */}
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {categoriesWithCounts.map(category => (
                 <Button
                   key={category.id}
                   onClick={() => actions.setSelectedCategory(category.id)}
-                  variant={
+                  className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     state.selectedCategory === category.id
-                      ? 'default'
-                      : 'outline'
-                  }
-                  className="text-sm"
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  }`}
                 >
                   {category.name} ({category.count})
                 </Button>
               ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              <Button onClick={actions.toggleNewPostForm} className="gap-2">
-                <Plus className="h-4 w-4" />
-                Share Story
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={actions.toggleFilters}
+                className="lg:hidden inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
+              >
+                <Filter className="h-4 w-4" />
+                Filters
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    state.showFilters ? 'rotate-180' : ''
+                  }`}
+                />
               </Button>
 
-              <div className="flex border rounded-md">
+              <div>
+                <Button
+                  onClick={actions.toggleNewPostForm}
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Share Live
+                </Button>
+              </div>
+
+              <div className="inline-flex items-center rounded-md border border-input bg-background p-1">
                 <Button
                   onClick={() => actions.setViewMode('grid')}
-                  variant={state.viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="icon"
+                  className={`inline-flex items-center justify-center rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    state.viewMode === 'grid'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  }`}
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
                 <Button
                   onClick={() => actions.setViewMode('list')}
-                  variant={state.viewMode === 'list' ? 'default' : 'ghost'}
-                  size="icon"
+                  className={`inline-flex items-center justify-center rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    state.viewMode === 'list'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  }`}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -815,16 +911,49 @@ const TravelBlogPage = () => {
             </div>
           </div>
 
-          <div className="max-w-xs">
-            <Label className="text-sm font-medium mb-2 block">
-              Filter by Destination
+          {/* Mobile Filters */}
+          <div
+            className={`lg:hidden mt-4 ${
+              state.showFilters ? 'block' : 'hidden'
+            }`}
+          >
+            <div className="bg-card rounded-lg border p-4 space-y-4">
+              <div className="">
+                <Label className="block text-sm font-medium text-foreground mb-2">
+                  Destination
+                </Label>
+
+                <Select
+                  value={state.selectedDestination}
+                  onValueChange={val => actions.setSelectedDestination(val)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select destination" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card">
+                    {destinations.map(dest => (
+                      <SelectItem key={dest.id} value={dest.id}>
+                        {dest.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Destination Filter */}
+          <div className="hidden lg:block mt-4">
+            <Label className="block text-sm font-medium text-foreground mb-2">
+              Destination
             </Label>
+
             <Select
               value={state.selectedDestination}
               onValueChange={val => actions.setSelectedDestination(val)}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="All Destinations" />
+              <SelectTrigger className="w-full max-w-xs">
+                <SelectValue placeholder="Select destination" />
               </SelectTrigger>
               <SelectContent className="bg-card">
                 {destinations.map(dest => (
@@ -837,25 +966,15 @@ const TravelBlogPage = () => {
           </div>
         </div>
 
-        {/* Featured Posts */}
+        {/* Featured Posts Section */}
         {featuredPosts.length > 0 &&
           state.selectedCategory === 'all' &&
           !state.searchTerm && (
-            <div className=" mb-12">
-              <div className="text-center">
-                <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
-                  <BookOpen className="w-4 h-4 mr-2 inline" />
-                  Featured Stories
-                </Badge>
-              </div>
-
-              <div className="flex items-center text-center gap-3 mb-6">
-                <h2 className="font-serif text-3xl font-bold text-foreground">
-                  Featured Stories
-                </h2>
-                <div className="flex-1 h-px bg-border"></div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
+            <div className="mb-12">
+              <h2 className="text-2xl font-bold text-foreground mb-6">
+                Featured Stories
+              </h2>
+              <div className="grid md:grid-cols-2 gap-8">
                 {featuredPosts.slice(0, 2).map(post => (
                   <PostCard key={post.id} post={post} featured={true} />
                 ))}
@@ -865,13 +984,7 @@ const TravelBlogPage = () => {
 
         {/* Results Count */}
         <div className="mb-6">
-          <div className="text-center">
-            <Badge className="mb-4 px-4 py-2 text-center" variant="outline">
-              <Book className="w-4 h-4 mr-2 inline" />
-              Blog Posts
-            </Badge>
-          </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground">
             Showing {filteredPosts.slice(0, state.visibleCount).length} of{' '}
             {filteredPosts.length}{' '}
             {filteredPosts.length === 1 ? 'post' : 'posts'}
@@ -884,7 +997,7 @@ const TravelBlogPage = () => {
 
         {/* Blog Posts Grid */}
         <div
-          className={`grid gap-6 ${
+          className={`grid gap-8 ${
             state.viewMode === 'grid'
               ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
               : 'grid-cols-1'
@@ -896,35 +1009,34 @@ const TravelBlogPage = () => {
         </div>
 
         {/* No Results */}
-        {filteredPosts.length === 0 && !state.loading && (
-          <div className="text-center py-16 border-2  border-none rounded-lg">
-            <Search className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-            <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">
-              No posts found
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Try adjusting your search or filter criteria
-            </p>
-            <Button
-              onClick={() => {
-                actions.setSearchTerm('');
-                actions.setSelectedCategory('all');
-                actions.setSelectedDestination('all');
-              }}
-              variant="outline"
-            >
-              Clear All Filters
-            </Button>
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-12">
+            <div className="max-w-md mx-auto">
+              <div className="text-muted-foreground mb-4">
+                <Search className="h-16 w-16 mx-auto" />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">
+                No posts found
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Try adjusting your search or filter criteria
+              </p>
+              <Button
+                onClick={actions.clearFilters}
+                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                Clear All Filters
+              </Button>
+            </div>
           </div>
         )}
 
-        {/* Load More */}
+        {/* Load More Button */}
         {filteredPosts.length > state.visibleCount && (
           <div className="mt-12 text-center">
             <Button
+              className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               onClick={() => actions.setVisibleCount(state.visibleCount + 6)}
-              variant="outline"
-              size="lg"
             >
               Load More Posts ({filteredPosts.length - state.visibleCount}{' '}
               remaining)
@@ -932,19 +1044,15 @@ const TravelBlogPage = () => {
           </div>
         )}
 
-        {/* Retry API */}
+        {/* Retry API Button */}
         {state.usingMockData && (
           <div className="mt-8 text-center">
             <Button
-              onClick={actions.loadBlogs}
-              variant="outline"
-              className="gap-2"
-              disabled={state.loading}
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center justify-center rounded-md bg-green-600 px-6 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 gap-2"
             >
-              <RefreshCw
-                className={`h-4 w-4 ${state.loading ? 'animate-spin' : ''}`}
-              />
-              {state.loading ? 'Loading...' : 'Try Loading Live Data Again'}
+              <RefreshCw className="h-4 w-4" />
+              Try Loading Live Data Again
             </Button>
           </div>
         )}
@@ -953,7 +1061,7 @@ const TravelBlogPage = () => {
       {/* New Post Form Modal */}
       {state.newPostForm && <NewPostForm />}
 
-      {/* Newsletter */}
+      {/* Newsletter Subscription */}
       <NewsLetterBox />
     </div>
   );

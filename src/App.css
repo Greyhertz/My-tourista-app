@@ -249,8 +249,6 @@
   border-right: 2px solid #ccc; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  color: hsla(0, 64%, 52%, 0.989);
-  color:hsl(25, 60%, 49%)
 }
 
 .close-button {
@@ -289,195 +287,174 @@
   }
 }
 
-
 @layer base {
   :root {
-    /* =======================
-       CORE SURFACES
-    ======================== */
-    --background: 210 40% 98%;        /* soft blue-white */
-    --foreground: 222 47% 11%;        /* deep slate */
-
+    /* Light Theme – Sunset Glow 🌅 */
+    --background: 35 100% 97%;          
+    --foreground: 340 20% 12%;          
+  
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    /* =======================
-       BRAND COLORS
-       Indigo-based (NOT purple)
-    ======================== */
-    --primary:221 83% 53%;           /* indigo-600 */
+    --card-foreground: 340 20% 12%;
+  
+    --primary: 340 85% 55%;             /* fuchsia */
     --primary-foreground: 0 0% 100%;
-
-    /* Warm accent (travel CTA) */
-    --secondary: 25 95% 53%;          /* orange-500 */
-    --secondary-foreground: 0 0% 100%;
-
-    /* Soft pink (VERY subtle) */
-    --accent: 340 82% 70%;            /* soft rose */
+  
+    --secondary: 35 95% 85%;            /* soft amber-pink */
+    --secondary-foreground: 340 20% 12%;
+  
+    --muted: 20 40% 92%;
+    --muted-foreground: 340 15% 40%;
+  
+    --accent: 20 90% 60%;               /* amber */
     --accent-foreground: 0 0% 100%;
-
-    /* =======================
-       UI STATES
-    ======================== */
-    --muted: 210 40% 94%;
-    --muted-foreground: 215 20% 45%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 214 32% 88%;
-    --input: 214 32% 88%;
-    --ring: 231 48% 48%;
-
-    /* =======================
-       SIDEBAR
-    ======================== */
-    --sidebar: 210 40% 96%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 231 48% 48%;
+  
+    --border: 20 30% 85%;
+    --input: 20 30% 85%;
+    --ring: 340 85% 55%;
+  
+    --sidebar: 35 40% 94%;
+    --sidebar-foreground: 340 20% 12%;
+    --sidebar-primary: 340 85% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 95% 53%;
+    --sidebar-accent: 20 90% 60%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 214 32% 88%;
-    --sidebar-ring: 231 48% 48%;
-
+    --sidebar-border: 20 30% 85%;
+    --sidebar-ring: 340 85% 55%;
+  
     --radius: 0.75rem;
   }
-
-  /* =======================
-     DARK MODE (NAVY / INDIGO)
-     ZERO PURPLE
-  ======================== */
-  .dark {
-    --background: 222 47% 8%;         /* deep navy */
-    --foreground: 210 40% 96%;
-
-    --card: 222 47% 12%;
-    --card-foreground: 210 40% 96%;
-
-    --popover: 222 47% 12%;
-    --popover-foreground: 210 40% 96%;
-
-    /* Brand */
-    --primary: 231 55% 60%;           /* brighter indigo */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 25 95% 53%;
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 340 70% 65%;            /* soft pink glow */
-    --accent-foreground: 0 0% 100%;
-
-    --muted: 222 30% 18%;
-    --muted-foreground: 215 25% 65%;
-
-    --destructive: 0 72% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 222 30% 20%;
-    --input: 222 30% 20%;
-    --ring: 231 55% 60%;
-
-    --sidebar: 222 47% 10%;
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 231 55% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 95% 53%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 222 30% 20%;
-    --sidebar-ring: 231 55% 60%;
-  }
-}
-
   
-
-  /* 🌈 Gradients for hero sections, buttons, cards */
- /* Hero / CTA */
- .travel-gradient-primary {
-  background: linear-gradient(
-    135deg,
-    hsl(221 83% 53%) 0%,   /* blue-600 */
-    hsl(231 48% 48%) 100% /* indigo-600 */
-  );
-}
-
-
-/* Blue → Orange (travel warmth) */
-.travel-gradient-primary-secondary {
-  background: linear-gradient(
-    135deg,
-    hsl(231 48% 48%) 0%,
-    hsl(25 95% 53%) 90%
-  );
-}
-
-
-/* Dark overlay */
-.travel-gradient-primary-secondary {
-  background: linear-gradient(
-    135deg,
-    hsl(231 48% 48%) 0%,
-    hsl(25 95% 53%) 90%
-  );
-}
-
-
-
-  /* ✨ Card hover effect */
-  .travel-card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* ✨ Dimmed Mode – Twilight 🌇 */
+  .dark {
+    --background: 214 89% 4%;            /* near black (deep navy black) */
+    --foreground: 0 0% 98%;              /* almost white */
+  
+    --card: 214 89% 6%;                  /* slightly lighter than bg */
+    --card-foreground: 0 0% 98%;
+  
+    --primary: 340 70% 60%;              /* fuchsia */
+    --primary-foreground: 0 0% 100%;
+  
+    --secondary: 220 10% 20%;            /* neutral dark gray */
+    --secondary-foreground: 0 0% 98%;
+  
+    --muted: 220 10% 15%;                /* darker gray */
+    --muted-foreground: 220 5% 60%;
+  
+    --accent: 30 90% 55%;                /* amber glow */
+    --accent-foreground: 0 0% 100%;
+  
+    --border: 214 89% 10%;               /* dark gray border */
+    --input: 220 10% 18%;
+    --ring: 340 70% 60%;                 /* fuchsia ring highlight */
+  
+    --sidebar: 214 89% 3%;               /* almost black */
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 340 70% 60%;      /* fuchsia */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 90% 55%;        /* amber */
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 10% 20%;
+    --sidebar-ring: 340 70% 60%;
+  
+    --radius: 0.75rem;
   }
-
+  
+ 
+  
+  /* ✨ BONUS: Custom utility classes for travel-specific needs */
+  .travel-gradient-sunset {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  }
+  
+  .travel-gradient-ocean {
+    background: linear-gradient(180deg, hsl(var(--accent)) 0%, hsl(195 85% 40%) 100%);
+  }
+  
+  .travel-card-hover {
+    transition: all 0.3s ease;
+  }
+  
   .travel-card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
   }
-
-  /* ✨ Shimmer effect for loading states */
+  
   .travel-shimmer {
     background: linear-gradient(
       90deg,
-      hsl(var(--primary) / 0.05),
-      hsl(var(--primary) / 0.15),
-      hsl(var(--primary) / 0.05)
+      transparent 0%,
+      hsl(var(--primary) / 0.1) 50%,
+      transparent 100%
     );
-    background-size: 200% 100%;
-    animation: shimmer 1.8s infinite linear;
+    animation: shimmer 2s infinite;
   }
   
   @keyframes shimmer {
-    from { background-position: -200% 0; }
-    to { background-position: 200% 0; }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
+
+  /* Tailwind plugin or global CSS */
+.rdp {
+  @apply bg-white rounded-xl shadow-md p-4;
+}
+
+.rdp-day {
+  @apply w-10 h-10 text-center rounded-lg hover:bg-emerald-100;
+}
+
+.rdp-day_selected {
+  @apply bg-emerald-400 text-white font-bold;
+}
+
+.rdp-day_today {
+  @apply border border-emerald-500 font-semibold;
+}
+
+  
+  
+  
   
 
-  /* 🗓 Calendar & travel picker */
-  .rdp {
-    @apply bg-white dark:bg-[hsl(var(--card))] rounded-xl shadow-md p-4;
+  /* Custom Ocean Theme */
+  .theme-ocean {
+    --background: 210 100% 97%;
+    --foreground: 210 100% 6%;
+    --card: 210 50% 95%;
+    --card-foreground: 210 100% 6%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 60% 90%;
+    --secondary-foreground: 210 100% 15%;
+    --muted: 210 40% 92%;
+    --muted-foreground: 210 50% 35%;
+    --accent: 210 80% 85%;
+    --accent-foreground: 210 100% 15%;
+    --border: 210 40% 85%;
+    --input: 210 40% 85%;
+    --ring: 210 100% 50%;
   }
-  
-  .rdp-day {
-    @apply w-10 h-10 text-center rounded-lg hover:bg-[hsl(var(--primary)/0.12)];
-  }
-  
-  .rdp-day_selected {
-    @apply bg-[hsl(var(--primary))] text-white font-bold;
-  }
-  
-  .rdp-day_today {
-    @apply border border-[hsl(var(--primary))] font-semibold;
-  }
-  
-  .rdp-day:focus-visible {
-    outline: 2px solid hsl(var(--primary));
-    outline-offset: 2px;
-  }
-  
 
-
+  /* Custom Sunset Theme */
+  .theme-sunset {
+    --background: 20 100% 97%;
+    --foreground: 20 100% 6%;
+    --card: 20 50% 95%;
+    --card-foreground: 20 100% 6%;
+    --primary: 15 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 60% 90%;
+    --secondary-foreground: 20 100% 15%;
+    --muted: 20 40% 92%;
+    --muted-foreground: 20 50% 35%;
+    --accent: 30 80% 85%;
+    --accent-foreground: 20 100% 15%;
+    --border: 20 40% 85%;
+    --input: 20 40% 85%;
+    --ring: 15 100% 60%;
+  }
+}
 
 @layer base {
   * {

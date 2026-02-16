@@ -1,12 +1,27 @@
 // routes/auth.ts
 import { Hono } from 'hono';
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+import { authMiddleware, AuthUser } from '../middleware/auth';
+import{ db } from '../db/index';
+import { profiles, accounts } from '../db/schema';
+import { eq } from 'drizzle-orm';
+=======
+>>>>>>> Stashed changes
 import { z } from 'zod';
 import admin from 'firebase-admin';
 import path from 'path';
 import fs from 'fs';
 import { requireAuth } from '../middleware/auth';
+<<<<<<< Updated upstream
 // import requireAuth
 const router = new Hono();
+=======
+
+const router = new Hono();
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 // Initialize Firebase Admin SDK
 if (!admin.apps.length) {
@@ -18,6 +33,7 @@ if (!admin.apps.length) {
   const fullPath = path.resolve(serviceAccountPath);
   const serviceAccount = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 
+<<<<<<< Updated upstream
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
   });
@@ -55,11 +71,19 @@ const loginSchema = z.object({
 
 // SIGNUP
 router.post('/signup', async c => {
+=======
+<<<<<<< Updated upstream
+=======
+// LOGIN
+router.post('/login', async c => {
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   try {
     const body = await c.req.json().catch(() => null);
     console.log('signup page', body);
     if (!body) return c.json({ error: 'Request body is required' }, 400);
 
+<<<<<<< Updated upstream
     const validated = signUpSchema.parse(body);
 
     // Check if user exists in Firestore
@@ -81,6 +105,16 @@ router.post('/signup', async c => {
       email: validated.email,
       password: validated.password,
       displayName: validated.name,
+=======
+<<<<<<< Updated upstream
+    // Create account record
+    await db.insert(accounts).values({
+      uid: user.uid,
+      email: user.email || '',
+      emailVerified: user.emailVerified,
+      loyaltyPoints: 0,
+      totalBookings: 0,
+>>>>>>> Stashed changes
     });
 
     // Add extra data to Firestore
@@ -222,4 +256,138 @@ router.post('/google-signin', requireAuth, async c => {
   }
 });
 
+<<<<<<< Updated upstream
 export default router;
+=======
+// Get profile
+auth.get('/profile', authMiddleware, async (c) => {
+  const user = c.get('user');
+  
+  if (!user) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+
+  return c.json({
+    uid: user.uid,
+    email: user.email,
+    role: user.role,
+    emailVerified: user.emailVerified,
+    profile: user.profile,
+    account: user.account,
+  });
+});
+
+const authRouter = auth;
+export default authRouter;
+=======
+    const { email, password } = loginSchema.parse(body);
+
+    // Step 1: Verify email exists in Firestore
+    const usersRef = firestore.collection('users');
+    const userSnap = await usersRef.where('email', '==', email).get();
+    if (userSnap.empty) {
+      return c.json({ error: 'Invalid email or password' }, 401);
+    }
+
+    const userDoc = userSnap.docs[0];
+    const uid = userDoc.id;
+
+    // Step 2: Validate with Firebase Auth
+    try {
+      await admin.auth().getUserByEmail(email);
+    } catch (authError) {
+      console.error('Auth error:', authError);
+      return c.json({ error: 'Invalid email or password' }, 401);
+    }
+
+    // Step 3: Generate custom token
+    const token = await admin.auth().createCustomToken(uid);
+
+    return c.json({
+      message: 'Login successful',
+      token,
+      user: {
+        uid: uid,
+        name: userDoc.data().name,
+        email: userDoc.data().email,
+        role: userDoc.data().role,
+      },
+    });
+  } catch (err: any) {
+    if (err instanceof z.ZodError)
+      return c.json({ error: 'Validation failed', details: err.message }, 400);
+    console.error('Login error:', err);
+    return c.json({ error: 'Invalid email or password' }, 500);
+  }
+});
+
+// GOOGLE SIGNUP - ONLY for creating NEW accounts
+router.post('/google-signup', requireAuth, async c => {
+  try {
+    const rawUid = (c as any).get('userId');
+    if (typeof rawUid !== 'string' || !rawUid) {
+      console.error('❌ Missing or invalid userId in request context');
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+    
+    const uid = rawUid;
+    const { email, name, avatar } = await c.req.json();
+
+    console.log('🔵 Google SIGNUP request for:', email, 'UID:', uid);
+
+    const usersRef = firestore.collection('users');
+    
+    // Check if user already exists
+    const userDoc = await usersRef.doc(uid).get();
+
+    if (userDoc.exists) {
+      // USER ALREADY EXISTS - Reject signup
+      console.log('❌ User already exists - cannot signup');
+      return c.json({ 
+        error: 'Account already exists',
+        existingEmail: email,
+      }, 409); // 409 Conflict
+    }
+
+    // USER DOESN'T EXIST - Create new account
+    console.log('✅ New user - creating account');
+    
+    const newUserData = {
+      uid,
+      name: name || email?.split('@')[0] || 'User',
+      email,
+      avatar: avatar || '',
+      role: 'user',
+      phone: '',
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      provider: 'google',
+    };
+
+    await usersRef.doc(uid).set(newUserData);
+
+    console.log('✅ User account created successfully');
+
+    return c.json({
+      message: 'Account created successfully',
+      user: {
+        uid,
+        role: 'user',
+        name: newUserData.name,
+        email: newUserData.email,
+        avatar: newUserData.avatar,
+        phone: '',
+      }
+    }, 201);
+
+  } catch (err: any) {
+    console.error('❌ Google signup error:', err);
+    return c.json({ 
+      error: 'Failed to create account',
+      details: err.message 
+    }, 500);
+  }
+});
+
+export default router;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

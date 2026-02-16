@@ -20,12 +20,9 @@ import {
   Menu,
   Settings,
   Compass,
-  Sparkle,
-  Sparkles,
-  LogIn,
 } from 'lucide-react';
-
-import { Separator } from '@/components/ui/separator';
+import { ThemeToggle } from './ThemeToggle';
+import { MenuSheetBlogWidget } from './BlogWidget';
  // Import the widget
 
 const MenuSheet = () => {
@@ -41,7 +38,6 @@ const MenuSheet = () => {
     { name: 'Home', path: '/', icon: Home },
     { name: 'About Us', path: '/about-us', icon: Info },
     { name: 'Blog', path: '/blog', icon: BookOpen },
-    { name: 'AI-trip planner', path: '/find-destination', icon: Sparkles },
     { name: 'Explore Destination', path: '/explore-destination', icon: MapPin },
     { name: 'Contact', path: '/contact-us', icon: Mail },
     { name: 'Settings', path: '/settings', icon: Settings },
@@ -63,31 +59,17 @@ const MenuSheet = () => {
         {/* Header */}
         <SheetHeader className="px-4 py-4 border-b border-border/50">
           <SheetTitle className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-                className="relative"
-              >
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg flex items-center justify-center">
-                  <Compass className="h-6 w-6 text-white" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
-              </motion.div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  TravelMate
-                </span>
-                <span className="text-xs text-muted-foreground -mt-1">
-                  Explore the World
-                </span>
-              </div>
-            </Link>
+            <div className="w-7 h-7 bg-gradient-to-br from-amber-400 via-rose-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Compass className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              TravelMate
+            </span>
           </SheetTitle>
         </SheetHeader>
 
         {/* Navigation Links */}
-        <nav className="flex flex-col space-y-1 mt-4 px-2 gap-5">
+        <nav className="flex flex-col space-y-1 mt-4 px-2">
           {navItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -121,7 +103,7 @@ const MenuSheet = () => {
         {/* Blog Widgets Section */}
         <div className="px-2 mt-6 flex-1">
           {/* Divider */}
-          <div className=" mx-2 mb-4" />
+          <div className="border-t border-border/30 mx-2 mb-4" />
 
           {/* Latest Stories Widget */}
           {/* <MenuSheetBlogWidget
@@ -149,27 +131,22 @@ const MenuSheet = () => {
             className="border-t border-border/20 pt-4"
           /> */}
         </div>
-        <Separator />
 
         {/* Footer Section */}
-        <div className="pt-4 border-t border-border space-y-3">
+        <div className="px-4 py-4 mt-auto space-y-4 border-t border-border/50">
+          {/* Theme Toggle */}
+          <div className="flex justify-center">
+            <ThemeToggle />
+          </div>
+
+          {/* Sign Up Button */}
           <Button
-            variant="outline"
-            className="w-full justify-center rounded-full"
             asChild
-          >
-            <Link to="/log-in">
-              <LogIn className="w-4 h-4 mr-2" />
-              Log in
-            </Link>
-          </Button>
-          <Button
-            className="w-full justify-center rounded-full shadow-lg"
-            asChild
+            className="w-full h-12 rounded-xl font-semibold bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600"
+            onClick={handleLinkClick}
           >
             <Link to="/sign-up">
-              <User className="w-4 h-4 mr-2" />
-              Get Started
+              <User className="mr-2 h-5 w-5" /> Sign Up
             </Link>
           </Button>
         </div>

@@ -217,12 +217,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
           {/* Footer and Scroll Button */}
           <ScrollButton />
-            <Footer />
-            <Toaster />
+          <Footer />
         </div>
-      ) }
-      
+      )}
     </>
-    
   );
 }

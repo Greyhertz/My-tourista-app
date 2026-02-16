@@ -10,20 +10,6 @@ export default {
         '2xl': '1400px',
       },
     },
-    // colors: {
-    //   primary: {
-    //     // DEFAULT: '#E63946', // near-red
-    //     // foreground: '#fff',
-    //   },
-    //   secondary: {
-    //     DEFAULT: '#F1FAEE',
-    //   },
-    //   accent: {
-    //     DEFAULT: '#FF6B6B', // a brighter accent
-    //   },
-    //   'dark-bg': '#1F1B24',
-    //   'dark-card': '#2C2A36',
-    // },
     extend: {
       fontFamily: {},
       colors: {
