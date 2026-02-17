@@ -3,7 +3,7 @@ import adminRouter from "./routes/admin";
 import authRouter from "./routes/auth";
 import bookingsRouter from "./routes/bookings";
 import reviewsRouter from "./routes/reviews";
-
+import router from "./routes/destinations";
 const routes = new Hono();
 
 // Mount routers

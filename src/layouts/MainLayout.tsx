@@ -2,9 +2,9 @@
 import type { ReactNode } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Navbar, { MainNav } from '../components/core/Navbar';
+import Navbar, { MainNav } from './Navbar';
 import ScrollButton from '@/components/core/Scroll';
-import Footer from '@/components/core/Footer';
+import Footer from './Footer';
 import { Toaster } from 'sonner';
 
 interface MainLayoutProps {
