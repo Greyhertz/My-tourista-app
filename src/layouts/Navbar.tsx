@@ -3,8 +3,8 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Compass, ChevronDown, User, LogIn } from 'lucide-react';
 import MenuSheet from './MenuSheet';
-import { Button } from '../ui/button';
-import { ThemeToggle } from './ThemeToggle';
+import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/core/ThemeToggle';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);

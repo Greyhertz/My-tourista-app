@@ -121,7 +121,7 @@ import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/Signup-Page'; 
+import { SignUpPage } from './pages/SignUpPage';
 import AdminDashboard from './pages/Dashboard';
 // import UserDashboard from './pages/UserDashboard'; // Fixed typo
 import ProtectedRoute from './pages/protectedRoute';
