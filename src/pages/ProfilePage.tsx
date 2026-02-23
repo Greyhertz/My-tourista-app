@@ -10,9 +10,18 @@ export function ProfilePage() {
   const { user, sendVerificationEmail } = useAuth();
   const navigate = useNavigate();
 
+<<<<<<< Updated upstream
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: () => api.get('/auth/profile'),
+=======
+  const { data: profile, isLoading, } = useQuery<ProfileData>({
+    queryKey: ['profile'], 
+    queryFn: async (): Promise<ProfileData> => {
+      const res = await api.get<ProfileData>('/auth/profile');
+      return res.data;
+    },
+>>>>>>> Stashed changes
     enabled: !!user && !user.isAnonymous,
   });
 
