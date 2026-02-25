@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BlogSection } from '@/components/core/BlogSection';
-import { ScrollReveal } from './AboutUs';
+import { ScrollReveal } from './Homepage';
 import { Badge } from '@/components/ui/badge';
 
 export default function ExploreDestinations() {
