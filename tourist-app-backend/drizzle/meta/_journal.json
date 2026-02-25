@@ -22,6 +22,20 @@
       "when": 1769785050762,
       "tag": "0002_shiny_luckman",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1771510414729,
+      "tag": "0003_old_sunspot",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1771511515199,
+      "tag": "0004_old_prima",
+      "breakpoints": true
     }
   ]
 }
