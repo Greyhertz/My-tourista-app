@@ -1,4 +1,95 @@
-'use client';
+const signInWithGoogle = async () => {
+
+  const navigate = useNavigate()
+  
+    try {
+      console.log('🔵 Starting Google sign-in...');
+      
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      console.log('✅ Google authentication successful');
+
+      const idToken = await user.getIdToken();
+      localStorage.setItem('userId', user.uid); // Fixed typo: userid → userId
+      localStorage.setItem('authToken', idToken); // Fixed typo: authTOken → authToken
+      localStorage.setItem('userEmail', user.email || '');
+
+      console.log('📝 Stored Google auth data');
+      console.log('🔍 Checking if user exists in Firestore...');
+
+      // Check if user exists in Firestore, if not create them
+      const res = await fetch('http://localhost:3000/user/profile', { // Fixed: https → http
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      if (res.ok) {
+        // User exists in Firestore
+        const userData = await res.json();
+        console.log('✅ User found in Firestore:', userData);
+
+        localStorage.setItem('userRole', userData.role);
+        localStorage.setItem('userName', userData.name);
+        localStorage.setItem('userAvatar', userData.avatar || user.photoURL || '');
+
+        toast.success('Google sign-in successful!');
+
+        if (userData.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+      } else if (res.status === 404) {
+        // User doesn't exist in Firestore - create them
+        console.log('⚠️ User not found in Firestore, creating...');
+        
+        const createRes = await fetch('http://localhost:3000/auth/google-signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            avatar: user.photoURL,
+          }),
+        });
+
+        if (createRes.ok) {
+          const newUserData = await createRes.json();
+          console.log('✅ User created in Firestore:', newUserData);
+
+          localStorage.setItem('userRole', newUserData.role || 'user');
+          localStorage.setItem('userName', newUserData.name);
+          localStorage.setItem('userAvatar', newUserData.avatar || '');
+
+          toast.success('Welcome! Your account has been created.');
+          navigate('/dashboard'); // New users go to user dashboard
+        } else {
+          throw new Error('Failed to create user in Firestore');
+        }
+      } else {
+        throw new Error(`Profile fetch failed with status: ${res.status}`);
+      }
+    } catch (error: any) {
+      console.error('❌ Google sign-in error:', error);
+      
+      // Better error messages
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error('Sign-in cancelled');
+      } else if (error.code === 'auth/popup-blocked') {
+        toast.error('Popup blocked. Please allow popups for this site.');
+      } else if (error.message?.includes('Failed to fetch')) {
+        toast.error('Cannot connect to server. Is the backend running?');
+      } else {
+        toast.error(error.message || 'Google sign-in failed');
+      }
+    }
+  };'use client';
 
 import { useState, useEffect } from 'react';
 import { Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
@@ -15,11 +106,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/core/ThemeToggle';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { AnimatePresence, motion } from 'framer-motion';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
+import { toast, Toaster } from 'sonner';
+
+// Initialize Google Provider
+const googleProvider = new GoogleAuthProvider();
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -47,39 +144,80 @@ export default function LoginPage() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
-
+  
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      console.log('🔐 Starting login process...');
+      
+      // STEP 1: Authenticate with Firebase directly (this validates password!)
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
 
-      const result = await res.json();
+      console.log('✅ Firebase authentication successful');
 
-      if (!res.ok) {
-        alert(result.error || 'Login failed');
-        return;
+      // STEP 2: Get Firebase ID token (the real auth token)
+      const idToken = await userCredential.user.getIdToken();
+
+      // STEP 3: Store ID token for API requests
+      localStorage.setItem('authToken', idToken);
+      
+      // Store user ID for current user identification
+      localStorage.setItem('userId', userCredential.user.uid);
+      localStorage.setItem('userEmail', userCredential.user.email || '');
+
+      console.log('📝 Stored auth data in localStorage');
+      console.log('🔍 Fetching user profile...');
+
+      // STEP 4: Fetch user profile to get role and other info
+      try {
+        const res = await fetch('http://localhost:3000/user/profile', {
+          headers: {
+            'Authorization': `Bearer ${idToken}`,
+          },
+        });
+
+        if (res.ok) {
+          const userData = await res.json();
+          
+          // Store user data in localStorage
+          localStorage.setItem('userRole', userData.role);
+          localStorage.setItem('userName', userData.name);
+          localStorage.setItem('userAvatar', userData.avatar || '');
+
+          toast.success('Login successful!');
+          
+          // CRITICAL: Route based on user role
+          if (userData.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard'); // Regular user dashboard
+          }
+        } else {
+          // Profile fetch failed but login succeeded
+          toast.success('Login successful!');
+          navigate('/dashboard'); // Default to user dashboard
+        }
+      } catch (err) {
+        console.error('Failed to fetch user profile:', err);
+        toast.success('Login successful!');
+        navigate('/dashboard'); // Default to user dashboard on error
       }
-
-      // 1. Save JWT token for backend
-      localStorage.setItem('token', result.token);
-
-      // 2. Sign in to Firebase using custom token
-      await signInWithCustomToken(auth, result.token);
-
-      alert('Login successful!');
-
-      navigate('/dashboard');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Login error:', err);
-      alert('An error occurred. Please try again.');
+      
+      // Handle specific Firebase errors
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+        toast.error('Invalid email or password');
+      } else if (err.code === 'auth/too-many-requests') {
+        toast.error('Too many failed attempts. Please try again later.');
+      } else {
+        toast.error('An unexpected error occurred. Please try again.');
+      }
     }
   };
-  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,6 +228,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+       <Toaster richColors position="top-right" />
       {/* Left Animated Section */}
       <div className="relative hidden lg:block">
         {/* Crossfade images */}
@@ -168,7 +307,7 @@ export default function LoginPage() {
                     type="email"
                     className="pl-10 border-0 outline-none flex-1 text-foreground placeholder:text-muted-foreground"
                   />
-                </div>
+                </div>  
                 {errors.email && (
                   <p className="text-sm text-destructive">
                     {errors.email.message}
@@ -285,7 +424,7 @@ export default function LoginPage() {
             <CardFooter className="text-center text-sm text-muted-foreground">
               Don't have an account?{' '}
               <a
-                href="/signup"
+                href="/sign-up"
                 className="ml-1 font-medium text-primary hover:underline"
               >
                 Sign up
