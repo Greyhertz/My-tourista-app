@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import ScrollButton from '@/components/core/Scroll';
 import Footer from './Footer';
 import { Toaster } from 'sonner';
+import { EmailVerificationBanner } from '@/components/core/EmailVerificationBanner';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -90,14 +91,15 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
         /* Facebook-style skeleton loading - theme aware */
         .skeleton {
-        background: linear-gradient(90deg, 
-          hsl(var(--muted)) 25%, 
-          hsl(var(--muted-foreground) / 0.2) 75%, 
-          hsl(var(--muted)) 100%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-}
+          background: linear-gradient(90deg, 
+            hsl(var(--muted)) 25%, 
+            hsl(var(--muted-foreground) / 0.2) 75%, 
+            hsl(var(--muted)) 100%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.5s infinite;
+        }
+        
         @keyframes shimmer {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
@@ -202,27 +204,23 @@ export default function MainLayout({ children }: MainLayoutProps) {
           </div>
         </div>
       ) : (
-        // Normal layout with navbar and footer
-        <div className="min-h-screen bg-background text-foreground animate-fade-in">
+        // Normal layout with navbar and content
+        <div className="min-h-screen bg-background text-foreground animate-fade-in flex flex-col">
           {/* Navbar */}
-    
-          <Navbar />
+          <Navbar /> 
+          <EmailVerificationBanner />
 
           {/* Main Content */}
-          <main className="">
+          <main className="flex-1">
             <div className="animate-fade-in-up">{children || <Outlet />}</div>
           </main>
 
-          <Toaster />
-
           {/* Footer and Scroll Button */}
           <ScrollButton />
-            <Footer />
-            <Toaster />
+          <Footer />
+          <Toaster />
         </div>
-      ) }
-      
+      )}
     </>
-    
   );
 }
