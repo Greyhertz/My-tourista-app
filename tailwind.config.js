@@ -25,7 +25,16 @@ export default {
     //   'dark-card': '#2C2A36',
     // },
     extend: {
-      fontFamily: {},
+      fontFamily: {
+        // Set Inter as the default for the entire app
+        sans: ['Inter', 'sans-serif'],
+        // Use for big titles: <h1 className="font-display">
+        display: ['Montserrat', 'sans-serif'],
+        // Use for sidebars/menus: <nav className="font-nav">
+        nav: ['DM Sans', 'sans-serif'],
+        // Use for decorative elements: <span className="font-accent">
+        accent: ['Pacifico', 'cursive'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

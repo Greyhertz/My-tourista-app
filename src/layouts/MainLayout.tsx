@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import ScrollButton from '@/components/core/Scroll';
 import Footer from './Footer';
 import { Toaster } from 'sonner';
-import { EmailVerificationBanner } from '@/components/core/EmailVerificationBanner';
+import { EmailVerificationBanner } from '@/components/email-verification-banner';
 
 interface MainLayoutProps {
   children?: ReactNode;

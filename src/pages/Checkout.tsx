@@ -66,10 +66,7 @@ export function CheckoutPage() {
       toast({
         title: 'Bookings confirmed!',
         description: 'Your reservations have been confirmed.',
-      },
-        { dismiss: true },
-        
-      );
+      });
       navigate('/bookings');
     },
     onError: (error: any) => {

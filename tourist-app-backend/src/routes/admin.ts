@@ -1,10 +1,14 @@
 import { Hono } from 'hono';
 import { authMiddleware, AuthUser } from '../middleware/auth';
 import { db } from '../db/index';
-import { profiles, accounts, adminPermissions, auditLogs } from '../db/schema';
+import { profiles, accounts, adminPermissions, auditLogs, bookings } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { auth as firebaseAuth } from '../firebase';
 import { nanoid } from 'nanoid';
+// import { fetchTouristCities, getAttractions, getHotels, getCityImage } from '../services/geoapify';
+import { destinations, hotels } from '../db/schema';
+// import { fetchTouristCities, getAttractions, getCityImage, getHotels } from '../services/geoapify';
+
 
 type Variables = { user: AuthUser | null };
 const adminRouter = new Hono<{ Variables: Variables }>();
@@ -247,4 +251,99 @@ adminRouter.get('/audit-logs', authMiddleware, requireAdmin, async (c) => {
   }
 });
 
+// Add to existing admin router
+adminRouter.get('/bookings', authMiddleware, requireAdmin, async (c) => {
+  try {
+    const allBookings = await db
+      .select()
+      .from(bookings)
+      .orderBy(bookings.createdAt)
+      .limit(100);
+
+    return c.json({ bookings: allBookings });
+  } catch (error) {
+    console.error('List bookings error:', error);
+    return c.json({ error: 'Failed to list bookings' }, 500);
+  }
+});
+
+
+
+// Sync real destinations from Geoapify (admin only)
+adminRouter.post('/destinations/sync', authMiddleware, requireAdmin, async (c) => {
+  try {
+    const cities = await fetchTouristCities();
+    const synced = [];
+
+    for (const city of cities) {
+      // Check if exists
+      const [existing] = await db
+        .select()
+        .from(destinations)
+        .where(eq(destinations.name, city.name))
+        .limit(1);
+
+      if (existing) {
+        console.log(`Skipping ${city.name} - already exists`);
+        continue;
+      }
+
+      // Get attractions (highlights)
+      const attractions = await getAttractions(city.name, city.lat, city.lon);
+
+      // Get image from Unsplash
+      const imageUrl = await getCityImage(city.name, city.country);
+
+      // Create destination
+      const [destination] = await db
+        .insert(destinations)
+        .values({
+          id: nanoid(),
+          name: city.name,
+          country: city.country,
+          description: `Discover the beauty and culture of ${city.name}, ${city.country}`,
+          imageUrl,
+          highlights: JSON.stringify(attractions.length > 0 ? attractions : ['Historic Sites', 'Local Cuisine', 'Cultural Tours']),
+          rating: 4.5 + Math.random() * 0.5, // 4.5-5.0
+          reviewCount: Math.floor(Math.random() * 500) + 100,
+          priceLevel: Math.floor(Math.random() * 3) + 1, // 1-3
+          createdAt: new Date(),
+        })
+        .returning();
+
+      // Get hotels for this destination
+      const cityHotels = await getHotels(city.name, city.lat, city.lon);
+
+      // Add 3-5 hotels
+      for (const hotel of cityHotels.slice(0, 5)) {
+        await db.insert(hotels).values({
+          id: nanoid(),
+          destinationId: destination.id,
+          name: hotel.name,
+          description: `Experience comfort and luxury in ${hotel.city}`,
+          pricePerNight: Math.floor(Math.random() * 20000) + 5000, // $50-$250
+          imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
+          images: JSON.stringify([]),
+          amenities: JSON.stringify(['WiFi', 'Pool', 'Spa', 'Restaurant', 'Gym']),
+          rating: 4.0 + Math.random(),
+          reviewCount: Math.floor(Math.random() * 200),
+          available: true,
+          createdAt: new Date(),
+        });
+      }
+
+      synced.push(destination);
+      console.log(`✅ Synced ${city.name}`);
+    }
+
+    return c.json({ 
+      message: 'Destinations synced',
+      count: synced.length,
+      destinations: synced,
+    });
+  } catch (error) {
+    console.error('Sync destinations error:', error);
+    return c.json({ error: 'Failed to sync destinations' }, 500);
+  }
+});
 export default adminRouter;

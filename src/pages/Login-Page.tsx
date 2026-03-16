@@ -439,15 +439,13 @@ import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
-
+import {toast} from 'sonner';
 export function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -455,14 +453,10 @@ export function SignInPage() {
 
     try {
       await signIn(email, password);
-      toast({ title: 'Signed in successfully!' });
+      toast.success('Signed in successfully!');
       navigate('/');
     } catch (error: any) {
-      toast({
-        title: 'Sign in failed',
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast.error('Sign in failed' );
     } finally {
       setLoading(false);
     }
@@ -472,7 +466,7 @@ export function SignInPage() {
     setLoading(true);
     try {
       await signInWithGoogle();
-      toast({ title: 'Signed in with Google!' });
+      toast('Signed in with Google!' );
       navigate('/');
     } catch (error: any) {
       toast({

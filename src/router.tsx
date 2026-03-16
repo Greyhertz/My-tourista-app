@@ -100,15 +100,14 @@
 
 // Router.tsx - FIXED VERSION
 import * as Icon from '@phosphor-icons/react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutUs from './pages/AboutUs';
-import ContactUs from './pages/ContactUs';
 import SettingsPage from './pages/Settings';
 import ExploreDestinations from './pages/ExploreDestinations';
-import DestinationDetails from './pages/DestinationDetails';
+import { DestinationDetailPage } from './pages/DestinationDetailsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostDetail from './pages/BlogPostDetails';
 import Test from './pages/Test';
@@ -120,12 +119,29 @@ import { MyForm, UseQueryForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
-import LoginPage from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
 import AdminDashboard from './pages/Dashboard';
-// import UserDashboard from './pages/UserDashboard'; // Fixed typo
 import ProtectedRoute from './pages/protectedRoute';
-import UserDashboard from './pages/UserDasboard';
+import { UserDashboardLayout } from './layouts/DashboardLayout';
+import { CheckoutPage } from './pages/Checkout';
+import { CartPage } from './pages/Cart';
+import { DestinationsPage } from './pages/DestinationPage';
+import { SignInPage } from './pages/Login-Page';
+import { BookingsPage } from './pages/BookingPage';
+import AdminConfig from './pages/Admin-config';
+import { ProfilePage } from './pages/ProfilePage';
+import { MyReviewsPage } from './pages/Reviews';
+import { MockSidebar } from './components/core/AppSidebar';
+import { AdminUsersPage } from './pages/AdminUser';
+import { RequireAdmin } from './components/auth/RequireAdmin';
+import { AdminOverviewPage } from './pages/AdminOverviewPage';
+import { AdminAuditLogsPage } from './pages/AdminAuditLogsPage';
+import ContactUs from './pages/ContactUs';
+
+// FIX: A simple placeholder for the /dashboard index so the layout doesn't re-render itself
+function DashboardHome() {
+  return <Navigate to="/dashboard" replace />;
+}
 
 export const router = createBrowserRouter([
   {
@@ -134,9 +150,10 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Homepage /> },
       { path: 'about-us', element: <AboutUs /> },
+      { path: 'contact-us', element: <ContactUs /> },
+
       { path: 'blog', element: <BlogPage /> },
       { path: '/blog/:slug', element: <BlogPostDetail /> },
-      { path: 'contact-us', element: <ContactUs /> },
       { path: 'test', element: <Test /> },
       {
         path: 'explore-destination',
@@ -148,42 +165,80 @@ export const router = createBrowserRouter([
           </div>
         ),
       },
-      { path: 'destination/:city', element: <DestinationDetails /> },
+      { path: 'destinations', element: <DestinationsPage /> },
+      { path: 'destinations/:id', element: <DestinationDetailPage /> },
       { path: '/saved-trips', element: <SavedTrips /> },
       { path: '/plan-trip/:city', element: <PlanTripPage /> },
       { path: '/find-destination', element: <FindDestinationPage /> },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
+      { path: '*', element: <NotFound /> },
     ],
   },
-  
+
   // Public routes (outside MainLayout)
+  { path: 'sidebar', element: <MockSidebar /> },
   { path: 'settings', element: <SettingsPage /> },
   { path: 'pricing', element: <PricingPage /> },
   { path: 'sign-up', element: <SignUpPage /> },
-  { path: 'log-in', element: <LoginPage /> },
+  { path: 'log-in', element: <SignInPage /> },
   { path: 'review/:name', element: <Reviewpage /> },
   { path: 'welcome', element: <Welcome /> },
   { path: 'my-form', element: <MyForm /> },
+  { path: 'admin-config', element: <AdminConfig /> },
 
-  // Protected routes - FIXED
+  // Legacy standalone admin route
   {
-    path: '/admin',
+    path: '/',
     element: (
       <ProtectedRoute requiredRole="admin">
         <AdminDashboard />
       </ProtectedRoute>
     ),
   },
+
+  // Dashboard (protected)
   {
     path: '/dashboard',
     element: (
       <ProtectedRoute requiredRole="user">
-        <UserDashboard />
+        <UserDashboardLayout />
       </ProtectedRoute>
     ),
+    children: [
+      // FIX: index was incorrectly rendering <UserDashboardLayout /> again (the layout, not a page).
+      // Now it renders nothing extra — the layout's <Outlet /> handles showing the right content.
+      { index: true, element: null },
+      { path: 'profile', element: <ProfilePage /> },
+      { path: 'bookings', element: <BookingsPage /> },
+      { path: 'cart', element: <CartPage /> },
+      { path: 'checkout', element: <CheckoutPage /> },
+      { path: 'reviews', element: <MyReviewsPage /> },
+      { path: '', element: <MyReviewsPage /> },
+      // FIX: Re-enabled RequireAdmin wrapper — was commented out, leaving this route unprotected
+       {path:"admin", 
+        element:(
+          <RequireAdmin>
+            <AdminOverviewPage />
+          </RequireAdmin>
+      )
+      },  
+      {
+        path: 'admin/users',
+        element: (
+          <RequireAdmin>
+            <AdminUsersPage />
+          </RequireAdmin>
+        ),
+      },
+       {
+        path: 'admin/audit-logs',
+        element: (
+          <RequireAdmin>
+            <AdminAuditLogsPage />
+          </RequireAdmin>
+        ),
+      },
+    ],
   },
-  {path: '/form', element: <UseQueryForm />},
+  { path: '/form', element: <UseQueryForm /> },
+
 ]);

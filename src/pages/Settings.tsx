@@ -47,6 +47,7 @@ import {
   Download,
 } from 'lucide-react';
 
+import { useAuth } from '@/context/AuthContext';
 import { useNotification } from '@/context/NotificationContext';
 import { useTravelPreferences } from '@/context/PreferenceContext';
 import { toast } from 'sonner';
@@ -64,7 +65,7 @@ import { Toast } from '@/components/ui/toast';
 export default function TravelSettingsPage(): JSX.Element
 {
   const {toast} = useToast();
-  const { user } = useUser();
+  const user = useAuth()
   const [profileName, setProfileName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
