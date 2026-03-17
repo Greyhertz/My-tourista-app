@@ -5,6 +5,7 @@ import { Compass, ChevronDown, User, LogIn, Menu } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import { Button } from '../ui/button';
 import { ThemeToggle } from './ThemeToggle';
+=======
 import {
   Compass,
   Heart,
@@ -84,6 +85,7 @@ export default function Navbar() {
               Wanderlust
             </span>
           </div>
+=======
     <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
       <div className="max-w-[1400px] mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -209,6 +211,7 @@ export default function Navbar() {
                   </NavLink>
                 )}
               </div>
+=======
                 {item.name}
               </NavLink>
 >>>>>>> Stashed changes:src/layouts/Navbar.tsx
@@ -238,6 +241,7 @@ export default function Navbar() {
                 </Link>
               </Button>
             </div>
+=======
             {/* SAVED TRIPS */}
             <Link to="/saved-trips">
               <Button variant="ghost" size="icon">

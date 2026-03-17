@@ -1,5 +1,9 @@
 // routes/admin.ts
 import { Hono } from 'hono';
+<<<<<<< Updated upstream
+import admin from 'firebase-admin';
+import { requireAuth, requireAdmin } from '../middleware/auth';
+=======
 import { authMiddleware, AuthUser } from '../middleware/auth';
 import { db } from '../db/index';
 import { profiles, accounts, adminPermissions, auditLogs, bookings } from '../db/schema';
@@ -10,6 +14,7 @@ import { nanoid } from 'nanoid';
 import { destinations, hotels } from '../db/schema';
 // import { fetchTouristCities, getAttractions, getCityImage, getHotels } from '../services/geoapify';
 
+>>>>>>> Stashed changes
 
 const router = new Hono();
 const firestore = admin.firestore();
@@ -101,6 +106,9 @@ router.delete('/delete/:uid', requireAuth, requireAdmin, async c => {
 //   }
 // });
 
+<<<<<<< Updated upstream
+export default router;
+=======
     // Log action
     await db.insert(auditLogs).values({
       id: nanoid(),
@@ -332,3 +340,4 @@ adminRouter.post('/destinations/sync', authMiddleware, requireAdmin, async (c) =
   }
 });
 export default adminRouter;
+>>>>>>> Stashed changes

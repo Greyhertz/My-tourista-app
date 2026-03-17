@@ -6,7 +6,10 @@ import Navbar from '../components/core/Navbar';
 import ScrollButton from '@/components/core/Scroll';
 import Footer from '@/components/core/Footer';
 import { Toaster } from 'sonner';
+<<<<<<< Updated upstream
+=======
 import { EmailVerificationBanner } from '@/components/email-verification-banner';
+>>>>>>> Stashed changes
 
 interface MainLayoutProps {
   children?: ReactNode;

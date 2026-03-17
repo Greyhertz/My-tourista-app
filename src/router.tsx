@@ -119,7 +119,12 @@ import { MyForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
+<<<<<<< Updated upstream
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+=======
 import { SignUpPage } from './pages/SignUpPage';
+>>>>>>> Stashed changes
 import AdminDashboard from './pages/Dashboard';
 import ProtectedRoute from './pages/protectedRoute';
 import { UserDashboardLayout } from './layouts/DashboardLayout';
@@ -236,6 +241,9 @@ export const router = createBrowserRouter([
       },
     ],
   },
+<<<<<<< Updated upstream
+=======
 
   { path: '/form', element: <UseQueryForm /> },
+>>>>>>> Stashed changes
 ]);
