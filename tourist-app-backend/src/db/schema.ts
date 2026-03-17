@@ -53,6 +53,13 @@ export const tokenRevocations = pgTable('token_revocations', {
   uid: text('uid').primaryKey().references(() => profiles.uid),
   revokedAt: timestamp('revoked_at').notNull().defaultNow(),
   reason: text('reason'),
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 });
 
 // Add to existing schema.ts (after other tables)
@@ -83,4 +90,56 @@ export const reviews = pgTable('reviews', {
   content: text('content').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
+<<<<<<< Updated upstream
+=======
+});
+
+// Add after reviews table
+export const destinations = pgTable('destinations', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  country: text('country').notNull(),
+  description: text('description').notNull(),
+  imageUrl: text('image_url').notNull(),
+  highlights: text('highlights').notNull(), // JSON array as string
+  rating: integer('rating').notNull().default(0), // Average rating 0-5
+  reviewCount: integer('review_count').notNull().default(0),
+  priceLevel: integer('price_level').notNull().default(2), // 1-4 ($-$$$$)
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const hotels = pgTable('hotels', {
+  id: text('id').primaryKey(),
+  destinationId: text('destination_id').notNull().references(() => destinations.id),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  pricePerNight: integer('price_per_night').notNull(), // in cents
+  imageUrl: text('image_url').notNull(),
+  images: text('images').notNull(), // JSON array
+  amenities: text('amenities').notNull(), // JSON array
+  rating: integer('rating').notNull().default(0),
+  reviewCount: integer('review_count').notNull().default(0),
+  available: integer('available').notNull().default(1), // 1 = true, 0 = false
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+}); 
+
+export const cart = pgTable('cart', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => profiles.uid),
+  itemType: text('item_type').notNull(), // 'hotel' or 'activity'
+  itemId: text('item_id').notNull(), // hotelId or activityId
+  itemName: text('item_name').notNull(),
+  itemImage: text('item_image').notNull(),
+  destinationId: text('destination_id').notNull().references(() => destinations.id),
+  destinationName: text('destination_name').notNull(),
+  checkIn: timestamp('check_in'),
+  checkOut: timestamp('check_out'),
+  guests: integer('guests').default(1),
+  pricePerNight: integer('price_per_night'), // in cents
+  totalPrice: integer('total_price').notNull(), // in cents
+  metadata: text('metadata'), // JSON for extra data
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 });
