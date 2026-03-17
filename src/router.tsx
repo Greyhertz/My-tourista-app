@@ -115,7 +115,7 @@ import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
 import NotFound from './pages/NotFound';
 import Reviewpage from './pages/Reviewpage';
-import { MyForm, UseQueryForm } from './pages/Form';
+import { MyForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
@@ -136,7 +136,6 @@ import { AdminUsersPage } from './pages/AdminUser';
 import { RequireAdmin } from './components/auth/RequireAdmin';
 import { AdminOverviewPage } from './pages/AdminOverviewPage';
 import { AdminAuditLogsPage } from './pages/AdminAuditLogsPage';
-import ContactUs from './pages/ContactUs';
 
 // FIX: A simple placeholder for the /dashboard index so the layout doesn't re-render itself
 function DashboardHome() {
@@ -150,8 +149,6 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Homepage /> },
       { path: 'about-us', element: <AboutUs /> },
-      { path: 'contact-us', element: <ContactUs /> },
-
       { path: 'blog', element: <BlogPage /> },
       { path: '/blog/:slug', element: <BlogPostDetail /> },
       { path: 'test', element: <Test /> },
@@ -239,6 +236,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: '/form', element: <UseQueryForm /> },
 
+  { path: '/form', element: <UseQueryForm /> },
 ]);

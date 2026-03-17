@@ -6,19 +6,20 @@
 //   credential: admin.credential.cert(serviceAccount),
 // });
 // firebase.ts
-import admin from 'firebase-admin';
-import 'dotenv/config';
+import admin from "firebase-admin";
+import fs from "fs";
 
+const serviceAccountPath = './src/firebase-service-account.json';
+const raw = fs.readFileSync(serviceAccountPath, 'utf-8');
+const serviceAccount = JSON.parse(raw);
+
+// Prevent re-initialization during hot reload
 if (admin.apps.length === 0) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    }),
+    credential: admin.credential.cert(serviceAccount),
   });
+
   console.log("🔥 Firebase Admin initialized");
 }
 
-export const auth = admin.auth();
 export default admin;

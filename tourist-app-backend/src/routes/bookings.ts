@@ -1,157 +1,62 @@
+// routes/bookings.ts
 import { Hono } from 'hono';
-import { authMiddleware, AuthUser } from '../middleware/auth';
-import { requireRole } from '../middleware/requireRole';
-import { db } from '../db/index';
-import { bookings } from '../db/schema';
-import { eq, and } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
+import admin from 'firebase-admin';
+import { requireAuth } from '../middleware/auth';
+type UserContext = {
+  userId: string;
+};
 
-type Variables = { user: AuthUser | null };
-const bookingsRouter = new Hono<{ Variables: Variables }>();
+const router = new Hono<{ Variables: UserContext }>();
+// Firestore reference
+const firestore = admin.firestore();
 
-// List user's bookings
-bookingsRouter.get('/', authMiddleware, requireRole('user'), async (c) => {
-  const user = c.get('user');
-  
-  if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401);
-  }
-
+// CREATE a new booking
+router.post('/', requireAuth, async c => {
   try {
-    const userBookings = await db
-      .select()
-      .from(bookings)
-      .where(eq(bookings.userId, user.uid))
-      .orderBy(bookings.createdAt);
+    const uid = c.get('userId');
+    const { hotelId } = await c.req.json();
 
-    return c.json({ bookings: userBookings });
-  } catch (error) {
-    console.error('Fetch bookings error:', error);
-    return c.json({ error: 'Failed to fetch bookings' }, 500);
-  }
-});
+    if (!hotelId) return c.json({ error: 'hotelId is required' }, 400);
 
-// Get single booking
-bookingsRouter.get('/:id', authMiddleware, requireRole('user'), async (c) => {
-  const user = c.get('user');
-  const bookingId = c.req.param('id');
-  
-  if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401);
-  }
-
-  try {
-    const [booking] = await db
-      .select()
-      .from(bookings)
-      .where(eq(bookings.id, bookingId))
-      .limit(1);
-
-    if (!booking) {
-      return c.json({ error: 'Booking not found' }, 404);
-    }
-
-    // Check ownership
-    if (booking.userId !== user.uid) {
-      return c.json({ error: 'Forbidden' }, 403);
-    }
-
-    return c.json({ booking });
-  } catch (error) {
-    console.error('Fetch booking error:', error);
-    return c.json({ error: 'Failed to fetch booking' }, 500);
-  }
-});
-
-// Create booking
-bookingsRouter.post('/', authMiddleware, requireRole('user'), async (c) => {
-  const user = c.get('user');
-  
-  if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401);
-  }
-
-  try {
-    const body = await c.req.json();
-    const { hotelId, hotelName, checkIn, checkOut, guests, totalPrice } = body;
-
-    // Basic validation
-    if (!hotelId || !hotelName || !checkIn || !checkOut || !guests || !totalPrice) {
-      return c.json({ error: 'Missing required fields' }, 400);
-    }
-
-    const newBooking = {
-      id: nanoid(),
-      userId: user.uid,
+    const bookingData = {
+      userId: uid,
       hotelId,
-      hotelName,
-      checkIn: new Date(checkIn),
-      checkOut: new Date(checkOut),
-      guests: Number(guests),
-      totalPrice: Number(totalPrice),
-      status: 'confirmed',
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    const [created] = await db
-      .insert(bookings)
-      .values(newBooking)
-      .returning();
+    const bookingRef = await firestore.collection('bookings').add(bookingData);
 
-    return c.json({ booking: created }, 201);
-  } catch (error) {
-    console.error('Create booking error:', error);
+    return c.json(
+      { message: 'Booking created', bookingId: bookingRef.id },
+      201
+    );
+  } catch (err) {
+    console.error('Booking creation error:', err);
     return c.json({ error: 'Failed to create booking' }, 500);
   }
 });
 
-// Cancel booking
-bookingsRouter.delete('/:id', authMiddleware, requireRole('user'), async (c) => {
-  const user = c.get('user');
-  const bookingId = c.req.param('id');
-  
-  if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401);
-  }
-
+// GET all bookings for logged-in user
+router.get('/', requireAuth, async c => {
   try {
-    const [booking] = await db
-      .select()
-      .from(bookings)
-      .where(eq(bookings.id, bookingId))
-      .limit(1);
+    const uid = c.get('userId');
 
-    if (!booking) {
-      return c.json({ error: 'Booking not found' }, 404);
-    }
+    const snapshot = await firestore
+      .collection('bookings')
+      .where('userId', '==', uid)
+      .orderBy('createdAt', 'desc')
+      .get();
 
-    // Check ownership
-    if (booking.userId !== user.uid) {
-      return c.json({ error: 'Forbidden' }, 403);
-    }
+    const bookings = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-    // Check if already cancelled
-    if (booking.status === 'cancelled') {
-      return c.json({ error: 'Booking already cancelled' }, 400);
-    }
-
-    // Update status to cancelled
-    const [updated] = await db
-      .update(bookings)
-      .set({ 
-        status: 'cancelled',
-        updatedAt: new Date(),
-      })
-      .where(eq(bookings.id, bookingId))
-      .returning();
-
-    return c.json({ 
-      message: 'Booking cancelled',
-      booking: updated,
-    });
-  } catch (error) {
-    console.error('Cancel booking error:', error);
-    return c.json({ error: 'Failed to cancel booking' }, 500);
+    return c.json(bookings);
+  } catch (err) {
+    console.error('Fetching bookings error:', err);
+    return c.json({ error: 'Failed to fetch bookings' }, 500);
   }
 });
 
-export default bookingsRouter;
+export default router;
