@@ -1248,6 +1248,7 @@ const ContactPage = () => {
                 </Card>
               </div>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             ))}
           </div>
         </div>
@@ -1943,6 +1944,9 @@ const ContactPage = () => {
                   </CardContent>
                 </Card>
               </div>
+=======
+=======
+>>>>>>> Stashed changes
             ))}
           </div>
         </div>
@@ -2348,6 +2352,14 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 =======
 <<<<<<< Updated upstream
       {/* <motion.div
@@ -2695,6 +2707,10 @@ export default ContactPage;
             transform: translateY(-15px);
           }
 =======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
               {errors.name && (
                 <p className="text-sm text-destructive">
                   {errors.name.message}
@@ -2833,6 +2849,15 @@ export default ContactPage;
           </div>
         </section>
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         {/* Final CTA */}
         <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
           <div
@@ -2875,6 +2900,35 @@ export default ContactPage;
         }
       `}</style>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+      {/* Final CTA */}
+      {/* <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <NewsLetterBox />
+      </motion.div> */}
+<<<<<<< Updated upstream
+=======
+=======
+import { useState } from 'react';
+
+export default function ContactUs() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
+      <p>Contact page - working version</p>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     </div>
   );
 };
@@ -2885,6 +2939,11 @@ export default ContactPage;
     );
   };
 }
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 export default ContactPage;
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
@@ -2893,6 +2952,14 @@ export default ContactPage;
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes

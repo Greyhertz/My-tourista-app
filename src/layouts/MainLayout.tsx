@@ -8,7 +8,18 @@ import Footer from '@/components/core/Footer';
 import { Toaster } from 'sonner';
 <<<<<<< Updated upstream
 =======
+<<<<<<< Updated upstream
 import { EmailVerificationBanner } from '@/components/email-verification-banner';
+=======
+<<<<<<< Updated upstream
+=======
+import { EmailVerificationBanner } from '@/components/email-verification-banner';
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 >>>>>>> Stashed changes
 
 interface MainLayoutProps {
@@ -27,7 +38,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
     // Convert path to readable name
     return path
       .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map(word => word
+.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
 

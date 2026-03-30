@@ -227,17 +227,88 @@ const Homepage = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <BackToTop />
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
       {/* Hero Section */}
       <section className="relative pt-20 bg-gray-50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-12 lg:py-16">
           <div className="relative bg-white rounded-[32px] overflow-hidden shadow-2xl">
+<<<<<<< Updated upstream
             <div className="relative h-[500px] lg:h-[700px]">
+=======
+<<<<<<< Updated upstream
+            <div className="relative h-[500px] lg:h-[700px]">
+=======
+<<<<<<< Updated upstream
+            <div className="relative h-[500px] lg:h-[800px]">
+=======
+
+
+>>>>>>> Stashed changes
+      {/* HERO SECTION */}
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 py-20 min-h-screen flex items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+            {/* LEFT - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <Badge variant="secondary" className="px-4 py-2 text-sm">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Your Ultimate Travel Companion
+              </Badge>
+
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+                  Explore the World
+                  <span className="text-primary block mt-2">Your Way</span>
+                </h1>
+
+                <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                  Discover unforgettable destinations, book authentic
+                  experiences, and connect with local cultures. Your next
+                  adventure is just a tap away.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+             
+                <Button
+                  size="lg"
+                  className="px-8 py-6 text-lg rounded-full shadow-lg"
+<<<<<<< Updated upstream
+=======
+      {/* Hero Section */}
+      <section className="relative  bg-gray-50">
+        <div className="mx-auto lg:px-0 py-12 lg:py-16">
+          <div className="relative bg-white rounded-none overflow-hidden shadow-2xl">
+
+            <div className="relative h-[500px] lg:h-[700px]">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
               {heroSlides.map((slide, idx) => (
                 <div
                   key={idx}
                   className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                     activeSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
                   }`}
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 >
                   <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70"></div>
