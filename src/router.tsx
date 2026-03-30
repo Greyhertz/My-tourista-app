@@ -1,114 +1,12 @@
-// // Router.tsx
-// import * as Icon from '@phosphor-icons/react';
-// import { createBrowserRouter } from 'react-router-dom';
-
-// import MainLayout from './layouts/MainLayout';
-// import Homepage from './pages/Homepage';
-// import AboutUs from './pages/AboutUs';
-// import ContactUs from './pages/ContactUs';
-// // import SignUpPage from './pages/SignUpPage';
-// import SettingsPage from './pages/Settings';
-// import ExploreDestinations from './pages/ExploreDestinations';
-// import DestinationDetails from './pages/DestinationDetails';
-// import BlogPage from './pages/BlogPage';
-// import BlogPostDetail from './pages/BlogPostDetails';
-// import Test from './pages/Test';
-// // import BillingPage from './pages/BillingsPage';
-// // import { IntegrationsList } from './pages/Intergration';
-// import PricingPage from './pages/Pricing';
-// import { Welcome } from './pages/Welcome';
-// // import Cart  from './pages/Cart';
-// import NotFound from './pages/NotFound';
-// import Reviewpage from './pages/Reviewpage';
-// import { MyForm } from './pages/Form';
-// import PlanTripPage from './pages/PlanTripPage';
-// import FindDestinationPage from './pages/FindDestinationPage';
-// import { el } from 'date-fns/locale';
-// import SavedTrips from './pages/SavedTrips';
-// import LoginPage from './pages/LoginPage';
-// import AdminDashboard from './pages/AdminDashboard';
-// import SignUpPage from './pages/SignUpPage';
-// import Dashboard from './pages/Dashboard';
-// import UserDashboard from './pages/UserDasboard';
-// import ProtectedRoute from './pages/protectedRoute';
-
-// export const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <MainLayout />,
-//     children: [
-//       { index: true, element: <Homepage /> },
-//       { path: 'about-us', element: <AboutUs /> },
-//       { path: 'blog', element: <BlogPage /> },
-//       { path: '/blog/:slug', element: <BlogPostDetail /> },
-//       { path: 'contact-us', element: <ContactUs /> },
-//       { path: 'test', element: <Test /> },
-//       {
-//         path: 'explore-destination',
-//         element: <ExploreDestinations />,
-//         errorElement: (
-//           <div className="p-6 text-destructive bg-background">
-//             <Icon.X className="inline mr-2" />
-//             Could not load destinations. Please check your connection.
-//           </div>
-//         ),
-//       },
-//       { path: 'destination/:city', element: <DestinationDetails /> },
-//       // { path="/destination/:city" element={< DestinationDetails />}
-//       { path: '/saved-trips', element: <SavedTrips /> },
-//       { path: '/plan-trip/:city', element: <PlanTripPage /> },
-//       { path: '/find-destination', element: <FindDestinationPage /> },
-//       // { path: 'integration', element: <IntegrationsList /> },
-//       // { path: 'billing', element: <BillingPage /> },
-
-//       {
-//         path: '*',
-//         element: <NotFound />,
-//       },
-//     ],
-//   },
-//   { path: 'settings', element: <SettingsPage /> },
-
-//   { path: 'pricing', element: <PricingPage /> },
-//   // { path: '/cart', element: <Cart /> },
-//   { path: 'sign-up', element: <SignUpPage /> },
-//   { path: 'log-in', element: <LoginPage /> },
-//   { path: '/admin', element: <AdminDashboard /> },
-//   {
-//     path: '/dashboard',
-//     element: (
-//       <ProtectedRoute requiredRole="admin">
-//         {' '}
-//         <Dashboard />
-//       </ProtectedRoute>
-//     ),
-//   },
-//   {
-//     path: '/user-dashboard',
-//     element: (
-//       <ProtectedRoute requiredRole="user">
-//         {' '}
-//         <UserDashboard />{' '}
-//       </ProtectedRoute>
-//     ),
-//   },
-//   { path: 'review/:name', element: <Reviewpage /> },
-//   { path: 'welcome', element: <Welcome /> },
-//   { path: 'my-form', element: <MyForm /> },
-// ]);
-
-
-// Router.tsx - FIXED VERSION
 import * as Icon from '@phosphor-icons/react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutUs from './pages/AboutUs';
-import ContactUs from './pages/ContactUs';
 import SettingsPage from './pages/Settings';
 import ExploreDestinations from './pages/ExploreDestinations';
-import DestinationDetails from './pages/DestinationDetails';
+import { DestinationDetailPage } from './pages/DestinationDetailsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostDetail from './pages/BlogPostDetails';
 import Test from './pages/Test';
@@ -120,12 +18,26 @@ import { MyForm, UseQueryForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
-import LoginPage from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
-import AdminDashboard from './pages/Dashboard';
-// import UserDashboard from './pages/UserDashboard'; // Fixed typo
+import AdminDashboard from './pages/Dashboard/Dashboard';
 import ProtectedRoute from './pages/protectedRoute';
-import UserDashboard from './pages/UserDasboard';
+import { UserDashboardLayout } from './layouts/DashboardLayout';
+import { CheckoutPage } from './pages/Checkout';
+import { CartPage } from './pages/Cart';
+import { DestinationsPage } from './pages/DestinationPage';
+import { SignInPage } from './pages/Login-Page';
+
+import AdminConfig from './pages/Admin-config';
+import { ProfilePage } from './pages/ProfilePage';
+import { MyReviewsPage } from './pages/Reviews';
+import { MockSidebar } from './components/core/AppSidebar';
+import { AdminUsersPage } from './pages/AdminUser';
+import { RequireAdmin } from './components/auth/RequireAdmin';
+
+// FIX: A simple placeholder for the /dashboard index so the layout doesn't re-render itself
+function DashboardHome() {
+  return <Navigate to="/dashboard" replace />;
+}
 
 export const router = createBrowserRouter([
   {
@@ -136,7 +48,6 @@ export const router = createBrowserRouter([
       { path: 'about-us', element: <AboutUs /> },
       { path: 'blog', element: <BlogPage /> },
       { path: '/blog/:slug', element: <BlogPostDetail /> },
-      { path: 'contact-us', element: <ContactUs /> },
       { path: 'test', element: <Test /> },
       {
         path: 'explore-destination',
@@ -148,27 +59,27 @@ export const router = createBrowserRouter([
           </div>
         ),
       },
-      { path: 'destination/:city', element: <DestinationDetails /> },
+      { path: 'destinations', element: <DestinationsPage /> },
+      { path: 'destinations/:id', element: <DestinationDetailPage /> },
       { path: '/saved-trips', element: <SavedTrips /> },
       { path: '/plan-trip/:city', element: <PlanTripPage /> },
       { path: '/find-destination', element: <FindDestinationPage /> },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
+      { path: '*', element: <NotFound /> },
     ],
   },
-  
+
   // Public routes (outside MainLayout)
+  { path: 'sidebar', element: <MockSidebar /> },
   { path: 'settings', element: <SettingsPage /> },
   { path: 'pricing', element: <PricingPage /> },
   { path: 'sign-up', element: <SignUpPage /> },
-  { path: 'log-in', element: <LoginPage /> },
+  { path: 'log-in', element: <SignInPage /> },
   { path: 'review/:name', element: <Reviewpage /> },
   { path: 'welcome', element: <Welcome /> },
   { path: 'my-form', element: <MyForm /> },
+  { path: 'admin-config', element: <AdminConfig /> },
 
-  // Protected routes - FIXED
+  // Legacy standalone admin route
   {
     path: '/admin',
     element: (
@@ -177,13 +88,35 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+
+  // Dashboard (protected)
   {
     path: '/dashboard',
     element: (
       <ProtectedRoute requiredRole="user">
-        <UserDashboard />
+        <UserDashboardLayout />
       </ProtectedRoute>
     ),
+    children: [
+      // FIX: index was incorrectly rendering <UserDashboardLayout /> again (the layout, not a page).
+      // Now it renders nothing extra — the layout's <Outlet /> handles showing the right content.
+      { index: true, element: null },
+      { path: 'profile', element: <ProfilePage /> },
+      { path: 'bookings', element: <BookingsPage /> },
+      { path: 'cart', element: <CartPage /> },
+      { path: 'checkout', element: <CheckoutPage /> },
+      { path: 'reviews', element: <MyReviewsPage /> },
+      // FIX: Re-enabled RequireAdmin wrapper — was commented out, leaving this route unprotected
+      {
+        path: 'admin',
+        element: (
+          <RequireAdmin>
+            <AdminUsersPage />
+          </RequireAdmin>
+        ),
+      },
+    ],
   },
-  {path: '/form', element: <UseQueryForm />},
+
+  { path: '/form', element: <UseQueryForm /> },
 ]);
