@@ -14,44 +14,25 @@ import PricingPage from './pages/Pricing';
 import { Welcome } from './pages/Welcome';
 import NotFound from './pages/NotFound';
 import Reviewpage from './pages/Reviewpage';
-import { MyForm } from './pages/Form';
+import { MyForm, UseQueryForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-=======
 import { SignUpPage } from './pages/SignUpPage';
->>>>>>> Stashed changes
 import AdminDashboard from './pages/Dashboard';
-=======
-import { SignUpPage } from './pages/SignUpPage';
-import AdminDashboard from './pages/Dashboard/Dashboard';
->>>>>>> frontend/core
 import ProtectedRoute from './pages/protectedRoute';
 import { UserDashboardLayout } from './layouts/DashboardLayout';
 import { CheckoutPage } from './pages/Checkout';
 import { CartPage } from './pages/Cart';
 import { DestinationsPage } from './pages/DestinationPage';
 import { SignInPage } from './pages/Login-Page';
-<<<<<<< HEAD
 import { BookingsPage } from './pages/BookingPage';
-=======
-
->>>>>>> frontend/core
 import AdminConfig from './pages/Admin-config';
 import { ProfilePage } from './pages/ProfilePage';
 import { MyReviewsPage } from './pages/Reviews';
 import { MockSidebar } from './components/core/AppSidebar';
 import { AdminUsersPage } from './pages/AdminUser';
 import { RequireAdmin } from './components/auth/RequireAdmin';
-<<<<<<< HEAD
-import { AdminOverviewPage } from './pages/AdminOverviewPage';
-import { AdminAuditLogsPage } from './pages/AdminAuditLogsPage';
-=======
->>>>>>> frontend/core
 
 // FIX: A simple placeholder for the /dashboard index so the layout doesn't re-render itself
 function DashboardHome() {
@@ -100,7 +81,7 @@ export const router = createBrowserRouter([
 
   // Legacy standalone admin route
   {
-    path: '/',
+    path: '/admin',
     element: (
       <ProtectedRoute requiredRole="admin">
         <AdminDashboard />
@@ -125,49 +106,17 @@ export const router = createBrowserRouter([
       { path: 'cart', element: <CartPage /> },
       { path: 'checkout', element: <CheckoutPage /> },
       { path: 'reviews', element: <MyReviewsPage /> },
-<<<<<<< HEAD
-      { path: '', element: <MyReviewsPage /> },
-      // FIX: Re-enabled RequireAdmin wrapper — was commented out, leaving this route unprotected
-       {path:"admin", 
-        element:(
-          <RequireAdmin>
-            <AdminOverviewPage />
-          </RequireAdmin>
-      )
-      },  
-      {
-        path: 'admin/users',
-=======
       // FIX: Re-enabled RequireAdmin wrapper — was commented out, leaving this route unprotected
       {
         path: 'admin',
->>>>>>> frontend/core
         element: (
           <RequireAdmin>
             <AdminUsersPage />
           </RequireAdmin>
         ),
       },
-<<<<<<< HEAD
-       {
-        path: 'admin/audit-logs',
-        element: (
-          <RequireAdmin>
-            <AdminAuditLogsPage />
-          </RequireAdmin>
-        ),
-      },
-    ],
-  },
-<<<<<<< Updated upstream
-=======
-
-  { path: '/form', element: <UseQueryForm /> },
->>>>>>> Stashed changes
-=======
     ],
   },
 
   { path: '/form', element: <UseQueryForm /> },
->>>>>>> frontend/core
 ]);
