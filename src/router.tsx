@@ -120,12 +120,35 @@ import { MyForm, UseQueryForm } from './pages/Form';
 import PlanTripPage from './pages/PlanTripPage';
 import FindDestinationPage from './pages/FindDestinationPage';
 import SavedTrips from './pages/SavedTrips';
+<<<<<<< Updated upstream
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/Signup-Page'; 
 import AdminDashboard from './pages/Dashboard';
 // import UserDashboard from './pages/UserDashboard'; // Fixed typo
 import ProtectedRoute from './pages/protectedRoute';
 import UserDashboard from './pages/UserDasboard';
+=======
+import { SignUpPage } from './pages/SignUpPage';
+import AdminDashboard from './pages/Dashboard/Dashboard';
+import ProtectedRoute from './pages/protectedRoute';
+import { UserDashboardLayout } from './layouts/DashboardLayout';
+import { CheckoutPage } from './pages/Checkout';
+import { CartPage } from './pages/Cart';
+import { DestinationsPage } from './pages/DestinationPage';
+import { SignInPage } from './pages/Login-Page';
+import { BookingsPage } from './pages/BookingPage';
+import AdminConfig from './pages/Admin/Admin-config';
+import { ProfilePage } from './pages/ProfilePage';
+import { MyReviewsPage } from './pages/Reviews';
+import { MockSidebar } from './components/core/AppSidebar';
+import { AdminUsersPage } from './pages/AdminUser';
+import { RequireAdmin } from './components/auth/RequireAdmin';
+
+// FIX: A simple placeholder for the /dashboard index so the layout doesn't re-render itself
+function DashboardHome() {
+  return <Navigate to="/dashboard" replace />;
+}
+>>>>>>> Stashed changes
 
 export const router = createBrowserRouter([
   {
@@ -184,6 +207,30 @@ export const router = createBrowserRouter([
         <UserDashboard />
       </ProtectedRoute>
     ),
+<<<<<<< Updated upstream
   },
   {path: '/form', element: <UseQueryForm />},
+=======
+    children: [
+      // FIX: index was incorrectly rendering <UserDashboardLayout /> again (the layout, not a page).
+      // Now it renders nothing extra — the layout's <Outlet /> handles showing the right content.
+      { index: true, element: null },
+      { path: 'profile', element: <ProfilePage /> },
+      { path: 'bookings', element: <BookingsPage /> },
+      { path: 'cart', element: <CartPage /> },
+      { path: 'checkout', element: <CheckoutPage /> },
+      { path: 'reviews', element: <MyReviewsPage /> },
+      // FIX: Re-enabled RequireAdmin wrapper — was commented out, leaving this route unprotected
+      {
+        path: 'admin',
+        element: (
+          <RequireAdmin>
+            <AdminUsersPage />
+          </RequireAdmin>
+        ),
+      },
+    ],
+  },
+  { path: '/form', element: <UseQueryForm /> },
+>>>>>>> Stashed changes
 ]);
